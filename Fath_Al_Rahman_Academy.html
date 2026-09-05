@@ -1,0 +1,1422 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Fath Al-Rahman | فتح الرحمن في تعليم كلمات القرآن</title>
+  <style>
+    :root {
+      --primary: #1b5e20;
+      --primary-light: #2e7d32;
+      --accent: #c2185b;
+      --bg: #f4fbf7;
+      --card-bg: #ffffff;
+      --text: #1a237e;
+    }
+    * { box-sizing: border-box; font-family: 'Segoe UI', Tahoma, 'Amiri', 'Traditional Arabic', sans-serif; -webkit-tap-highlight-color: transparent; }
+    body {
+      margin: 0;
+      padding: 8px 6px;
+      background: var(--bg);
+      color: #333;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-height: 100vh;
+    }
+    header { text-align: center; margin-bottom: 6px; }
+    h1 { margin: 2px 0; color: var(--primary); font-size: 1.35rem; }
+    .subtitle { color: #555; font-size: 0.82rem; }
+
+    /* Top Navigation Tabs */
+    .mode-nav {
+      display: flex;
+      gap: 5px;
+      flex-wrap: wrap;
+      justify-content: center;
+      margin-bottom: 8px;
+      width: 100%;
+      max-width: 700px;
+    }
+    .mode-btn {
+      padding: 6px 10px;
+      font-size: 0.8rem;
+      border-radius: 8px;
+      border: 1px solid #81c784;
+      background: white;
+      color: var(--primary);
+      font-weight: bold;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .mode-btn.active {
+      background: var(--primary);
+      color: white;
+      border-color: var(--primary);
+    }
+
+    /* Lesson selector bar */
+    .lesson-bar {
+      display: flex;
+      gap: 6px;
+      justify-content: center;
+      align-items: center;
+      margin-bottom: 10px;
+      width: 100%;
+      max-width: 680px;
+    }
+    select {
+      padding: 7px 10px;
+      font-size: 0.88rem;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      outline: none;
+      cursor: pointer;
+      font-weight: bold;
+      color: var(--primary);
+      max-width: 80vw;
+    }
+    .reset-btn {
+      padding: 7px 12px;
+      background: var(--primary);
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    /* Game Card Box */
+    .game-card {
+      background: var(--card-bg);
+      border-radius: 16px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.07);
+      padding: 14px 10px;
+      width: 100%;
+      max-width: 640px;
+      text-align: center;
+      border: 2px solid #e0f2f1;
+      min-height: 380px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .top-bar {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.95rem;
+      color: #555;
+      font-weight: bold;
+      border-bottom: 1px solid #eee;
+      padding-bottom: 6px;
+      margin-bottom: 8px;
+    }
+
+    .activity-title {
+      font-size: 1.05rem;
+      color: #00796b;
+      font-weight: bold;
+      margin-bottom: 4px;
+    }
+    .instruction-text {
+      font-size: 0.88rem;
+      color: #666;
+      margin-bottom: 8px;
+    }
+
+    /* Target Word and Texts */
+    .target-word {
+      font-size: 3.1rem;
+      color: var(--text);
+      letter-spacing: 2px;
+      margin: 4px 0;
+      min-height: 65px;
+      font-weight: bold;
+      font-family: 'Amiri', 'Traditional Arabic', serif;
+    }
+    .transliteration {
+      font-size: 1.15rem;
+      color: var(--accent);
+      font-weight: bold;
+      margin-bottom: 4px;
+    }
+    .spelling-guide {
+      font-size: 0.88rem;
+      color: #e65100;
+      background: #fff3e0;
+      padding: 5px 12px;
+      border-radius: 20px;
+      display: inline-block;
+      margin-bottom: 12px;
+      border: 1px dashed #ffb74d;
+    }
+
+    /* Assembly Zone (Right to Left) */
+    .assembly-zone {
+      display: flex;
+      justify-content: center;
+      gap: 8px;
+      margin-bottom: 14px;
+      min-height: 55px;
+      direction: rtl;
+    }
+    .slot {
+      width: 54px;
+      height: 54px;
+      border: 2px dashed #b0bec5;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.75rem;
+      background: #fafafa;
+      color: var(--primary);
+      font-family: 'Amiri', serif;
+      transition: all 0.2s ease;
+    }
+    .slot.filled {
+      border: 2px solid var(--primary);
+      background: #e8f5e9;
+      transform: scale(1.05);
+      font-weight: bold;
+    }
+
+    /* Syllables pool */
+    .syllables-pool {
+      display: flex;
+      gap: 8px;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-bottom: 14px;
+      direction: rtl;
+    }
+    .syllable-btn {
+      background: white;
+      border: 2px solid #80cbc4;
+      color: #004d40;
+      font-size: 1.75rem;
+      min-width: 56px;
+      height: 56px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 3px 6px rgba(0,0,0,0.06);
+      cursor: pointer;
+      user-select: none;
+      font-family: 'Amiri', serif;
+      transition: transform 0.15s;
+    }
+    .syllable-btn:active { transform: scale(0.92); }
+    .syllable-btn.disabled { opacity: 0.22; pointer-events: none; }
+
+    /* Multiple choice grid */
+    .options-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+      margin-bottom: 14px;
+      direction: rtl;
+    }
+    .opt-btn {
+      background: white;
+      border: 2px solid #b2dfdb;
+      border-radius: 12px;
+      padding: 12px 6px;
+      font-size: 1.45rem;
+      color: #004d40;
+      cursor: pointer;
+      user-select: none;
+      font-family: 'Amiri', serif;
+      transition: all 0.15s;
+    }
+    .opt-btn:active { transform: scale(0.96); }
+    .opt-btn.correct { background: #c8e6c9 !important; border-color: #388e3c !important; color: #1b5e20 !important; font-weight: bold; }
+    .opt-btn.wrong { background: #ffcdd2 !important; border-color: #d32f2f !important; color: #b71c1c !important; }
+
+    /* Flashcard styles */
+    .flashcard {
+      border: 2px solid #80cbc4;
+      border-radius: 14px;
+      padding: 18px;
+      background: #fafafa;
+      margin-bottom: 12px;
+      cursor: pointer;
+    }
+    .reveal-text {
+      font-size: 1.1rem;
+      color: #e65100;
+      margin-top: 10px;
+      display: none;
+      font-weight: bold;
+    }
+
+    /* Actions bottom bar */
+    .actions {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+    }
+    .action-btn {
+      background: #0288d1;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      padding: 8px 16px;
+      font-size: 0.95rem;
+      cursor: pointer;
+      font-weight: bold;
+    }
+    .next-btn { background: #2e7d32; display: none; }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>📖 Fath Al-Rahman | فتح الرحمن في تعليم كلمات القرآن</h1>
+    <div class="subtitle">Complete Word Database from All Book Lessons & Multi-Activities</div>
+  </header>
+
+  <!-- 6 Game Mode Tabs -->
+  <div class="mode-nav">
+    <button class="mode-btn active" onclick="switchMode('spelling')">1. Word Assembly 🧩</button>
+    <button class="mode-btn" onclick="switchMode('listen_pick')">2. Listen & Pick 👂</button>
+    <button class="mode-btn" onclick="switchMode('tajweed_detect')">3. Tajweed Detective 🔍</button>
+    <button class="mode-btn" onclick="switchMode('vowel_speed')">4. Vowel Speed ⚡</button>
+    <button class="mode-btn" onclick="switchMode('odd_one_out')">5. Odd One Out 🎯</button>
+    <button class="mode-btn" onclick="switchMode('flashcards')">6. Flashcards 🃏</button>
+  </div>
+
+  <!-- Lesson selector -->
+  <div class="lesson-bar" id="lessonBar">
+    <select id="lessonSelect" onchange="changeSpellingLesson()">
+      <optgroup label="── 1. Short Vowels (الحركات القصيرة) ──">
+        <option value="fatha">Fatḥah Short Vowel (حركة الفتح)</option>
+        <option value="kasra">Kasrah Short Vowel (حركة الكسر)</option>
+        <option value="damma">Dammah Short Vowel (حركة الضم)</option>
+      </optgroup>
+      <optgroup label="── 2. Madd Lessons (المدود) ──">
+        <option value="madd_alif">Madd with Alif (المد بالألف)</option>
+        <option value="madd_yaa">Madd with Yaa (المد بالياء)</option>
+        <option value="madd_waw">Madd with Waw (المد بالواو)</option>
+        <option value="madd_badal">Madd Badal (مد البدل)</option>
+        <option value="madd_muttasil">Madd Muttasil (المد المتصل)</option>
+        <option value="madd_munfasil">Madd Munfasil (المد المنفصل)</option>
+      </optgroup>
+      <optgroup label="── 3. Tanween Lessons (التنوين) ──">
+        <option value="tanween_fath">Tanween with Fatḥah (تنوين بالفتح)</option>
+        <option value="tanween_kasr">Tanween with Kasrah (تنوين بالكسر)</option>
+        <option value="tanween_damm">Tanween with Dammah (تنوين بالضم)</option>
+      </optgroup>
+      <optgroup label="── 4. Sukoon (السكون والقلقلة) ──">
+        <option value="sukoon">Sukoon & Qalqalah (السكون والقلقلة)</option>
+        <option value="lam_qamariyyah">Al-Laam Al-Qamariyyah (اللام القمرية)</option>
+      </optgroup>
+      <optgroup label="── 5. Shaddah Lessons (التشديد) ──">
+        <option value="shaddah_fath">Shaddah with Fatḥah (الشدة مع الفتح)</option>
+        <option value="shaddah_kasr">Shaddah with Kasrah (الشدة مع الكسر)</option>
+        <option value="shaddah_damm">Shaddah with Dammah (الشدة مع الضم)</option>
+        <option value="shaddah_tanween">Shaddah with Tanween (التشديد مع التنوين)</option>
+        <option value="shaddah_waqf">Shaddah at Waqf (المشدد الموقوف عليه)</option>
+      </optgroup>
+    </select>
+    <button class="reset-btn" onclick="resetSpellingScore()">Reset 🔄</button>
+  </div>
+
+  <div class="game-card">
+    <div class="top-bar">
+      <span>⭐ Score: <span id="score">0</span></span>
+      <span>Progress: <span id="qIdx">1</span> / <span id="totalQ">--</span></span>
+    </div>
+
+    <div>
+      <div class="activity-title" id="actTitle">Activity Title</div>
+      <div class="instruction-text" id="actInstr">Instructions appear here</div>
+
+      <div id="contentArea"></div>
+    </div>
+
+    <div class="actions">
+      <button class="action-btn" id="audioBtn" onclick="playCurrentAudio()">🔊 Listen</button>
+      <button class="action-btn next-btn" id="nextBtn" onclick="handleNextClick()">Next ➡️</button>
+    </div>
+  </div>
+
+  <script>
+    let activeMode = 'spelling';
+    let currentLesson = 'fatha';
+    let currentIdx = 0;
+    let score = 0;
+    let currentInput = [];
+    let currentAudioTarget = '';
+
+    // ==========================================
+    // 1. SPELLING DATA BANK (Comprehensive Book Words)
+    // ==========================================
+    const spellingData = {
+      fatha: [
+        { word: "أَحَدَ", parts: ["أَ", "حَـ", "دَ"], translit: "a-ḥa-da", rule: "أَ - حَـ - أَحَـ - دَ - أَحَدَ" },
+        { word: "أَخَذَ", parts: ["أَ", "خَـ", "ذَ"], translit: "a-kha-dha", rule: "Heavy letter (خَ) only" },
+        { word: "ذَرَأَ", parts: ["ذَ", "رَ", "أَ"], translit: "dha-ra-a", rule: "Heavy (رَ) due to Fatḥah" },
+        { word: "بَرَزَ", parts: ["بَـ", "رَ", "زَ"], translit: "ba-ra-za", rule: "بَ - رَ - بَرَ - زَ - بَرَزَ" },
+        { word: "حَذَرَ", parts: ["حَـ", "ذَ", "رَ"], translit: "ḥa-dha-ra", rule: "حَـ - ذَ - حَذَ - رَ - حَذَرَ" },
+        { word: "سَجَدَ", parts: ["سَـ", "جَـ", "دَ"], translit: "sa-ja-da", rule: "سَـ - جَـ - سَجَـ - دَ - سَجَدَ" },
+        { word: "شَجَرَ", parts: ["شَـ", "جَـ", "رَ"], translit: "sha-ja-ra", rule: "Heavy (رَ) at the end" },
+        { word: "حَسَدَ", parts: ["حَـ", "سَـ", "دَ"], translit: "ḥa-sa-da", rule: "Light letters" },
+        { word: "ضَرَبَ", parts: ["ضَـ", "رَ", "بَ"], translit: "ḍa-ra-ba", rule: "Heavy (ضَ) & (رَ), Light (بَ)" },
+        { word: "صَبَرَ", parts: ["صَـ", "بَـ", "رَ"], translit: "ṣa-ba-ra", rule: "Heavy (صَ) & (رَ), Light (بَ)" },
+        { word: "بَسَطَ", parts: ["بَـ", "سَـ", "طَ"], translit: "ba-sa-ṭa", rule: "Heavy (طَ) only" },
+        { word: "عَبَدَ", parts: ["عَـ", "بَـ", "دَ"], translit: "‘a-ba-da", rule: "عَـ - بَـ - عَبَـ - دَ - عَبَدَ" },
+        { word: "بَعَثَ", parts: ["بَـ", "عَـ", "ثَ"], translit: "ba-‘a-tha", rule: "Pronounce interdental (ثَ)" },
+        { word: "عَشَرَ", parts: ["عَـ", "شَـ", "رَ"], translit: "‘a-sha-ra", rule: "Heavy (رَ) only" },
+        { word: "أَفَلَ", parts: ["أَ", "فَـ", "لَ"], translit: "a-fa-la", rule: "أَ - فَـ - أَفَـ - لَ - أَفَلَ" },
+        { word: "أَبَقَ", parts: ["أَ", "بَـ", "قَ"], translit: "a-ba-qa", rule: "Heavy (قَ)" },
+        { word: "شَكَرَ", parts: ["شَـ", "كَـ", "رَ"], translit: "sha-ka-ra", rule: "شَـ - كَـ - شَكَـ - رَ - شَكَرَ" },
+        { word: "أَكَلَ", parts: ["أَ", "كَـ", "لَ"], translit: "a-ka-la", rule: "Light letters" },
+        { word: "حَكَمَ", parts: ["حَـ", "كَـ", "مَ"], translit: "ḥa-ka-ma", rule: "حَـ - كَـ - حَكَـ - مَ - حَكَمَ" },
+        { word: "نَبَأَ", parts: ["نَـ", "بَـ", "أَ"], translit: "na-ba-a", rule: "نَـ - بَـ - نَبَـ - أَ - نَبَأَ" },
+        { word: "جَهَرَ", parts: ["جَـ", "هَـ", "رَ"], translit: "ja-ha-ra", rule: "Clear (جَ), light (هَـ), heavy (رَ)" },
+        { word: "يَدَكَ", parts: ["يَـ", "دَ", "كَ"], translit: "ya-da-ka", rule: "يَـ - دَ - يَدَ - كَ - يَدَكَ" },
+        { word: "وَجَدَ", parts: ["وَ", "جَـ", "دَ"], translit: "wa-ja-da", rule: "وَ - جَـ - وَجَـ - دَ - وَجَدَ" },
+        { word: "وَعَدَ", parts: ["وَ", "عَـ", "دَ"], translit: "wa-‘a-da", rule: "وَ - عَـ - وَعَـ - دَ - وَعَدَ" },
+        { word: "عَدَدَ", parts: ["عَـ", "دَ", "دَ"], translit: "‘a-da-da", rule: "عَـ - دَ - عَدَ - دَ - عَدَدَ" },
+        { word: "كَتَبَ", parts: ["كَـ", "تَـ", "بَ"], translit: "ka-ta-ba", rule: "كَـ - تَـ - كَتَـ - بَ - كَتَبَ" },
+        { word: "كَسَبَ", parts: ["كَـ", "سَـ", "بَ"], translit: "ka-sa-ba", rule: "كَـ - سَـ - كَسَـ - بَ - كَسَبَ" },
+        { word: "ذَهَبَ", parts: ["ذَ", "هَـ", "بَ"], translit: "dha-ha-ba", rule: "Interdental (ذَ)" },
+        { word: "كَذَبَ", parts: ["كَـ", "ذَ", "بَ"], translit: "ka-dha-ba", rule: "Interdental (ذَ)" },
+        { word: "نَزَلَ", parts: ["نَـ", "زَ", "لَ"], translit: "na-za-la", rule: "نَـ - زَ - نَزَ - لَ - نَزَلَ" },
+        { word: "سَأَلَ", parts: ["سَـ", "أَ", "لَ"], translit: "sa-a-la", rule: "سَـ - أَ - سَأَ - لَ - سَأَلَ" },
+        { word: "حَمَلَ", parts: ["حَـ", "مَـ", "لَ"], translit: "ḥa-ma-la", rule: "حَـ - مَـ - حَمَـ - لَ - حَمَلَ" },
+        { word: "عَمَلَ", parts: ["عَـ", "مَـ", "لَ"], translit: "‘a-ma-la", rule: "عَـ - مَـ - عَمَـ - لَ - عَمَلَ" },
+        { word: "كَتَمَ", parts: ["كَـ", "تَـ", "مَ"], translit: "ka-ta-ma", rule: "كَـ - تَـ - كَتَـ - مَ - كَتَمَ" },
+        { word: "عَزَمَ", parts: ["عَـ", "زَ", "مَ"], translit: "‘a-za-ma", rule: "عَـ - زَ - عَزَ - مَ - عَزَمَ" },
+        { word: "زَعَمَ", parts: ["زَ", "عَـ", "مَ"], translit: "za-‘a-ma", rule: "زَ - عَـ - زَعَـ - مَ - زَعَمَ" },
+        { word: "وَلَدَ", parts: ["وَ", "لَـ", "دَ"], translit: "wa-la-da", rule: "وَ - لَـ - وَلَـ - دَ - وَلَدَ" },
+        { word: "نَبَذَ", parts: ["نَـ", "بَـ", "ذَ"], translit: "na-ba-dha", rule: "نَـ - بَـ - نَبَـ - ذَ - نَبَذَ" },
+        { word: "سَلَفَ", parts: ["سَـ", "لَـ", "فَ"], translit: "sa-la-fa", rule: "سَـ - لَـ - سَلَـ - فَ - سَلَفَ" },
+        { word: "كَشَفَ", parts: ["كَـ", "شَـ", "فَ"], translit: "ka-sha-fa", rule: "كَـ - شَـ - كَشَـ - فَ - كَشَفَ" },
+        { word: "أَمَرَ", parts: ["أَ", "مَـ", "رَ"], translit: "a-ma-ra", rule: "Heavy (رَ)" },
+        { word: "مَكَرَ", parts: ["مَـ", "كَـ", "رَ"], translit: "ma-ka-ra", rule: "Heavy (رَ)" },
+        { word: "بَلَغَ", parts: ["بَـ", "لَـ", "غَ"], translit: "ba-la-gha", rule: "Heavy (غَ)" },
+        { word: "غَضَبَ", parts: ["غَـ", "ضَـ", "بَ"], translit: "gha-ḍa-ba", rule: "Heavy (غَ) & (ضَ)" },
+        { word: "وَرَدَ", parts: ["وَ", "رَ", "دَ"], translit: "wa-ra-da", rule: "Heavy (رَ)" },
+        { word: "خَتَمَ", parts: ["خَـ", "تَـ", "مَ"], translit: "kha-ta-ma", rule: "Heavy (خَ) only" },
+        { word: "ظَلَمَ", parts: ["ظَـ", "لَـ", "مَ"], translit: "ẓa-la-ma", rule: "Heavy & interdental (ظَ)" },
+        { word: "عَرَضَ", parts: ["عَـ", "رَ", "ضَ"], translit: "‘a-ra-ḍa", rule: "Heavy (رَ) & (ضَ)" },
+        { word: "فَرَضَ", parts: ["فَـ", "رَ", "ضَ"], translit: "fa-ra-ḍa", rule: "Heavy (رَ) & (ضَ)" },
+        { word: "تَرَكَ", parts: ["تَـ", "رَ", "كَ"], translit: "ta-ra-ka", rule: "Heavy (رَ)" },
+        { word: "سَرَقَ", parts: ["سَـ", "رَ", "قَ"], translit: "sa-ra-qa", rule: "Heavy (رَ) & (قَ)" },
+        { word: "فَصَلَ", parts: ["فَـ", "صَـ", "لَ"], translit: "fa-ṣa-la", rule: "Heavy (صَ)" },
+        { word: "مَرَجَ", parts: ["مَـ", "رَ", "جَ"], translit: "ma-ra-ja", rule: "Heavy (رَ)" },
+        { word: "صَرَفَ", parts: ["صَـ", "رَ", "فَ"], translit: "ṣa-ra-fa", rule: "Heavy (صَ) & (رَ)" },
+        { word: "شَرَحَ", parts: ["شَـ", "رَ", "حَ"], translit: "sha-ra-ḥa", rule: "Heavy (رَ)" },
+        { word: "صَلَحَ", parts: ["صَـ", "لَـ", "حَ"], translit: "ṣa-la-ḥa", rule: "Heavy (صَ)" },
+        { word: "وَقَعَ", parts: ["وَ", "قَـ", "عَ"], translit: "wa-qa-‘a", rule: "Heavy (قَ)" },
+        { word: "طَبَعَ", parts: ["طَـ", "بَـ", "عَ"], translit: "ṭa-ba-‘a", rule: "Heavy (طَ)" },
+        { word: "شَرَعَ", parts: ["شَـ", "رَ", "عَ"], translit: "sha-ra-‘a", rule: "Heavy (رَ)" },
+        { word: "رَفَعَ", parts: ["رَ", "فَـ", "عَ"], translit: "ra-fa-‘a", rule: "Heavy (رَ)" },
+        { word: "حَضَرَ", parts: ["حَـ", "ضَـ", "رَ"], translit: "ḥa-ḍa-ra", rule: "Light (حَ), Heavy (ضَ) & (رَ)" },
+        { word: "نَظَرَ", parts: ["نَـ", "ظَـ", "رَ"], translit: "na-ẓa-ra", rule: "Heavy (ظَ) & (رَ)" },
+        { word: "ظَهَرَ", parts: ["ظَـ", "هَـ", "رَ"], translit: "ẓa-ha-ra", rule: "Heavy (ظَ), Light (هَـ), Heavy (رَ)" },
+        { word: "فَخَلَفَ", parts: ["فَـ", "خَـ", "لَـ", "فَ"], translit: "fa-kha-la-fa", rule: "Heavy (خَ)" },
+        { word: "وَصَدَفَ", parts: ["وَ", "صَـ", "دَ", "فَ"], translit: "wa-ṣa-da-fa", rule: "Heavy (صَ)" },
+        { word: "وَقَذَفَ", parts: ["وَ", "قَـ", "ذَ", "فَ"], translit: "wa-qa-dha-fa", rule: "Heavy (قَ)" },
+        { word: "وَخَسَفَ", parts: ["وَ", "خَـ", "سَـ", "فَ"], translit: "wa-kha-sa-fa", rule: "Heavy (خَ)" },
+        { word: "وَسَلَكَ", parts: ["وَ", "سَـ", "لَـ", "كَ"], translit: "wa-sa-la-ka", rule: "Light letters" },
+        { word: "وَقَعَدَ", parts: ["وَ", "قَـ", "عَـ", "دَ"], translit: "wa-qa-‘a-da", rule: "Heavy (قَ)" },
+        { word: "وَزَهَقَ", parts: ["وَ", "زَ", "هَـ", "قَ"], translit: "wa-za-ha-qa", rule: "Heavy (قَ)" },
+        { word: "وَوَضَعَ", parts: ["وَ", "وَ", "ضَـ", "عَ"], translit: "wa-wa-ḍa-‘a", rule: "Heavy (ضَ)" },
+        { word: "فَمَكَثَ", parts: ["فَـ", "مَـ", "كَـ", "ثَ"], translit: "fa-ma-ka-tha", rule: "Interdental (ثَ)" },
+        { word: "فَخَرَجَ", parts: ["فَـ", "خَـ", "رَ", "جَ"], translit: "fa-kha-ra-ja", rule: "Heavy (خَ) & (رَ)" },
+        { word: "فَحَشَرَ", parts: ["فَـ", "حَـ", "شَـ", "رَ"], translit: "fa-ḥa-sha-ra", rule: "Heavy (رَ)" },
+        { word: "وَذَكَرَ", parts: ["وَ", "ذَ", "كَـ", "رَ"], translit: "wa-dha-ka-ra", rule: "Heavy (رَ)" }
+      ],
+      kasra: [
+        { word: "إِرَمَ", parts: ["إِ", "رَ", "مَ"], translit: "i-ra-ma", rule: "إِ - رَ - إِرَ - مَ - إِرَمَ" },
+        { word: "حَبِطَ", parts: ["حَـ", "بِـ", "طَ"], translit: "ḥa-bi-ṭa", rule: "Drop lower jaw on (بِـ)" },
+        { word: "خَلَتِ", parts: ["خَـ", "لَـ", "تِ"], translit: "kha-la-ti", rule: "خَـ - لَـ - خَلَـ - تِ - خَلَتِ" },
+        { word: "أَجِدَ", parts: ["أَ", "جِـ", "دَ"], translit: "a-ji-da", rule: "أَ - جِـ - أَجِـ - دَ - أَجِدَ" },
+        { word: "رَحِمَ", parts: ["رَ", "حِـ", "مَ"], translit: "ra-ḥi-ma", rule: "رَ - حِـ - رَحِـ - مَ - رَحِمَ" },
+        { word: "سَخِطَ", parts: ["سَـ", "خِـ", "طَ"], translit: "sa-khi-ṭa", rule: "سَـ - خِـ - سَخِـ - طَ - سَخِطَ" },
+        { word: "رَدِفَ", parts: ["رَ", "دِ", "فَ"], translit: "ra-di-fa", rule: "رَ - دِ - رَدِ - فَ - رَدِفَ" },
+        { word: "أَذِنَ", parts: ["أَ", "ذِ", "نَ"], translit: "a-dhi-na", rule: "أَ - ذِ - أَذِ - نَ - أَذِنَ" },
+        { word: "بَرِقَ", parts: ["بَـ", "رِ", "قَ"], translit: "ba-ri-qa", rule: "Light (رِ) because of Kasrah" },
+        { word: "نَزِدْ", parts: ["نَـ", "زِ", "دْ"], translit: "na-zid", rule: "نَـ - زِ - دْ" },
+        { word: "حَسِبَ", parts: ["حَـ", "سِـ", "بَ"], translit: "ḥa-si-ba", rule: "حَـ - سِـ - حَسِـ - بَ - حَسِبَ" },
+        { word: "خَشِيَ", parts: ["خَـ", "شِـ", "يَ"], translit: "kha-shi-ya", rule: "خَـ - شِـ - خَشِـ - يَ - خَشِيَ" },
+        { word: "رَضِيَ", parts: ["رَ", "ضِـ", "يَ"], translit: "ra-ḍi-ya", rule: "Heavy (رَ) & (ضِـ)" },
+        { word: "خَطِفَ", parts: ["خَـ", "طِـ", "فَ"], translit: "kha-ṭi-fa", rule: "خَـ - طِـ - خَطِـ - فَ - خَطِفَ" },
+        { word: "مَعِيَ", parts: ["مَـ", "عِـ", "يَ"], translit: "ma-‘i-ya", rule: "مَـ - عِـ - مَعِـ - يَ - مَعِيَ" },
+        { word: "مَلِكِ", parts: ["مَـ", "لِـ", "كِ"], translit: "ma-li-ki", rule: "مَـ - لِـ - مَلِـ - كِ - مَلِكِ" },
+        { word: "حَفِظَ", parts: ["حَـ", "فِـ", "ظَ"], translit: "ḥa-fi-ẓa", rule: "Heavy (ظَ)" },
+        { word: "بَقِيَ", parts: ["بَـ", "قِـ", "يَ"], translit: "ba-qi-ya", rule: "بَـ - قِـ - بَقِـ - يَ - بَقِيَ" },
+        { word: "عَلِمَ", parts: ["عَـ", "لِـ", "مَ"], translit: "‘a-li-ma", rule: "عَـ - لِـ - عَلِـ - مَ - عَلِمَ" },
+        { word: "يَدِيَ", parts: ["يَـ", "دِ", "يَ"], translit: "ya-di-ya", rule: "يَـ - دِ - يَدِ - يَ - يَدِيَ" },
+        { word: "عَهِدَ", parts: ["عَـ", "هِـ", "دَ"], translit: "‘a-hi-da", rule: "عَـ - هِـ - عَهِـ - دَ - عَهِدَ" },
+        { word: "تَرَنِ", parts: ["تَـ", "رَ", "نِ"], translit: "ta-ra-ni", rule: "تَـ - رَ - تَرَ - نِ - تَرَنِ" },
+        { word: "أَمِنَ", parts: ["أَ", "مِـ", "نَ"], translit: "a-mi-na", rule: "أَ - مِـ - أَمِـ - نَ - أَمِنَ" },
+        { word: "فَرِحَ", parts: ["فَـ", "رِ", "حَ"], translit: "fa-ri-ḥa", rule: "Light (رِ)" },
+        { word: "بَخِلَ", parts: ["بَـ", "خِـ", "لَ"], translit: "ba-khi-la", rule: "بَـ - خِـ - بَخِـ - لَ - بَخِلَ" },
+        { word: "تَجِدَ", parts: ["تَـ", "جِـ", "دَ"], translit: "ta-ji-da", rule: "تَـ - جِـ - تَجِـ - دَ - تَجِدَ" },
+        { word: "لَبِثَ", parts: ["لَـ", "بِـ", "ثَ"], translit: "la-bi-tha", rule: "Interdental (ثَ)" },
+        { word: "كَرِهَ", parts: ["كَـ", "رِ", "هَ"], translit: "ka-ri-ha", rule: "Light (رِ)" },
+        { word: "خَسِرَ", parts: ["خَـ", "سِـ", "رَ"], translit: "kha-si-ra", rule: "Heavy (خَ) & (رَ)" },
+        { word: "سَخِرَ", parts: ["سَـ", "خِـ", "رَ"], translit: "sa-khi-ra", rule: "Heavy (رَ)" },
+        { word: "غَضِبَ", parts: ["غَـ", "ضِـ", "بَ"], translit: "gha-ḍi-ba", rule: "Heavy (غَ) & (ضِـ)" },
+        { word: "شَرِبَ", parts: ["شَـ", "رِ", "بَ"], translit: "sha-ri-ba", rule: "Light (رِ)" },
+        { word: "وَسِعَ", parts: ["وَ", "سِـ", "عَ"], translit: "wa-si-‘a", rule: "وَ - سِـ - وَسِـ - عَ - وَسِعَ" },
+        { word: "يَبِسَ", parts: ["يَـ", "بِـ", "سَ"], translit: "ya-bi-sa", rule: "يَـ - بِـ - يَبِـ - سَ - يَبِسَ" },
+        { word: "نَسِيَ", parts: ["نَـ", "سِـ", "يَ"], translit: "na-si-ya", rule: "نَـ - سِـ - نَسِـ - يَ - نَسِيَ" },
+        { word: "شَهِدَ", parts: ["شَـ", "هِـ", "دَ"], translit: "sha-hi-da", rule: "شَـ - هِـ - شَهِـ - دَ - شَهِدَ" },
+        { word: "سَفِهَ", parts: ["سَـ", "فِـ", "هَ"], translit: "sa-fi-ha", rule: "سَـ - فِـ - سَفِـ - هَ - سَفِهَ" },
+        { word: "أَثَرِ", parts: ["أَ", "ثَـ", "رِ"], translit: "a-tha-ri", rule: "Light (رِ)" },
+        { word: "بَدَتِ", parts: ["بَـ", "دَ", "تِ"], translit: "ba-da-ti", rule: "بَـ - دَ - بَدَ - تِ - بَدَتِ" },
+        { word: "شِيَةَ", parts: ["شِـ", "يَـ", "ةَ"], translit: "shi-ya-ta", rule: "شِـ - يَـ - شِيَـ - تَ - شِيَةَ" },
+        { word: "قِبَلَ", parts: ["قِـ", "بَـ", "لَ"], translit: "qi-ba-la", rule: "Heavy (قِـ)" },
+        { word: "عِوَجَ", parts: ["عِـ", "وَ", "جَ"], translit: "‘i-wa-ja", rule: "عِـ - وَ - عِوَ - جَ - عِوَجَ" },
+        { word: "غَسَقِ", parts: ["غَـ", "سَـ", "قِ"], translit: "gha-sa-qi", rule: "Heavy (غَ) & (قِ)" },
+        { word: "فَلِمَ", parts: ["فَـ", "لِـ", "مَ"], translit: "fa-li-ma", rule: "فَـ - لِـ - فَلِـ - مَ - فَلِمَ" },
+        { word: "فَبِمَ", parts: ["فَـ", "بِـ", "مَ"], translit: "fa-bi-ma", rule: "فَـ - بِـ - فَبِـ - مَ - فَبِمَ" },
+        { word: "وَلِيَ", parts: ["وَ", "لِـ", "يَ"], translit: "wa-li-ya", rule: "وَ - لِـ - وَلِـ - يَ - وَلِيَ" },
+        { word: "وَمِنَ", parts: ["وَ", "مِـ", "نَ"], translit: "wa-mi-na", rule: "وَ - مِـ - وَمِـ - نَ - وَمِنَ" },
+        { word: "وَقَعَتِ", parts: ["وَ", "قَـ", "عَـ", "تِ"], translit: "wa-qa-‘a-ti", rule: "Heavy (قَ)" },
+        { word: "بَلَغَتِ", parts: ["بَـ", "لَـ", "غَـ", "تِ"], translit: "ba-la-gha-ti", rule: "Heavy (غَ)" },
+        { word: "وَعَنَتِ", parts: ["وَ", "عَـ", "نَـ", "تِ"], translit: "wa-‘a-na-ti", rule: "Light letters" },
+        { word: "كَمَثَلِ", parts: ["كَـ", "مَـ", "ثَـ", "لِ"], translit: "ka-ma-tha-li", rule: "Interdental (ثَ)" },
+        { word: "قِبَلَكَ", parts: ["قِـ", "بَـ", "لَـ", "كَ"], translit: "qi-ba-la-ka", rule: "Heavy (قِـ)" },
+        { word: "تَبِعَكَ", parts: ["تَـ", "بِـ", "عَـ", "كَ"], translit: "ta-bi-‘a-ka", rule: "تَـ - بِـ - تَبِـ - عَـ - كَ" },
+        { word: "بِبَدَنِكَ", parts: ["بِـ", "بَـ", "دَ", "نِـ", "كَ"], translit: "bi-ba-da-ni-ka", rule: "Pronounce clearly" },
+        { word: "لِخَزَنَةِ", parts: ["لِـ", "خَـ", "زَ", "نَـ", "ةِ"], translit: "li-kha-za-na-ti", rule: "Heavy (خَ)" }
+      ],
+      damma: [
+        { word: "أُذِنَ", parts: ["أُ", "ذِ", "نَ"], translit: "u-dhi-na", rule: "أُ - ذِ - أُذِ - نَ - أُذِنَ" },
+        { word: "خَبُثَ", parts: ["خَـ", "بُـ", "ثَ"], translit: "kha-bu-tha", rule: "Round lips on (بُـ)" },
+        { word: "تُطِعِ", parts: ["تُـ", "طِـ", "عِ"], translit: "tu-ṭi-‘i", rule: "Heavy (طِـ)" },
+        { word: "يَرِثُ", parts: ["يَـ", "رِ", "ثُ"], translit: "ya-ri-thu", rule: "يَـ - رِ - يَرِ - ثُ - يَرِثُ" },
+        { word: "جُعِلَ", parts: ["جُـ", "عِـ", "لَ"], translit: "ju-‘i-la", rule: "جُـ - عِـ - جُعِـ - لَ - جُعِلَ" },
+        { word: "حُشِرَ", parts: ["حُـ", "شِـ", "رَ"], translit: "ḥu-shi-ra", rule: "حُـ - شِـ - حُشِـ - رَ - حُشِرَ" },
+        { word: "خُلِقَ", parts: ["خُـ", "لِـ", "قَ"], translit: "khu-li-qa", rule: "Heavy (خُـ) & (قَ), Light (لِـ)" },
+        { word: "تَجِدُ", parts: ["تَـ", "جِـ", "دُ"], translit: "ta-ji-du", rule: "تَـ - جِـ - تَجِـ - دُ - تَجِدُ" },
+        { word: "ذُكِرَ", parts: ["ذُ", "كِـ", "رَ"], translit: "dhu-ki-ra", rule: "Heavy (رَ)" },
+        { word: "تَذَرُ", parts: ["تَـ", "ذَ", "رُ"], translit: "ta-dha-ru", rule: "Heavy (رُ)" },
+        { word: "نَذَرُ", parts: ["نَـ", "ذَ", "رُ"], translit: "na-dha-ru", rule: "Heavy (رُ)" },
+        { word: "تَزِرُ", parts: ["تَـ", "زِ", "رُ"], translit: "ta-zi-ru", rule: "Heavy (رُ)" },
+        { word: "سُنَنَ", parts: ["سُـ", "نَـ", "نَ"], translit: "su-na-na", rule: "سُـ - نَـ - سُنَـ - نَ - سُنَنَ" },
+        { word: "صُحُفِ", parts: ["صُـ", "حُـ", "فِ"], translit: "ṣu-ḥu-fi", rule: "صُـ - حُـ - صُحُـ - فِ - صُحُفِ" },
+        { word: "ضُرِبَ", parts: ["ضُـ", "رِ", "بَ"], translit: "ḍu-ri-ba", rule: "Heavy (ضُـ), Light (رِ)" },
+        { word: "طُبِعَ", parts: ["طُـ", "بِـ", "عَ"], translit: "ṭu-bi-‘a", rule: "Heavy (طُـ)" },
+        { word: "ظُلِمَ", parts: ["ظُـ", "لِـ", "مَ"], translit: "ẓu-li-ma", rule: "Heavy (ظُـ)" },
+        { word: "عُثِرَ", parts: ["عُـ", "ثِـ", "رَ"], translit: "‘u-thi-ra", rule: "عُـ - ثِـ - عُثِـ - رَ - عُثِرَ" },
+        { word: "غُلِبَتِ", parts: ["غُـ", "لِـ", "بَـ", "تِ"], translit: "ghu-li-ba-ti", rule: "Heavy (غُـ)" },
+        { word: "فُعِلَ", parts: ["فُـ", "عِـ", "لَ"], translit: "fu-‘i-la", rule: "فُـ - عِـ - فُعِـ - لَ - فُعِلَ" },
+        { word: "قُتِلَ", parts: ["قُـ", "تِـ", "لَ"], translit: "qu-ti-la", rule: "Heavy (قُـ)" },
+        { word: "كُتِبَ", parts: ["كُـ", "تِـ", "بَ"], translit: "ku-ti-ba", rule: "كُـ - تِـ - كُتِـ - بَ - كُتِبَ" },
+        { word: "لُعِنَ", parts: ["لُـ", "عِـ", "نَ"], translit: "lu-‘i-na", rule: "لُـ - عِـ - لُعِـ - نَ - لُعِنَ" },
+        { word: "لَكُمُ", parts: ["لَـ", "كُـ", "مُ"], translit: "la-ku-mu", rule: "لَـ - كُـ - لَكُـ - مُ - لَكُمُ" },
+        { word: "نُفِخَ", parts: ["نُـ", "فِـ", "خَ"], translit: "nu-fi-kha", rule: "Heavy (خَ)" },
+        { word: "وَهُوَ", parts: ["وَ", "هُـ", "وَ"], translit: "wa-hu-wa", rule: "وَ - هُـ - وَهُـ - وَ - وَهُوَ" },
+        { word: "هُدِيَ", parts: ["هُـ", "دِ", "يَ"], translit: "hu-di-ya", rule: "هُـ - دِ - هُدِ - يَ - هُدِيَ" },
+        { word: "نُقِرَ", parts: ["نُـ", "قِـ", "رَ"], translit: "nu-qi-ra", rule: "Heavy (قِـ) & (رَ)" },
+        { word: "أُفِكَ", parts: ["أُ", "فِـ", "كَ"], translit: "u-fi-ka", rule: "أُ - فِـ - أُفِـ - كَ - أُفِكَ" },
+        { word: "سُقِطَ", parts: ["سُـ", "قِـ", "طَ"], translit: "su-qi-ṭa", rule: "Heavy (قِـ) & (طَ)" },
+        { word: "سُبُلَ", parts: ["سُـ", "بُـ", "لَ"], translit: "su-bu-la", rule: "Round lips on (سُـ) & (بُـ)" },
+        { word: "قُرِئَ", parts: ["قُـ", "رِ", "ئَ"], translit: "qu-ri-a", rule: "Heavy (قُـ), Light (رِ)" },
+        { word: "ذُبِحَ", parts: ["ذُ", "بِـ", "حَ"], translit: "dhu-bi-ḥa", rule: "ذُ - بِـ - ذُبِـ - حَ - ذُبِحَ" },
+        { word: "تَصِفُ", parts: ["تَـ", "صِـ", "فُ"], translit: "ta-ṣi-fu", rule: "Heavy (صِـ)" },
+        { word: "رُسُلُ", parts: ["رُ", "سُـ", "لُ"], translit: "ru-su-lu", rule: "رُ - سُـ - رُسُـ - لُ - رُسُلُ" },
+        { word: "تَصِلُ", parts: ["تَـ", "صِـ", "لُ"], translit: "ta-ṣi-lu", rule: "Heavy (صِـ)" },
+        { word: "مَثَلُ", parts: ["مَـ", "ثَـ", "لُ"], translit: "ma-tha-lu", rule: "Interdental (ثَ)" },
+        { word: "حَصَبُ", parts: ["حَـ", "صَـ", "بُ"], translit: "ḥa-ṣa-bu", rule: "Heavy (صَ)" },
+        { word: "يَكُن", parts: ["يَـ", "كُـ", "نْ"], translit: "ya-kun", rule: "يَـ - كُـ - نْ" },
+        { word: "كَبُرَ", parts: ["كَـ", "بُـ", "رَ"], translit: "ka-bu-ra", rule: "Heavy (رَ)" },
+        { word: "يُهِنِ", parts: ["يُـ", "هِـ", "نِ"], translit: "yu-hi-ni", rule: "يُـ - هِـ - يُهِـ - نِ - يُهِنِ" },
+        { word: "وَجُمِعَ", parts: ["وَ", "جُـ", "مِـ", "عَ"], translit: "wa-ju-mi-‘a", rule: "وَ - جُـ - مِـ - عَ" },
+        { word: "وَنُرِيَ", parts: ["وَ", "نُـ", "رِ", "يَ"], translit: "wa-nu-ri-ya", rule: "Light (رِ)" },
+        { word: "وَوُضِعَ", parts: ["وَ", "وُ", "ضِـ", "عَ"], translit: "wa-wu-ḍi-‘a", rule: "Heavy (ضِـ)" },
+        { word: "لَقُضِيَ", parts: ["لَـ", "قُـ", "ضِـ", "يَ"], translit: "la-qu-ḍi-ya", rule: "Heavy (قُـ) & (ضِـ)" },
+        { word: "وَنَذَرُ", parts: ["وَ", "نَـ", "ذَ", "رُ"], translit: "wa-na-dha-ru", rule: "Heavy (رُ)" },
+        { word: "وَنَضَعُ", parts: ["وَ", "نَـ", "ضَـ", "عُ"], translit: "wa-na-ḍa-‘u", rule: "Heavy (ضَ)" },
+        { word: "وَيَهَبُ", parts: ["وَ", "يَـ", "هَـ", "بُ"], translit: "wa-ya-ha-bu", rule: "Light letters" },
+        { word: "وَحَسُنَ", parts: ["وَ", "حَـ", "سُـ", "نَ"], translit: "wa-ḥa-su-na", rule: "Round lips on (سُـ)" },
+        { word: "وَمَثَلُ", parts: ["وَ", "مَـ", "ثَـ", "لُ"], translit: "wa-ma-tha-lu", rule: "Interdental (ثَ)" },
+        { word: "أَلِدُ", parts: ["أَ", "لِـ", "دُ"], translit: "a-li-du", rule: "أَ - لِـ - دُ" },
+        { word: "فَبُهِتَ", parts: ["فَـ", "بُـ", "هِـ", "تَ"], translit: "fa-bu-hi-ta", rule: "فَـ - بُـ - هِـ - تَ" },
+        { word: "جَعَلَهُ", parts: ["جَـ", "عَـ", "لَـ", "هُ"], translit: "ja-‘a-la-hu", rule: "Light letters" },
+        { word: "لَعَلِمَهُ", parts: ["لَـ", "عَـ", "لِـ", "مَـ", "هُ"], translit: "la-‘a-li-ma-hu", rule: "لَـ - عَـ - لِـ - مَـ - هُ" },
+        { word: "فَأَخَذَهُ", parts: ["فَـ", "أَ", "خَـ", "ذَ", "هُ"], translit: "fa-a-kha-dha-hu", rule: "Heavy (خَ)" },
+        { word: "فَأَكَلَهُ", parts: ["فَـ", "أَ", "كَـ", "لَـ", "هُ"], translit: "fa-a-ka-la-hu", rule: "Light letters" },
+        { word: "كَلِمَتُ", parts: ["كَـ", "لِـ", "مَـ", "تُ"], translit: "ka-li-ma-tu", rule: "كَـ - لِـ - مَـ - تُ" },
+        { word: "وَفُتِحَتِ", parts: ["وَ", "فُـ", "تِـ", "حَـ", "تِ"], translit: "wa-fu-ti-ḥa-ti", rule: "وَ - فُـ - تِـ - حَـ - تِ" },
+        { word: "عَضُدَكَ", parts: ["عَـ", "ضُـ", "دَ", "كَ"], translit: "‘a-ḍu-da-ka", rule: "Heavy (ضُـ)" },
+        { word: "فَبَصَرُكَ", parts: ["فَـ", "بَـ", "صَـ", "رُ", "كَ"], translit: "fa-ba-ṣa-ru-ka", rule: "Heavy (صَ) & (رُ)" },
+        { word: "عَمَلُكَ", parts: ["عَـ", "مَـ", "لُـ", "كَ"], translit: "‘a-ma-lu-ka", rule: "عَـ - مَـ - لُـ - كَ" },
+        { word: "أَعِظُكَ", parts: ["أَ", "عِـ", "ظُـ", "كَ"], translit: "a-‘i-ẓu-ka", rule: "Heavy & interdental (ظُـ)" }
+      ],
+
+      madd_alif: [
+        { word: "بَالِغُ", parts: ["بَا", "لِـ", "غُ"], translit: "bā-li-ghu", rule: "Alif Madd (2 counts): بَا" },
+        { word: "أَتَنكَ", parts: ["أَ", "تَا", "نَـ", "كَ"], translit: "a-tā-na-ka", rule: "Madd (2 counts): تَا" },
+        { word: "ثَانِيَ", parts: ["ثَا", "نِـ", "يَ"], translit: "thā-ni-ya", rule: "Madd: ثَا" },
+        { word: "تُجَادِلُ", parts: ["تُـ", "جَا", "دِ", "لُ"], translit: "tu-jā-di-lu", rule: "Madd: جَا" },
+        { word: "فَحَاقَ", parts: ["فَـ", "حَا", "قَ"], translit: "fa-ḥā-qa", rule: "Madd: حَا" },
+        { word: "يَخَافُ", parts: ["يَـ", "خَا", "فُ"], translit: "ya-khā-fu", rule: "Heavy Madd (خَا)" },
+        { word: "سَجَى", parts: ["سَـ", "جَى"], translit: "sa-jā", rule: "Alif Layyinah (سَجَى)" },
+        { word: "جِدَالَ", parts: ["جِـ", "دَا", "لَ"], translit: "ji-dā-la", rule: "Madd: دَا" },
+        { word: "عَذَابٌ", parts: ["عَـ", "ذَا", "بٌ"], translit: "‘a-dhā-bun", rule: "Madd: ذَا" },
+        { word: "صِرَاطَ", parts: ["صِـ", "رَا", "طَ"], translit: "ṣi-rā-ṭa", rule: "Heavy Madd: رَا" },
+        { word: "أَزَاغَ", parts: ["أَ", "زَا", "غَ"], translit: "a-zā-gha", rule: "Madd: زَا" },
+        { word: "مَسَاجِدَ", parts: ["مَـ", "سَا", "جِـ", "دَ"], translit: "ma-sā-ji-da", rule: "Madd: سَا" },
+        { word: "عِشَارُ", parts: ["عِـ", "شَا", "رُ"], translit: "‘i-shā-ru", rule: "Madd: شَا" },
+        { word: "أَصَابَ", parts: ["أَ", "صَا", "بَ"], translit: "a-ṣā-ba", rule: "Heavy Madd (صَا)" },
+        { word: "يُضَعَفُ", parts: ["يُـ", "ضَا", "عَـ", "فُ"], translit: "yu-ḍā-‘a-fu", rule: "Heavy Madd (ضَا)" },
+        { word: "فَطَافَ", parts: ["فَـ", "طَا", "فَ"], translit: "fa-ṭā-fa", rule: "Heavy Madd (طَا)" },
+        { word: "عِظَامَ", parts: ["عِـ", "ظَا", "مَ"], translit: "‘i-ẓā-ma", rule: "Heavy Madd (ظَا)" },
+        { word: "طَعَامِ", parts: ["طَـ", "عَا", "مِ"], translit: "ṭa-‘ā-mi", rule: "Madd: عَا" },
+        { word: "بِغَالَ", parts: ["بِـ", "غَا", "لَ"], translit: "bi-ghā-la", rule: "Heavy Madd (غَا)" },
+        { word: "فَاطِرِ", parts: ["فَا", "طِـ", "رِ"], translit: "fā-ṭi-ri", rule: "Madd: فَا" },
+        { word: "مُقَامَ", parts: ["مُـ", "قَا", "مَ"], translit: "mu-qā-ma", rule: "Heavy Madd (قَا)" },
+        { word: "فَكَانَ", parts: ["فَـ", "كَا", "نَ"], translit: "fa-kā-na", rule: "Madd: كَا" },
+        { word: "وَلَاتَ", parts: ["وَ", "لَا", "تَ"], translit: "wa-lā-ta", rule: "Madd: لَا" },
+        { word: "وَنَمَارِقُ", parts: ["وَ", "نَـ", "مَا", "رِ", "قُ"], translit: "wa-na-mā-ri-qu", rule: "Madd: مَا" },
+        { word: "فَنَادَى", parts: ["فَـ", "نَا", "دَى"], translit: "fa-nā-dā", rule: "Madd: نَا with Alif Layyinah" },
+        { word: "وَكَوَاعِبَ", parts: ["وَ", "كَـ", "وَا", "عِـ", "بَ"], translit: "wa-ka-wā-‘i-ba", rule: "Madd: وَا" },
+        { word: "تَابَ", parts: ["تَا", "بَ"], translit: "tā-ba", rule: "Madd: تَا" },
+        { word: "طَابَ", parts: ["طَا", "بَ"], translit: "ṭā-ba", rule: "Heavy Madd: طَا" },
+        { word: "خَابَ", parts: ["خَا", "بَ"], translit: "khā-ba", rule: "Heavy Madd: خَا" },
+        { word: "خَافَ", parts: ["خَا", "فَ"], translit: "khā-fa", rule: "Heavy Madd: خَا" },
+        { word: "قَالَ", parts: ["قَا", "لَ"], translit: "qā-la", rule: "Heavy Madd: قَا" },
+        { word: "نَكَالَ", parts: ["نَـ", "كَا", "لَ"], translit: "na-kā-la", rule: "Madd: كَا" },
+        { word: "رَانَ", parts: ["رَا", "نَ"], translit: "rā-na", rule: "Heavy Madd: رَا" },
+        { word: "نَارُ", parts: ["نَا", "رُ"], translit: "nā-ru", rule: "Madd: نَا" },
+        { word: "نَاقَةُ", parts: ["نَا", "قَـ", "ةُ"], translit: "nā-qa-tu", rule: "Madd: نَا" },
+        { word: "مَتَعُ", parts: ["مَـ", "تَا", "عُ"], translit: "ma-tā-‘u", rule: "Madd: تَا" },
+        { word: "ذَاتَ", parts: ["ذَا", "تَ"], translit: "dhā-ta", rule: "Madd: ذَا" },
+        { word: "أَبَانَا", parts: ["أَ", "بَا", "نَا"], translit: "a-bā-nā", rule: "Two Madds: بَا and نَا" },
+        { word: "دَعَانَا", parts: ["دَ", "عَا", "نَا"], translit: "da-‘ā-nā", rule: "Two Madds: عَا and نَا" },
+        { word: "جَوَابَ", parts: ["جَـ", "وَا", "بَ"], translit: "ja-wā-ba", rule: "Madd: وَا" },
+        { word: "مَالِ", parts: ["مَا", "لِ"], translit: "mā-li", rule: "Madd: مَا" },
+        { word: "ثَلَاثَ", parts: ["ثَـ", "لَا", "ثَ"], translit: "tha-lā-tha", rule: "Madd: لَا" },
+        { word: "ثَمَانِيَ", parts: ["ثَـ", "مَا", "نِـ", "يَ"], translit: "tha-mā-ni-ya", rule: "Madd: مَا" },
+        { word: "فَلَهَا", parts: ["فَـ", "لَـ", "هَا"], translit: "fa-la-hā", rule: "Madd: هَا" },
+        { word: "بَنَهَا", parts: ["بَـ", "نَـ", "هَا"], translit: "ba-na-hā", rule: "Madd: هَا" },
+        { word: "طَحَهَا", parts: ["طَـ", "حَـ", "هَا"], translit: "ṭa-ḥa-hā", rule: "Madd: هَا" },
+        { word: "وَضُحَهَا", parts: ["وَ", "ضُـ", "حَـ", "هَا"], translit: "wa-ḍu-ḥa-hā", rule: "Madd: هَا" },
+        { word: "مَا بَالُ", parts: ["مَا", "بَا", "لُ"], translit: "mā bā-lu", rule: "Two Madds: مَا and بَا" },
+        { word: "لَا يَخَافُ", parts: ["لَا", "يَـ", "خَا", "فُ"], translit: "lā ya-khā-fu", rule: "Two Madds: لَا and خَا" },
+        { word: "خُطُوَاتِ", parts: ["خُـ", "طُـ", "وَا", "تِ"], translit: "khu-ṭu-wā-ti", rule: "Madd: وَا" },
+        { word: "وَسَعَى", parts: ["وَ", "سَـ", "عَى"], translit: "wa-sa-‘ā", rule: "Alif Layyinah" },
+        { word: "فَعَصَى", parts: ["فَـ", "عَـ", "صَى"], translit: "fa-‘a-ṣā", rule: "Heavy (صَى)" }
+      ],
+
+      madd_yaa: [
+        { word: "سَبِيلِ", parts: ["سَـ", "بِيـ", "لِ"], translit: "sa-bī-li", rule: "Yaa Madd (2 counts): بِيـ" },
+        { word: "يَتِيمَ", parts: ["يَـ", "تِيـ", "مَ"], translit: "ya-tī-ma", rule: "Madd: تِيـ" },
+        { word: "تُثِيرُ", parts: ["تُـ", "ثِيـ", "رُ"], translit: "tu-thī-ru", rule: "Madd: ثِيـ" },
+        { word: "يُجِيبُ", parts: ["يُـ", "جِيـ", "بُ"], translit: "yu-jī-bu", rule: "Madd: جِيـ" },
+        { word: "أُحِيطَ", parts: ["أُ", "حِيـ", "طَ"], translit: "u-ḥī-ṭa", rule: "Madd: حِيـ" },
+        { word: "أَخِيهِ", parts: ["أَ", "خِيـ", "هِ"], translit: "a-khī-hi", rule: "Madd: خِيـ" },
+        { word: "شَدِيدُ", parts: ["شَـ", "دِيـ", "دُ"], translit: "sha-dī-du", rule: "Madd: دِيـ" },
+        { word: "نَذِيرِ", parts: ["نَـ", "ذِيـ", "رِ"], translit: "na-dhī-ri", rule: "Madd: ذِيـ" },
+        { word: "نُرِيدُ", parts: ["نُـ", "رِيـ", "دُ"], translit: "nu-rī-du", rule: "Madd: رِيـ" },
+        { word: "يَزِيغُ", parts: ["يَـ", "زِيـ", "غُ"], translit: "ya-zī-ghu", rule: "Madd: زِيـ" },
+        { word: "وَسِيقَ", parts: ["وَ", "سِيـ", "قَ"], translit: "wa-sī-qa", rule: "Madd: سِيـ" },
+        { word: "بَشِيرُ", parts: ["بَـ", "شِيـ", "رُ"], translit: "ba-shī-ru", rule: "Madd: شِيـ" },
+        { word: "بَصِيرُ", parts: ["بَـ", "صِيـ", "رُ"], translit: "ba-ṣī-ru", rule: "Heavy: صِيـ" },
+        { word: "يَضِيقُ", parts: ["يَـ", "ضِيـ", "قُ"], translit: "ya-ḍī-qu", rule: "Heavy: ضِيـ" },
+        { word: "أَسَاطِيرُ", parts: ["أَ", "سَا", "طِيـ", "رُ"], translit: "a-sā-ṭī-ru", rule: "Alif Madd & Yaa Madd: طِيـ" },
+        { word: "حَفِظِينَ", parts: ["حَـ", "فِـ", "ظِيـ", "نَ"], translit: "ḥa-fi-ẓī-na", rule: "Heavy: ظِيـ" },
+        { word: "يُعِيدُ", parts: ["يُـ", "عِيـ", "دُ"], translit: "yu-‘ī-du", rule: "Madd: عِيـ" },
+        { word: "وَغِيضَ", parts: ["وَ", "غِيـ", "ضَ"], translit: "wa-ghī-ḍa", rule: "Heavy: غِيـ and ضَ" },
+        { word: "رَفِيعُ", parts: ["رَ", "فِيـ", "عُ"], translit: "ra-fī-‘u", rule: "Madd: فِيـ" },
+        { word: "وَقِيلَ", parts: ["وَ", "قِيـ", "لَ"], translit: "wa-qī-la", rule: "Madd: قِيـ" },
+        { word: "وَأَكِيدُ", parts: ["وَ", "أَ", "كِيـ", "دُ"], translit: "wa-a-kī-du", rule: "Madd: كِيـ" },
+        { word: "فَعِلِينَ", parts: ["فَـ", "عِـ", "لِيـ", "نَ"], translit: "fa-‘i-lī-na", rule: "Madd: لِيـ" },
+        { word: "عَمِينَ", parts: ["عَـ", "مِيـ", "نَ"], translit: "‘a-mī-na", rule: "Madd: مِيـ" },
+        { word: "مُنِيبِينَ", parts: ["مُـ", "نِيـ", "بِيـ", "نَ"], translit: "mu-nī-bī-na", rule: "Two Yaa Madds: نِيـ & بِيـ" },
+        { word: "فَكِهِينَ", parts: ["فَـ", "كِـ", "هِيـ", "نَ"], translit: "fa-ki-hī-na", rule: "Madd: هِيـ" },
+        { word: "ذَوِى", parts: ["ذَ", "وِى"], translit: "dha-wī", rule: "Madd: وِى" },
+        { word: "بَدِيعُ", parts: ["بَـ", "دِيـ", "عُ"], translit: "ba-dī-‘u", rule: "Madd: دِيـ" },
+        { word: "يُنِيبُ", parts: ["يُـ", "نِيـ", "بُ"], translit: "yu-nī-bu", rule: "Madd: نِيـ" },
+        { word: "يَهِيجُ", parts: ["يَـ", "هِيـ", "جُ"], translit: "ya-hī-ju", rule: "Madd: هِيـ" },
+        { word: "حَدِيثُ", parts: ["حَـ", "دِيـ", "ثُ"], translit: "ḥa-dī-thu", rule: "Madd: دِيـ" },
+        { word: "تَمِيدَ", parts: ["تَـ", "مِيـ", "دَ"], translit: "ta-mī-da", rule: "Madd: مِيـ" },
+        { word: "وَبَنِينَ", parts: ["وَ", "بَـ", "نِيـ", "نَ"], translit: "wa-ba-nī-na", rule: "Madd: نِيـ" },
+        { word: "يَغِيظُ", parts: ["يَـ", "غِيـ", "ظُ"], translit: "ya-ghī-ẓu", rule: "Heavy: غِيـ and ظُ" },
+        { word: "وَنَمِيرُ", parts: ["وَ", "نَـ", "مِيـ", "رُ"], translit: "wa-na-mī-ru", rule: "Madd: مِيـ" },
+        { word: "وَغَرَابِيبُ", parts: ["وَ", "غَـ", "رَا", "بِيـ", "بُ"], translit: "wa-gha-rā-bī-bu", rule: "Alif Madd & Yaa Madd: بِيـ" },
+        { word: "صَرِيحَ", parts: ["صَـ", "رِيـ", "حَ"], translit: "ṣa-rī-ḥa", rule: "Madd: رِيـ" },
+        { word: "تَبِيدَ", parts: ["تَـ", "بِيـ", "دَ"], translit: "ta-bī-da", rule: "Madd: بِيـ" },
+        { word: "لِحَيَاتِي", parts: ["لِـ", "حَـ", "يَا", "تِي"], translit: "li-ḥa-yā-tī", rule: "Alif Madd: يَا & Yaa Madd: تِي" },
+        { word: "فَاعِلِينَ", parts: ["فَا", "عِـ", "لِيـ", "نَ"], translit: "fā-‘i-lī-na", rule: "Alif Madd & Yaa Madd: لِيـ" },
+        { word: "خَالِدِينَ", parts: ["خَا", "لِـ", "دِيـ", "نَ"], translit: "khā-li-dī-na", rule: "Madd: دِيـ" },
+        { word: "حَافِظِينَ", parts: ["حَا", "فِـ", "ظِيـ", "نَ"], translit: "ḥā-fi-ẓī-na", rule: "Madd: ظِيـ" },
+        { word: "سَاجِدِينَ", parts: ["سَا", "جِـ", "دِيـ", "نَ"], translit: "sā-ji-dī-na", rule: "Madd: دِيـ" },
+        { word: "سَافِلِينَ", parts: ["سَا", "فِـ", "لِيـ", "نَ"], translit: "sā-fi-lī-na", rule: "Madd: لِيـ" },
+        { word: "كَظِمِينَ", parts: ["كَـ", "ظِـ", "مِيـ", "نَ"], translit: "ka-ẓi-mī-na", rule: "Madd: مِيـ" },
+        { word: "أَبَابِيلَ", parts: ["أَ", "بَا", "بِيـ", "لَ"], translit: "a-bā-bī-la", rule: "Madd: بِيـ" },
+        { word: "سَرَابِيلَ", parts: ["سَـ", "رَا", "بِيـ", "لَ"], translit: "sa-rā-bī-la", rule: "Madd: بِيـ" }
+      ],
+
+      madd_waw: [
+        { word: "أَبُوهُمَا", parts: ["أَ", "بُو", "هُـ", "مَا"], translit: "a-bū-hu-mā", rule: "Waw Madd: بُو & Alif Madd: مَا" },
+        { word: "يَتُوبَ", parts: ["يَـ", "تُو", "بَ"], translit: "ya-tū-ba", rule: "Waw Madd (2 counts): تُو" },
+        { word: "لَبِثُوا", parts: ["لَـ", "بِـ", "ثُو"], translit: "la-bi-thū", rule: "Waw Madd: ثُو (silent Alif)" },
+        { word: "فُجُورَهَا", parts: ["فُـ", "جُو", "رَ", "هَا"], translit: "fu-jū-ra-hā", rule: "Madd: جُو & هَا" },
+        { word: "يَحُورَ", parts: ["يَـ", "حُو", "رَ"], translit: "ya-ḥū-ra", rule: "Madd: حُو" },
+        { word: "نَخُوضُ", parts: ["نَـ", "خُو", "ضُ"], translit: "na-khū-ḍu", rule: "Heavy: خُو & ضُ" },
+        { word: "صُدُورِ", parts: ["صُـ", "دُو", "رِ"], translit: "ṣu-dū-ri", rule: "Madd: دُو" },
+        { word: "يَذُوقُوا", parts: ["يَـ", "ذُو", "قُو"], translit: "ya-dhū-qū", rule: "Two Waw Madds: ذُو & قُو" },
+        { word: "بِرُوحِ", parts: ["بِـ", "رُو", "حِ"], translit: "bi-rū-ḥi", rule: "Madd: رُو" },
+        { word: "بَرَزُوا", parts: ["بَـ", "رَ", "زُو"], translit: "ba-ra-zū", rule: "Madd: زُو" },
+        { word: "رَسُولُ", parts: ["رَ", "سُو", "لُ"], translit: "ra-sū-lu", rule: "Madd: سُو" },
+        { word: "نُشُورُ", parts: ["نُـ", "شُو", "رُ"], translit: "nu-shū-ru", rule: "Madd: شُو" },
+        { word: "خَلَصُوا", parts: ["خَـ", "لَـ", "صُو"], translit: "kha-la-ṣū", rule: "Madd: صُو" },
+        { word: "رَضُوا", parts: ["رَ", "ضُو"], translit: "ra-ḍū", rule: "Madd: ضُو" },
+        { word: "بُطُونِ", parts: ["بُـ", "طُو", "نِ"], translit: "bu-ṭū-ni", rule: "Heavy Madd: طُو" },
+        { word: "تَعِظُونَ", parts: ["تَـ", "عِـ", "ظُو", "نَ"], translit: "ta-‘i-ẓū-na", rule: "Heavy Madd: ظُو" },
+        { word: "أَعُوذُ", parts: ["أَ", "عُو", "ذُ"], translit: "a-‘ū-dhu", rule: "Madd: عُو" },
+        { word: "يَغُوثَ", parts: ["يَـ", "غُو", "ثَ"], translit: "ya-ghū-tha", rule: "Heavy Madd: غُو" },
+        { word: "غَفُورُ", parts: ["غَـ", "فُو", "رُ"], translit: "gha-fū-ru", rule: "Madd: فُو" },
+        { word: "يَقُومُ", parts: ["يَـ", "قُو", "مُ"], translit: "ya-qū-mu", rule: "Heavy Madd: قُو" },
+        { word: "مَلَكُوتِ", parts: ["مَـ", "لَـ", "كُو", "تِ"], translit: "ma-la-kū-ti", rule: "Madd: كُو" },
+        { word: "نُقَتِلُونَ", parts: ["نُـ", "قَا", "تِـ", "لُو", "نَ"], translit: "nu-qā-ti-lū-na", rule: "Alif Madd: قَا & Waw Madd: لُو" },
+        { word: "يَمُوتُ", parts: ["يَـ", "مُو", "تُ"], translit: "ya-mū-tu", rule: "Madd: مُو" },
+        { word: "يَدِينُونَ", parts: ["يَـ", "دِيـ", "نُو", "نَ"], translit: "ya-dī-nū-na", rule: "Yaa Madd: دِيـ & Waw Madd: نُو" },
+        { word: "سَاهُونَ", parts: ["سَا", "هُو", "نَ"], translit: "sā-hū-na", rule: "Madd: هُو" },
+        { word: "دَاوُدَ", parts: ["دَا", "وُو", "دَ"], translit: "dā-wū-da", rule: "Madd: وُو" },
+        { word: "بُيُوتِ", parts: ["بُـ", "يُو", "تِ"], translit: "bu-yū-ti", rule: "Madd: يُو" },
+        { word: "يَقُولُ", parts: ["يَـ", "قُو", "لُ"], translit: "ya-qū-lu", rule: "Madd: قُو" },
+        { word: "ذُنُوبِ", parts: ["ذُ", "نُو", "بِ"], translit: "dhu-nū-bi", rule: "Madd: نُو" },
+        { word: "يُوقَدُ", parts: ["يُو", "قَـ", "دُ"], translit: "yū-qa-du", rule: "Madd: يُو" },
+        { word: "يُوثِقُ", parts: ["يُو", "ثِـ", "قُ"], translit: "yū-thi-qu", rule: "Madd: يُو" },
+        { word: "مُوهِنُ", parts: ["مُو", "هِـ", "نُ"], translit: "mū-hi-nu", rule: "Madd: مُو" },
+        { word: "نُودِيَ", parts: ["نُو", "دِ", "يَ"], translit: "nū-di-ya", rule: "Madd: نُو" },
+        { word: "أَقُولَ", parts: ["أَ", "قُو", "لَ"], translit: "a-qū-la", rule: "Madd: قُو" },
+        { word: "حُدُودَ", parts: ["حُـ", "دُو", "دَ"], translit: "ḥu-dū-da", rule: "Madd: دُو" },
+        { word: "يُوصَلَ", parts: ["يُو", "صَـ", "لَ"], translit: "yū-ṣa-la", rule: "Madd: يُو" },
+        { word: "جَابُوا", parts: ["جَا", "بُو"], translit: "jā-bū", rule: "Alif Madd: جَا & Waw Madd: بُو" },
+        { word: "عَمُوا", parts: ["عَـ", "مُو"], translit: "‘a-mū", rule: "Madd: مُو" },
+        { word: "كُلُوا", parts: ["كُـ", "لُو"], translit: "ku-lū", rule: "Madd: لُو" },
+        { word: "عَمِلُوا", parts: ["عَـ", "مِـ", "لُو"], translit: "‘a-mi-lū", rule: "Madd: لُو" },
+        { word: "وَرَضُوا", parts: ["وَ", "رَ", "ضُو"], translit: "wa-ra-ḍū", rule: "Madd: ضُو" },
+        { word: "مَكَرُوا", parts: ["مَـ", "كَـ", "رُو"], translit: "ma-ka-rū", rule: "Madd: رُو" },
+        { word: "كَفَرُوا", parts: ["كَـ", "فَـ", "رُو"], translit: "ka-fa-rū", rule: "Madd: رُو" },
+        { word: "مَرَدُوا", parts: ["مَـ", "رَ", "دُو"], translit: "ma-ra-dū", rule: "Madd: دُو" },
+        { word: "ظَلَمُوا", parts: ["ظَـ", "لَـ", "مُو"], translit: "ẓa-la-mū", rule: "Madd: مُو" },
+        { word: "خَلَطُوا", parts: ["خَـ", "لَـ", "طُو"], translit: "kha-la-ṭū", rule: "Madd: طُو" },
+        { word: "قَنَطُوا", parts: ["قَـ", "نَـ", "طُو"], translit: "qa-na-ṭū", rule: "Madd: طُو" },
+        { word: "عَرَفُوا", parts: ["عَـ", "رَ", "فُو"], translit: "‘a-ra-fū", rule: "Madd: فُو" },
+        { word: "جَنَحُوا", parts: ["جَـ", "نَـ", "حُو"], translit: "ja-na-ḥū", rule: "Madd: حُو" },
+        { word: "لُعِنُوا", parts: ["لُـ", "عِـ", "نُو"], translit: "lu-‘i-nū", rule: "Madd: نُو" },
+        { word: "كَذِبُوا", parts: ["كَـ", "ذِ", "بُو"], translit: "ka-dhi-bū", rule: "Madd: بُو" },
+        { word: "كَرِهُونَ", parts: ["كَـ", "رِ", "هُو", "نَ"], translit: "ka-ri-hū-na", rule: "Madd: هُو" },
+        { word: "حَاذِرُونَ", parts: ["حَا", "ذِ", "رُو", "نَ"], translit: "ḥā-dhi-rū-na", rule: "Madd: رُو" },
+        { word: "عَابِدُونَ", parts: ["عَا", "بِـ", "دُو", "نَ"], translit: "‘ā-bi-dū-na", rule: "Madd: دُو" },
+        { word: "يُوفِضُونَ", parts: ["يُو", "فِـ", "ضُو", "نَ"], translit: "yū-fi-ḍū-na", rule: "Madd: ضُو" },
+        { word: "يُوعُونَ", parts: ["يُو", "عُو", "نَ"], translit: "yū-‘ū-na", rule: "Two Waw Madds: يُو & عُو" },
+        { word: "يَذُوقُونَ", parts: ["يَـ", "ذُو", "قُو", "نَ"], translit: "ya-dhū-qū-na", rule: "Two Waw Madds: ذُو & قُو" }
+      ],
+
+      madd_badal: [
+        { word: "ءَازَرَ", parts: ["ءَا", "زَ", "رَ"], translit: "ā-za-ra", rule: "Madd Badal (2 counts): Hamzah before Alif" },
+        { word: "ءَامَنَ", parts: ["ءَا", "مَـ", "نَ"], translit: "ā-ma-na", rule: "Madd Badal (2 counts): ءَامَنَ" },
+        { word: "ءَادَمَ", parts: ["ءَا", "دَ", "مَ"], translit: "ā-da-ma", rule: "Madd Badal: ءَادَمَ" },
+        { word: "ءَالِ", parts: ["ءَا", "لِ"], translit: "ā-li", rule: "Madd Badal: ءَامَنَ" },
+        { word: "أُوحِيَ", parts: ["أُو", "حِـ", "يَ"], translit: "ū-ḥi-ya", rule: "Madd Badal (Waw): أُو" },
+        { word: "أُوتِيَ", parts: ["أُو", "تِـ", "يَ"], translit: "ū-ti-ya", rule: "Madd Badal (Waw): أُو" },
+        { word: "لِإِيلَفِ", parts: ["لِـ", "إِيـ", "لَـ", "فِ"], translit: "li-ī-la-fi", rule: "Madd Badal (Yaa): إِيـ" },
+        { word: "ءَاتَنْهُمُ", parts: ["ءَا", "تَيْـ", "نَا", "هُـ", "مُ"], translit: "ā-tay-nā-hu-mu", rule: "Madd Badal: ءَاتَى" },
+        { word: "ءَاخَرُونَ", parts: ["ءَا", "خَـ", "رُو", "نَ"], translit: "ā-kha-rū-na", rule: "Madd Badal: ءَا" },
+        { word: "ءَامِنِينَ", parts: ["ءَا", "مِـ", "نِيـ", "نَ"], translit: "ā-mi-nī-na", rule: "Madd Badal: ءَامِنِينَ" },
+        { word: "رُءُوسُ", parts: ["رُ", "ءُو", "سُ"], translit: "ru-ū-su", rule: "Madd Badal (Waw): ءُو" }
+      ],
+
+      madd_muttasil: [
+        { word: "وَرَاءَ", parts: ["وَ", "رَآ", "ءَ"], translit: "wa-rā-a", rule: "Madd Muttasil: Obligatory 4-5 counts" },
+        { word: "أَفَاءَ", parts: ["أَ", "فَآ", "ءَ"], translit: "a-fā-a", rule: "Madd followed by Hamzah in same word" },
+        { word: "شَاءَ", parts: ["شَآ", "ءَ"], translit: "shā-a", rule: "Madd Muttasil 4-5 counts" },
+        { word: "جَزَاءُ", parts: ["جَـ", "زَآ", "ءُ"], translit: "ja-zā-u", rule: "Madd Muttasil 4-5 counts" },
+        { word: "سُوءَ", parts: ["سُوٓ", "ءَ"], translit: "sū-a", rule: "Madd Muttasil on Waw" },
+        { word: "حُنَفَاءَ", parts: ["حُـ", "نَـ", "فَآ", "ءَ"], translit: "ḥu-na-fā-a", rule: "Madd Muttasil" },
+        { word: "فُقَرَاءَ", parts: ["فُـ", "قَـ", "رَآ", "ءَ"], translit: "fu-qa-rā-a", rule: "Madd Muttasil" },
+        { word: "شُهَدَاءَ", parts: ["شُـ", "هَـ", "دَآ", "ءَ"], translit: "shu-ha-dā-a", rule: "Madd Muttasil" },
+        { word: "حَدَائِقَ", parts: ["حَـ", "دَآ", "ئِـ", "قَ"], translit: "ḥa-dā-i-qa", rule: "Madd Muttasil" },
+        { word: "سِيٓءَ", parts: ["سِيٓـ", "ءَ"], translit: "sī-a", rule: "Madd Muttasil on Yaa" },
+        { word: "هَاؤُمُ", parts: ["هَآ", "ؤُ", "مُ"], translit: "hā-u-mu", rule: "Madd Muttasil (word: Haa'um)" }
+      ],
+
+      madd_munfasil: [
+        { word: "وَمَا أُرِيدُ", parts: ["وَ", "مَآ", "أُ", "رِيـ", "دُ"], translit: "wa-mā u-rī-du", rule: "Madd Munfasil: Permissible 2, 4, 5 counts" },
+        { word: "وَمَا أَصَابَكَ", parts: ["وَ", "مَآ", "أَ", "صَا", "بَـ", "كَ"], translit: "wa-mā a-ṣā-ba-ka", rule: "Madd letter at end + Hamzah at start" },
+        { word: "مَاذَا أَرَادَ", parts: ["مَا", "ذَآ", "أَ", "رَا", "دَ"], translit: "mā-dhā a-rā-da", rule: "Madd Munfasil" },
+        { word: "فَمَا ءَامَنَ", parts: ["فَـ", "مَآ", "ءَا", "مَـ", "نَ"], translit: "fa-mā ā-ma-na", rule: "Madd Munfasil" },
+        { word: "قَالُوا أَسَاطِيرُ", parts: ["قَا", "لُوٓ", "أَ", "سَا", "طِيـ", "رُ"], translit: "qā-lū a-sā-ṭī-ru", rule: "Madd Munfasil on Waw" },
+        { word: "فِي ءَايَتِنَا", parts: ["فِيٓ", "ءَا", "يَا", "تِـ", "نَا"], translit: "fī ā-yā-ti-nā", rule: "Madd Munfasil on Yaa" },
+        { word: "يَابَنِي ءَادَمَ", parts: ["يَآ", "بَـ", "نِيٓ", "ءَا", "دَ", "مَ"], translit: "yā-ba-nī ā-da-ma", rule: "Two Madd Munfasil letters" }
+      ],
+
+      tanween_fath: [
+        { word: "عَجَبًا", parts: ["عَـ", "جَـ", "بًا"], translit: "‘a-ja-ban", rule: "Fatḥ Tanween (بًا) becomes Alif at Waqf" },
+        { word: "فُرَاتًا", parts: ["فُـ", "رَا", "تًا"], translit: "fu-rā-tan", rule: "Tanween: تًا" },
+        { word: "رَاضِيَةً", parts: ["رَا", "ضِـ", "يَـ", "ةً"], translit: "rā-ḍi-ya-tan", rule: "Taa Marbūṭah becomes (هـْ) at Waqf" },
+        { word: "أَثَثًا", parts: ["أَ", "ثَـ", "ثًا"], translit: "a-tha-than", rule: "Tanween: ثًا" },
+        { word: "سِرَاجًا", parts: ["سِـ", "رَا", "جًا"], translit: "si-rā-jan", rule: "Tanween: جًا" },
+        { word: "صَالِحًا", parts: ["صَا", "لِـ", "حًا"], translit: "ṣā-li-ḥan", rule: "Tanween: حًا" },
+        { word: "شُيُوخًا", parts: ["شُـ", "يُو", "خًا"], translit: "shu-yū-khan", rule: "Heavy Tanween: خًا" },
+        { word: "فِرَارًا", parts: ["فِـ", "رَا", "رًا"], translit: "fi-rā-ran", rule: "Heavy Tanween: رًا" },
+        { word: "مَفَازًا", parts: ["مَـ", "فَا", "زًا"], translit: "ma-fā-zan", rule: "Tanween: زًا" },
+        { word: "لِبَاسًا", parts: ["لِـ", "بَا", "سًا"], translit: "li-bā-san", rule: "Tanween: سًا" },
+        { word: "مَعَاشًا", parts: ["مَـ", "عَا", "شًا"], translit: "ma-‘ā-shan", rule: "Tanween: شًا" },
+        { word: "خَالِصًا", parts: ["خَا", "لِـ", "صًا"], translit: "khā-li-ṣan", rule: "Heavy Tanween: صًا" },
+        { word: "حَرَضًا", parts: ["حَـ", "رَ", "ضًا"], translit: "ḥa-ra-ḍan", rule: "Heavy Tanween: ضًا" },
+        { word: "شَطَطًا", parts: ["شَـ", "طَـ", "طًا"], translit: "sha-ṭa-ṭan", rule: "Heavy Tanween: طًا" },
+        { word: "غَلِيظًا", parts: ["غَـ", "لِيـ", "ظًا"], translit: "gha-lī-ẓan", rule: "Heavy Tanween: ظًا" },
+        { word: "سُوَاعًا", parts: ["سُـ", "وَا", "عًا"], translit: "su-wā-‘an", rule: "Tanween: عًا" },
+        { word: "بَلِيغًا", parts: ["بَـ", "لِيـ", "غًا"], translit: "ba-lī-ghan", rule: "Heavy Tanween: غًا" },
+        { word: "صُحُفًا", parts: ["صُـ", "حُـ", "فًا"], translit: "ṣu-ḥu-fan", rule: "Tanween: فًا" },
+        { word: "غَدَقًا", parts: ["غَـ", "دَ", "قًا"], translit: "gha-da-qan", rule: "Heavy Tanween: قًا" },
+        { word: "مَلِكًا", parts: ["مَـ", "لِـ", "كًا"], translit: "ma-li-kan", rule: "Tanween: كًا" },
+        { word: "سَبِيلًا", parts: ["سَـ", "بِيـ", "لًا"], translit: "sa-bī-lan", rule: "Tanween: لًا" },
+        { word: "عِظَامًا", parts: ["عِـ", "ظَا", "مًا"], translit: "‘i-ẓā-man", rule: "Tanween: مًا" },
+        { word: "لَبَنًا", parts: ["لَـ", "بَـ", "نًا"], translit: "la-ba-nan", rule: "Tanween: نًا" },
+        { word: "كُفُوًا", parts: ["كُـ", "فُـ", "وًا"], translit: "ku-fu-wan", rule: "Tanween: وَا (round lips)" },
+        { word: "هَنِيئًا", parts: ["هَـ", "نِيـ", "ئًا"], translit: "ha-nī-an", rule: "Hamzah Tanween: ئًا" },
+        { word: "هَادِيًا", parts: ["هَا", "دِ", "يًا"], translit: "hā-di-yan", rule: "Tanween: يًا" },
+        { word: "عَذَابًا", parts: ["عَـ", "ذَا", "بًا"], translit: "‘a-dhā-ban", rule: "Tanween: بًا" },
+        { word: "صَوَابًا", parts: ["صَـ", "وَا", "بًا"], translit: "ṣa-wā-ban", rule: "Tanween: بًا" },
+        { word: "سُبَاتًا", parts: ["سُـ", "بَا", "تًا"], translit: "su-bā-tan", rule: "Tanween: تًا" },
+        { word: "بِسَاطًا", parts: ["بِـ", "سَا", "طًا"], translit: "bi-sā-ṭan", rule: "Tanween: طًا" },
+        { word: "أَبَدًا", parts: ["أَ", "بَـ", "دًا"], translit: "a-ba-dan", rule: "Tanween: دًا" },
+        { word: "صَعَدًا", parts: ["صَـ", "عَـ", "دًا"], translit: "ṣa-‘a-dan", rule: "Tanween: دًا" },
+        { word: "هَرَبًا", parts: ["هَـ", "رَ", "بًا"], translit: "ha-ra-ban", rule: "Tanween: بًا" },
+        { word: "ثَقِيلًا", parts: ["ثَـ", "قِيـ", "لًا"], translit: "tha-qī-lan", rule: "Tanween: لًا" },
+        { word: "وَبِيلًا", parts: ["وَ", "بِيـ", "لًا"], translit: "wa-bī-lan", rule: "Tanween: لًا" },
+        { word: "وَكِيلًا", parts: ["وَ", "كِيـ", "لًا"], translit: "wa-kī-lan", rule: "Tanween: لًا" },
+        { word: "كَذِبًا", parts: ["كَـ", "ذِ", "بًا"], translit: "ka-dhi-ban", rule: "Tanween: بًا" },
+        { word: "أَمَدًا", parts: ["أَ", "مَـ", "دًا"], translit: "a-ma-dan", rule: "Tanween: دًا" },
+        { word: "رَهَقًا", parts: ["رَ", "هَـ", "قًا"], translit: "ra-ha-qan", rule: "Tanween: قًا" },
+        { word: "فَاجِرًا", parts: ["فَا", "جِـ", "رًا"], translit: "fā-ji-ran", rule: "Tanween: رًا" },
+        { word: "نَاصِرًا", parts: ["نَا", "صِـ", "رًا"], translit: "nā-ṣi-ran", rule: "Tanween: رًا" },
+        { word: "ثُبُورًا", parts: ["ثُـ", "بُو", "رًا"], translit: "thu-bū-ran", rule: "Tanween: رًا" },
+        { word: "وَنَهَارًا", parts: ["وَ", "نَـ", "هَا", "رًا"], translit: "wa-na-hā-ran", rule: "Tanween: رًا" },
+        { word: "جَدِيدًا", parts: ["جَـ", "دِيـ", "دًا"], translit: "ja-dī-dan", rule: "Tanween: دًا" },
+        { word: "يَتِيمًا", parts: ["يَـ", "تِيـ", "مًا"], translit: "ya-tī-man", rule: "Tanween: مًا" },
+        { word: "حَامِيَةً", parts: ["حَا", "مِـ", "يَـ", "ةً"], translit: "ḥā-mi-ya-tan", rule: "Taa Marbūṭah: ةً" },
+        { word: "دَانِيَةً", parts: ["دَا", "نِـ", "يَـ", "ةً"], translit: "dā-ni-ya-tan", rule: "Taa Marbūṭah: ةً" }
+      ],
+
+      tanween_kasr: [
+        { word: "شُعَبٍ", parts: ["شُـ", "عَـ", "بٍ"], translit: "shu-‘a-bin", rule: "Kasr Tanween (بٍ) under letter" },
+        { word: "عَبِدَاتٍ", parts: ["عَـ", "بِـ", "دَا", "تٍ"], translit: "‘a-bi-dā-tin", rule: "Tanween: تٍ" },
+        { word: "بَرَرَةٍ", parts: ["بَـ", "رَ", "رَ", "ةٍ"], translit: "ba-ra-ra-tin", rule: "Taa Marbūṭah (ةٍ)" },
+        { word: "حَدِيثٍ", parts: ["حَـ", "دِيـ", "ثٍ"], translit: "ḥa-dī-thin", rule: "Tanween: ثٍ" },
+        { word: "بُرُوجٍ", parts: ["بُـ", "رُو", "جٍ"], translit: "bu-rū-jin", rule: "Tanween: جٍ" },
+        { word: "نُوحٍ", parts: ["نُو", "حٍ"], translit: "nū-ḥin", rule: "Tanween: حٍ" },
+        { word: "وَشَاهِدٍ", parts: ["وَ", "شَا", "هِـ", "دٍ"], translit: "wa-shā-hi-din", rule: "Tanween: دٍ" },
+        { word: "قَرَارٍ", parts: ["قَـ", "رَا", "رٍ"], translit: "qa-rā-rin", rule: "Tanween: رٍ" },
+        { word: "حِينَبِذٍ", parts: ["حِيـ", "نَـ", "ئِـ", "ذٍ"], translit: "ḥī-na-i-dhin", rule: "Tanween: ذٍ" },
+        { word: "عَزِيزٍ", parts: ["عَـ", "زِيـ", "زٍ"], translit: "‘a-zī-zin", rule: "Tanween: زٍ" },
+        { word: "قَبَسٍ", parts: ["قَـ", "بَـ", "سٍ"], translit: "qa-ba-sin", rule: "Tanween: سٍ" },
+        { word: "وَفُرُشٍ", parts: ["وَ", "فُـ", "رُ", "شٍ"], translit: "wa-fu-ru-shin", rule: "Tanween: شٍ" },
+        { word: "مَحِيصٍ", parts: ["مَـ", "حِيـ", "صٍ"], translit: "ma-ḥī-ṣin", rule: "Heavy Tanween: صٍ" },
+        { word: "عَرِيضٍ", parts: ["عَـ", "رِيـ", "ضٍ"], translit: "‘a-rī-ḍin", rule: "Heavy Tanween: ضٍ" },
+        { word: "لُوطٍ", parts: ["لُو", "طٍ"], translit: "lū-ṭin", rule: "Heavy Tanween: طٍ" },
+        { word: "غَلِيظٍ", parts: ["غَـ", "لِيـ", "ظٍ"], translit: "gha-lī-ẓin", rule: "Heavy Tanween: ظٍ" },
+        { word: "جُوعٍ", parts: ["جُو", "عٍ"], translit: "jū-‘in", rule: "Tanween: عٍ" },
+        { word: "بَاغٍ", parts: ["بَا", "غٍ"], translit: "bā-ghin", rule: "Heavy Tanween: غٍ" },
+        { word: "صُحُفٍ", parts: ["صُـ", "حُـ", "فٍ"], translit: "ṣu-ḥu-fin", rule: "Tanween: فٍ" },
+        { word: "سَاقٍ", parts: ["سَا", "قٍ"], translit: "sā-qin", rule: "Heavy Tanween: قٍ" },
+        { word: "نُسُكٍ", parts: ["نُـ", "سُـ", "كٍ"], translit: "nu-su-kin", rule: "Tanween: كٍ" },
+        { word: "ظَلِيلٍ", parts: ["ظَـ", "لِيـ", "لٍ"], translit: "ẓa-lī-lin", rule: "Tanween: لٍ" },
+        { word: "نَعِيمٍ", parts: ["نَـ", "عِيـ", "مٍ"], translit: "na-‘ī-min", rule: "Tanween: مٍ" },
+        { word: "أَمِينٍ", parts: ["أَ", "مِيـ", "نٍ"], translit: "a-mī-nin", rule: "Tanween: نٍ" },
+        { word: "إِلَهِ", parts: ["إِ", "لَـ", "هٍ"], translit: "i-la-hin", rule: "Tanween: هٍ" },
+        { word: "كَبَدٍ", parts: ["كَـ", "بَـ", "دٍ"], translit: "ka-ba-din", rule: "Tanween: دٍ" },
+        { word: "فَلَكٍ", parts: ["فَـ", "لَـ", "كٍ"], translit: "fa-la-kin", rule: "Tanween: كٍ" },
+        { word: "خُلُقٍ", parts: ["خُـ", "لُـ", "قٍ"], translit: "khu-lu-qin", rule: "Heavy: خُـ & قٍ" },
+        { word: "غُرُورٍ", parts: ["غُـ", "رُو", "رٍ"], translit: "ghu-rū-rin", rule: "Tanween: رٍ" },
+        { word: "فُرُوجٍ", parts: ["فُـ", "رُو", "جٍ"], translit: "fu-rū-jin", rule: "Tanween: جٍ" },
+        { word: "وَنُفُورٍ", parts: ["وَ", "نُـ", "فُو", "رٍ"], translit: "wa-nu-fū-rin", rule: "Tanween: رٍ" },
+        { word: "وَعُيُونٍ", parts: ["وَ", "عُـ", "يُو", "نٍ"], translit: "wa-‘u-yū-nin", rule: "Tanween: نٍ" },
+        { word: "رَقَبَةٍ", parts: ["رَ", "قَـ", "بَـ", "ةٍ"], translit: "ra-qa-ba-tin", rule: "Taa Marbūṭah (ةٍ)" },
+        { word: "عَادٍ", parts: ["عَا", "دٍ"], translit: "‘ā-din", rule: "Tanween: دٍ" },
+        { word: "عَذَابٍ", parts: ["عَـ", "ذَا", "بٍ"], translit: "‘a-dhā-bin", rule: "Tanween: بٍ" },
+        { word: "لَيَالٍ", parts: ["لَـ", "يَا", "لٍ"], translit: "la-yā-lin", rule: "Tanween: لٍ" },
+        { word: "دَافِعٍ", parts: ["دَا", "فِـ", "عٍ"], translit: "dā-fi-‘in", rule: "Tanween: عٍ" },
+        { word: "فَرِيقٍ", parts: ["فَـ", "رِيـ", "قٍ"], translit: "fa-rī-qin", rule: "Tanween: قٍ" },
+        { word: "عَظِيمٍ", parts: ["عَـ", "ظِيـ", "مٍ"], translit: "‘a-ẓī-min", rule: "Heavy: ظِيـ" },
+        { word: "حَمِيمٍ", parts: ["حَـ", "مِيـ", "مٍ"], translit: "ḥa-mī-min", rule: "Tanween: مٍ" },
+        { word: "جَحِيمٍ", parts: ["جَـ", "حِيـ", "مٍ"], translit: "ja-ḥī-min", rule: "Tanween: مٍ" },
+        { word: "بِنَمِيمٍ", parts: ["بِـ", "نَـ", "مِيـ", "مٍ"], translit: "bi-na-mī-min", rule: "Tanween: مٍ" },
+        { word: "بِضَنِينٍ", parts: ["بِـ", "ضَـ", "نِيـ", "نٍ"], translit: "bi-ḍa-nī-nin", rule: "Tanween: نٍ" },
+        { word: "ضَرِيعٍ", parts: ["ضَـ", "رِيـ", "عٍ"], translit: "ḍa-rī-‘in", rule: "Tanween: عٍ" },
+        { word: "بِشَرَرٍ", parts: ["بِـ", "شَـ", "رَ", "رٍ"], translit: "bi-sha-ra-rin", rule: "Tanween: رٍ" },
+        { word: "عَالِيَةٍ", parts: ["عَا", "لِـ", "يَـ", "ةٍ"], translit: "‘ā-li-ya-tin", rule: "Taa Marbūṭah (ةٍ)" }
+      ],
+
+      tanween_damm: [
+        { word: "كُتُبٌ", parts: ["كُـ", "تُـ", "بٌ"], translit: "ku-tu-bun", rule: "Ḍamm Tanween (بٌ)" },
+        { word: "حَسَنَةٌ", parts: ["حَـ", "سَـ", "نَـ", "ةٌ"], translit: "ḥa-sa-na-tun", rule: "Taa Marbūṭah (ةٌ)" },
+        { word: "حَرَجٌ", parts: ["حَـ", "رَ", "جٌ"], translit: "ḥa-ra-jun", rule: "Tanween: جٌ" },
+        { word: "نَاصِحٌ", parts: ["نَا", "صِـ", "حٌ"], translit: "nā-ṣi-ḥun", rule: "Tanween: حٌ" },
+        { word: "أَحَدٌ", parts: ["أَ", "حَـ", "دٌ"], translit: "a-ḥa-dun", rule: "Tanween: دٌ" },
+        { word: "شَاكِرٌ", parts: ["شَا", "كِـ", "رٌ"], translit: "shā-ki-run", rule: "Heavy: رٌ" },
+        { word: "عَزِيزٌ", parts: ["عَـ", "زِيـ", "زٌ"], translit: "‘a-zī-zun", rule: "Tanween: زٌ" },
+        { word: "لِبَاسٌ", parts: ["لِـ", "بَا", "سٌ"], translit: "li-bā-sun", rule: "Tanween: سٌ" },
+        { word: "حَرِيصٌ", parts: ["حَـ", "رِيـ", "صٌ"], translit: "ḥa-rī-ṣun", rule: "Heavy Tanween: صٌ" },
+        { word: "فَارِضٌ", parts: ["فَا", "رِ", "ضٌ"], translit: "fā-ri-ḍun", rule: "Heavy Tanween: ضٌ" },
+        { word: "مُحِيطٌ", parts: ["مُـ", "حِيـ", "طٌ"], translit: "mu-ḥī-ṭun", rule: "Heavy Tanween: طٌ" },
+        { word: "غِلَاظٌ", parts: ["غِـ", "لَا", "ظٌ"], translit: "ghi-lā-ẓun", rule: "Heavy Tanween: ظٌ" },
+        { word: "فَاقِعٌ", parts: ["فَا", "قِـ", "عٌ"], translit: "fā-qi-‘un", rule: "Tanween: عٌ" },
+        { word: "بَلَغٌ", parts: ["بَـ", "لَا", "غٌ"], translit: "ba-lā-ghun", rule: "Heavy Tanween: غٌ" },
+        { word: "رَءُوفٌ", parts: ["رَ", "ءُو", "فٌ"], translit: "ra-ū-fun", rule: "Tanween: فٌ" },
+        { word: "زَاهِقٌ", parts: ["زَا", "هِـ", "قٌ"], translit: "zā-hi-qun", rule: "Heavy Tanween: قٌ" },
+        { word: "مُبَارَكٌ", parts: ["مُـ", "بَا", "رَ", "كٌ"], translit: "mu-bā-ra-kun", rule: "Tanween: كٌ" },
+        { word: "رُسُلٌ", parts: ["رُ", "سُـ", "لٌ"], translit: "ru-su-lun", rule: "Tanween: لٌ" },
+        { word: "عَلِيمٌ", parts: ["عَـ", "لِيـ", "مٌ"], translit: "‘a-lī-mun", rule: "Tanween: مٌ" },
+        { word: "أُذُنٌ", parts: ["أُ", "ذُ", "نٌ"], translit: "u-dhu-nun", rule: "Tanween: نٌ" },
+        { word: "إِلَهُ", parts: ["إِ", "لَـ", "هٌ"], translit: "i-lā-hun", rule: "Tanween: هٌ" },
+        { word: "ظَمَأٌ", parts: ["ظَـ", "مَـ", "أٌ"], translit: "ẓa-ma-on", rule: "Hamzah Tanween: أٌ" },
+        { word: "وَلَدٌ", parts: ["وَ", "لَـ", "دٌ"], translit: "wa-la-dun", rule: "Tanween: دٌ" },
+        { word: "زَبَدٌ", parts: ["زَ", "بَـ", "دٌ"], translit: "za-ba-dun", rule: "Tanween: دٌ" },
+        { word: "نَفَرٌ", parts: ["نَـ", "فَـ", "رٌ"], translit: "na-fa-run", rule: "Tanween: رٌ" },
+        { word: "قَتَرٌ", parts: ["قَـ", "تَـ", "رٌ"], translit: "qa-ta-run", rule: "Tanween: رٌ" },
+        { word: "غَضَبٌ", parts: ["غَـ", "ضَـ", "بٌ"], translit: "gha-ḍa-bun", rule: "Tanween: بٌ" },
+        { word: "فِئَةٌ", parts: ["فِـ", "ئَـ", "ةٌ"], translit: "fi-a-tun", rule: "Taa Marbūṭah (ةٌ)" },
+        { word: "لَعِبٌ", parts: ["لَـ", "عِـ", "بٌ"], translit: "la-‘i-bun", rule: "Tanween: بٌ" },
+        { word: "سُنَنٌ", parts: ["سُـ", "نَـ", "نٌ"], translit: "su-na-nun", rule: "Tanween: نٌ" },
+        { word: "أُمَمٌ", parts: ["أُ", "مَـ", "مٌ"], translit: "u-ma-mun", rule: "Tanween: مٌ" },
+        { word: "حُمُرٌ", parts: ["حُـ", "مُـ", "رٌ"], translit: "ḥu-mu-run", rule: "Tanween: رٌ" },
+        { word: "وَابِلٌ", parts: ["وَا", "بِـ", "لٌ"], translit: "wā-bi-lun", rule: "Tanween: لٌ" },
+        { word: "فَاعِلٌ", parts: ["فَا", "عِـ", "لٌ"], translit: "fā-‘i-lun", rule: "Tanween: لٌ" },
+        { word: "هَالِكٌ", parts: ["هَا", "لِـ", "كٌ"], translit: "hā-li-kun", rule: "Tanween: كٌ" },
+        { word: "ظَالِمٌ", parts: ["ظَا", "لِـ", "مٌ"], translit: "ẓa-li-mun", rule: "Tanween: مٌ" },
+        { word: "رَجُلٌ", parts: ["رَ", "جُـ", "لٌ"], translit: "ra-ju-lun", rule: "Tanween: لٌ" },
+        { word: "خَافِيَةٌ", parts: ["خَا", "فِـ", "يَـ", "ةٌ"], translit: "khā-fi-ya-tun", rule: "Taa Marbūṭah (ةٌ)" },
+        { word: "خَالِصَةٌ", parts: ["خَا", "لِـ", "صَـ", "ةٌ"], translit: "khā-li-ṣa-tun", rule: "Taa Marbūṭah (ةٌ)" },
+        { word: "وَزِيَادَةٌ", parts: ["وَ", "زِ", "يَا", "دَ", "ةٌ"], translit: "wa-zi-yā-da-tun", rule: "Taa Marbūṭah (ةٌ)" },
+        { word: "غَالِبٌ", parts: ["غَا", "لِـ", "بٌ"], translit: "ghā-li-bun", rule: "Tanween: بٌ" },
+        { word: "قَادِرٌ", parts: ["قَا", "دِ", "رٌ"], translit: "qā-di-run", rule: "Tanween: رٌ" },
+        { word: "غَفُورٌ", parts: ["غَـ", "فُو", "رٌ"], translit: "gha-fū-run", rule: "Tanween: رٌ" },
+        { word: "وَأَجَلٌ", parts: ["وَ", "أَ", "جَـ", "لٌ"], translit: "wa-a-ja-lun", rule: "Tanween: لٌ" },
+        { word: "فَنُزُلٌ", parts: ["فَـ", "نُـ", "زُ", "لٌ"], translit: "fa-nu-zu-lun", rule: "Tanween: لٌ" },
+        { word: "لَقَسَمٌ", parts: ["لَـ", "قَـ", "سَـ", "مٌ"], translit: "la-qa-sa-mun", rule: "Tanween: مٌ" },
+        { word: "كَاذِبَةٌ", parts: ["كَا", "ذِ", "بَـ", "ةٌ"], translit: "kā-dhi-ba-tun", rule: "Taa Marbūṭah (ةٌ)" },
+        { word: "ضَلَالَةٌ", parts: ["ضَـ", "لَا", "لَـ", "ةٌ"], translit: "ḍa-lā-la-tun", rule: "Taa Marbūṭah (ةٌ)" },
+        { word: "كِتَابٌ", parts: ["كِـ", "تَا", "بٌ"], translit: "ki-tā-bun", rule: "Tanween: بٌ" }
+      ],
+
+      sukoon: [
+        { word: "أَبْوَابًا", parts: ["أَبْـ", "وَا", "بًا"], translit: "ab-wā-ban", rule: "Qalqalah bouncing on (بْ)" },
+        { word: "مِتْنَا", parts: ["مِتْـ", "نَا"], translit: "mit-nā", rule: "Hams whisper on (تْ)" },
+        { word: "أَثْمَرَ", parts: ["أَثْـ", "مَـ", "رَ"], translit: "ath-ma-ra", rule: "Whisper on (ثْ)" },
+        { word: "أَجْرُ", parts: ["أَجْـ", "رُ"], translit: "aj-ru", rule: "Qalqalah bouncing on (جْ)" },
+        { word: "صَدْرَكَ", parts: ["صَدْ", "رَ", "كَ"], translit: "ṣad-ra-ka", rule: "Qalqalah on (دْ)" },
+        { word: "يَخْلُقُ", parts: ["يَخْـ", "لُـ", "قُ"], translit: "yakh-lu-qu", rule: "Heavy friction on (خْ)" },
+        { word: "تَضْلِيلٍ", parts: ["تَضْـ", "لِيـ", "لٍ"], translit: "taḍ-lī-lin", rule: "Elongation on (ضْ)" },
+        { word: "مَطْلَعِ", parts: ["مَطْـ", "لَـ", "عِ"], translit: "maṭ-la-‘i", rule: "Heavy Qalqalah on (طْ)" },
+        { word: "يَجْعَلْ", parts: ["يَجْـ", "عَـ", "لْ"], translit: "yaj-‘al", rule: "Qalqalah on (جْ)" },
+        { word: "بَأْسِ", parts: ["بَأْ", "سِ"], translit: "ba-si", rule: "Clear Hamzah Sukoon (بَأْ)" },
+        { word: "كَأْسٍ", parts: ["كَأْ", "سٍ"], translit: "ka-sin", rule: "Hamzah Sukoon (كَأْ)" },
+        { word: "أَبْصِرْ", parts: ["أَبْـ", "صِـ", "رْ"], translit: "ab-ṣir", rule: "Qalqalah on (بْ)" },
+        { word: "تَبْصِرَةً", parts: ["تَبْـ", "صِـ", "رَ", "ةً"], translit: "tab-ṣi-ra-tan", rule: "Qalqalah on (بْ)" },
+        { word: "مِثْقَالَ", parts: ["مِثْـ", "قَا", "لَ"], translit: "mith-qā-la", rule: "Hams on (ثْ)" },
+        { word: "تَجْرِي", parts: ["تَجْـ", "رِي"], translit: "taj-rī", rule: "Qalqalah on (جْ)" },
+        { word: "يُولَدْ", parts: ["يُو", "لَـ", "دْ"], translit: "yū-lad", rule: "Qalqalah on (دْ)" },
+        { word: "تَدْعُونَ", parts: ["تَدْ", "عُو", "نَ"], translit: "tad-‘ū-na", rule: "Qalqalah on (دْ)" },
+        { word: "بِإِذْنِ", parts: ["بِـ", "إِذْ", "نِ"], translit: "bi-idh-ni", rule: "Rakhawah on (ذْ)" },
+        { word: "وَأَرْسِلْ", parts: ["وَ", "أَرْ", "سِـ", "لْ"], translit: "wa-ar-sil", rule: "Heavy (رْ) preceded by Fatḥah" },
+        { word: "قِرْطَاسٍ", parts: ["قِرْ", "طَا", "سٍ"], translit: "qir-ṭā-sin", rule: "Heavy (رْ) followed by heavy (ط)" },
+        { word: "أَزْوَاجٍ", parts: ["أَزْ", "وَا", "جٍ"], translit: "az-wā-jin", rule: "Safīr on (زْ)" },
+        { word: "يُوَسْوِسُ", parts: ["يُـ", "وَسْـ", "وِ", "سُ"], translit: "yu-was-wi-su", rule: "Hams on (سْ)" },
+        { word: "يَفْتَرِى", parts: ["يَفْـ", "تَـ", "رِى"], translit: "yaf-ta-rī", rule: "Hams on (فْ)" },
+        { word: "أَشْهُرُ", parts: ["أَشْـ", "هُـ", "رُ"], translit: "ash-hu-ru", rule: "Tafashshī on (شْ)" },
+        { word: "بِأَصْحَابِ", parts: ["بِـ", "أَصْـ", "حَا", "بِ"], translit: "bi-aṣ-ḥā-bi", rule: "Heavy Safīr on (صْ)" },
+        { word: "عُصْبَةٌ", parts: ["عُصْـ", "بَـ", "ةٌ"], translit: "‘uṣ-ba-tun", rule: "Heavy (صْ)" }
+      ],
+
+      lam_qamariyyah: [
+        { word: "الْأَرْضَ", parts: ["الْـ", "أَرْ", "ضَ"], translit: "al-ar-ḍa", rule: "Laam Qamariyyah clearly pronounced" },
+        { word: "الْبَاطِلَ", parts: ["الْـ", "بَا", "طِـ", "لَ"], translit: "al-bā-ṭi-la", rule: "Laam Qamariyyah on Baa" },
+        { word: "الْغَيْبَ", parts: ["الْـ", "غَيْـ", "بَ"], translit: "al-ghay-ba", rule: "Laam Qamariyyah on Ghayn" },
+        { word: "الْحَكِيمُ", parts: ["الْـ", "حَـ", "كِيـ", "مُ"], translit: "al-ḥa-kī-mu", rule: "Laam Qamariyyah on Ḥaa" },
+        { word: "الْخَوْفِ", parts: ["الْـ", "خَوْ", "فِ"], translit: "al-khaw-fi", rule: "Laam Qamariyyah on Khaa" },
+        { word: "الْفَلَقِ", parts: ["الْـ", "فَـ", "لَـ", "قِ"], translit: "al-fa-la-qi", rule: "Laam Qamariyyah on Faa" },
+        { word: "الْمُلْكُ", parts: ["الْـ", "مُلْـ", "كُ"], translit: "al-mul-ku", rule: "Laam Qamariyyah on Meem" }
+      ],
+
+      shaddah_fath: [
+        { word: "رَبَّنَا", parts: ["رَبْـ", "بَـ", "نَا"], translit: "rab-ba-nā", rule: "Shaddah = silent + open Baa" },
+        { word: "سَبَّحَ", parts: ["سَبْـ", "بَـ", "حَ"], translit: "sab-ba-ḥa", rule: "Double (بّ)" },
+        { word: "فَصَبَّ", parts: ["فَـ", "صَبْـ", "بَ"], translit: "fa-ṣab-ba", rule: "Double (بّ)" },
+        { word: "بَثَّ", parts: ["بَثْـ", "ثَ"], translit: "bath-tha", rule: "Double (ثّ)" },
+        { word: "رُجَّتِ", parts: ["رُجْـ", "جَـ", "تِ"], translit: "ruj-ja-ti", rule: "Double (جّ)" },
+        { word: "قَدَّرَ", parts: ["قَدْ", "دَ", "رَ"], translit: "qad-da-ra", rule: "Double (دّ)" },
+        { word: "أَعَدَّ", parts: ["أَ", "عَدْ", "دَ"], translit: "a-‘ad-da", rule: "Double (دّ)" },
+        { word: "وَكَذَّبَ", parts: ["وَ", "كَذْ", "ذَ", "بَ"], translit: "wa-kadh-dha-ba", rule: "Double (ذّ)" },
+        { word: "كَرَّةً", parts: ["كَرْ", "رَ", "ةً"], translit: "kar-ra-tan", rule: "Double (رّ)" },
+        { word: "نَفَرَّقَ", parts: ["نُـ", "فَرْ", "رِ", "قُ"], translit: "nu-far-ri-qu", rule: "Double (رّ)" },
+        { word: "خَفَّتْ", parts: ["خَفْـ", "فَـ", "تْ"], translit: "khaf-fat", rule: "Double (فّ)" },
+        { word: "فِضَّةٍ", parts: ["فِضْـ", "ضَـ", "ةٍ"], translit: "fiḍ-ḍa-tin", rule: "Double (ضّ)" },
+        { word: "غُصَّةٍ", parts: ["غُصْـ", "صَـ", "ةٍ"], translit: "ghuṣ-ṣa-tin", rule: "Double (صّ)" },
+        { word: "ذَرَّةٍ", parts: ["ذَرْ", "رَ", "ةٍ"], translit: "dhar-ra-tin", rule: "Double (رّ)" },
+        { word: "تُنَزَّلُ", parts: ["تُـ", "نَزْ", "زَ", "لُ"], translit: "tu-naz-za-lu", rule: "Double (زّ)" },
+        { word: "وَبُسَّتِ", parts: ["وَ", "بُسْـ", "سَـ", "تِ"], translit: "wa-bus-sa-ti", rule: "Double (سّ)" },
+        { word: "تَطَّلِعُ", parts: ["تَطْـ", "طَـ", "لِـ", "عُ"], translit: "taṭ-ṭa-li-‘u", rule: "Heavy Double (طّ)" },
+        { word: "يَتَأَخَّرَ", parts: ["يَـ", "تَـ", "أَخْـ", "خَـ", "رَ"], translit: "ya-ta-akh-kha-ra", rule: "Heavy Double (خّ)" },
+        { word: "يَتَقَدَّمَ", parts: ["يَـ", "تَـ", "قَدْ", "دَ", "مَ"], translit: "ya-ta-qad-da-ma", rule: "Double (دّ)" },
+        { word: "سَحَّارٍ", parts: ["سَحْـ", "حَا", "رٍ"], translit: "saḥ-ḥā-rin", rule: "Double (حّ) with Alif Madd" },
+        { word: "أَفَّاكٍ", parts: ["أَفْـ", "فَا", "كٍ"], translit: "af-fā-kin", rule: "Double (فّ) with Alif Madd" },
+        { word: "خَتَّارٍ", parts: ["خَتْـ", "تَا", "رٍ"], translit: "khat-tā-rin", rule: "Double (تّ) with Alif Madd" },
+        { word: "حَلَّافٍ", parts: ["حَلْـ", "لَا", "فٍ"], translit: "ḥal-lā-fin", rule: "Double (لّ) with Alif Madd" },
+        { word: "لَوَّاحَةٌ", parts: ["لَوْ", "وَا", "حَـ", "ةٌ"], translit: "law-wā-ḥa-tun", rule: "Double (وّ) with Alif Madd" },
+        { word: "سَيَّارَةٌ", parts: ["سَيْـ", "يَا", "رَ", "ةٌ"], translit: "say-yā-ra-tun", rule: "Double (يَّ)" },
+        { word: "كَفَّارَةٌ", parts: ["كَفْـ", "فَا", "رَ", "ةٌ"], translit: "kaf-fā-ra-tun", rule: "Double (فّ)" },
+        { word: "وَغَسَّاقٌ", parts: ["وَ", "غَسْـ", "سَا", "قٌ"], translit: "wa-ghas-sā-qun", rule: "Double (سّ)" },
+        { word: "دَيَّارًا", parts: ["دَيْـ", "يَا", "رًا"], translit: "day-yā-ran", rule: "Double (يَّ)" },
+        { word: "وَهَّاجًا", parts: ["وَهْـ", "هَا", "جًا"], translit: "wah-hā-jan", rule: "Double (هّ)" },
+        { word: "فَجَّاجًا", parts: ["فَجْـ", "جَا", "جًا"], translit: "faj-jā-jan", rule: "Double (جّ)" },
+        { word: "نَزَّاعَةً", parts: ["نَزْ", "زَا", "عَـ", "ةً"], translit: "naz-zā-‘a-tan", rule: "Double (زّ)" },
+        { word: "فَعَّالٌ", parts: ["فَعْـ", "عَا", "لٌ"], translit: "fa-‘-ā-lun", rule: "Double (‘ّ)" },
+        { word: "لَغَفَّارٌ", parts: ["لَـ", "غَفْـ", "فَا", "رٌ"], translit: "la-ghaf-fā-run", rule: "Double (فّ)" },
+        { word: "وَجَنَّاتٍ", parts: ["وَ", "جَنْـ", "نَا", "تٍ"], translit: "wa-jan-nā-tin", rule: "Nūn Shaddah Ghunnah 2 counts" },
+        { word: "عَلَّمَ", parts: ["عَلْـ", "لَـ", "مَ"], translit: "‘al-la-ma", rule: "Double (لّ)" },
+        { word: "سَوَّى", parts: ["سَوْ", "وَا"], translit: "saw-wā", rule: "Double (وّ)" },
+        { word: "إِيَّاكَ", parts: ["إِيْـ", "يَا", "كَ"], translit: "iy-yā-ka", rule: "Double (يَّ)" }
+      ],
+
+      shaddah_kasr: [
+        { word: "زُوِّجَتْ", parts: ["زُوّْ", "وِ", "جَـ", "تْ"], translit: "zuw-wi-jat", rule: "Shaddah with Kasrah (وِّ)" },
+        { word: "كُوِّرَتْ", parts: ["كُوّْ", "وِ", "رَ", "تْ"], translit: "kuw-wi-rat", rule: "Double (وِّ)" },
+        { word: "فُجِّرَتْ", parts: ["فُجْـ", "جِـ", "رَ", "تْ"], translit: "fuj-ji-rat", rule: "Double (جِّ)" },
+        { word: "سُجِّرَتْ", parts: ["سُجْـ", "جِـ", "رَ", "تْ"], translit: "suj-ji-rat", rule: "Double (جِّ)" },
+        { word: "تُحَدِّثُ", parts: ["تُـ", "حَدْ", "دِ", "ثُ"], translit: "tu-ḥad-di-thu", rule: "Double (دِّ)" },
+        { word: "نُصَرِّفُ", parts: ["نُـ", "صَرْ", "رِ", "فُ"], translit: "nu-ṣar-ri-fu", rule: "Light (رِ)" },
+        { word: "وَيُحَرِّمُ", parts: ["وَ", "يُـ", "حَرْ", "رِ", "مُ"], translit: "wa-yu-ḥar-ri-mu", rule: "Double (رِّ)" },
+        { word: "فَسَبِّحْ", parts: ["فَـ", "سَبْـ", "بِـ", "حْ"], translit: "fa-sab-biḥ", rule: "Double (بِّ)" },
+        { word: "عُطِّلَتْ", parts: ["عُطْـ", "طِـ", "لَـ", "تْ"], translit: "‘uṭ-ṭi-lat", rule: "Heavy (طِّ)" },
+        { word: "وَبُرِّزَتِ", parts: ["وَ", "بُرْ", "رِ", "زَ", "تِ"], translit: "wa-bur-ri-za-ti", rule: "Double (رِّ)" },
+        { word: "أُقِّتَتْ", parts: ["أُقْـ", "قِـ", "تَـ", "تْ"], translit: "uq-qi-tat", rule: "Heavy (قِّ)" },
+        { word: "سُعِّرَتْ", parts: ["سُعْـ", "عِـ", "رَ", "تْ"], translit: "su-‘-i-rat", rule: "Double (‘ِّ)" },
+        { word: "وَحُصِّلَ", parts: ["وَ", "حُصْـ", "صِـ", "لَ"], translit: "wa-ḥuṣ-ṣi-la", rule: "Heavy (صِّ)" },
+        { word: "بُشِّرَ", parts: ["بُشْـ", "شِـ", "رَ"], translit: "bush-shi-ra", rule: "Double (شِّ)" },
+        { word: "تُحَرِّكْ", parts: ["تُـ", "حَرْ", "رِ", "كْ"], translit: "tu-ḥar-rik", rule: "Double (رِّ)" },
+        { word: "فَصَلِّ", parts: ["فَـ", "صَلْـ", "لِ"], translit: "fa-ṣal-li", rule: "Double (لِّ)" },
+        { word: "قَيِّمَةٌ", parts: ["قَيْـ", "يِـ", "مَـ", "ةٌ"], translit: "qay-yi-ma-tun", rule: "Double (يِّ)" },
+        { word: "سُيِّرَتْ", parts: ["سُيْـ", "يِـ", "رَ", "تْ"], translit: "suy-yi-rat", rule: "Double (يِّ)" },
+        { word: "فَمَهِّلِ", parts: ["فَـ", "مَهْـ", "هِـ", "لِ"], translit: "fa-mah-hi-li", rule: "Double (هِّ)" },
+        { word: "كَصَيِّبٍ", parts: ["كَـ", "صَيْـ", "يِـ", "بٍ"], translit: "ka-ṣay-yi-bin", rule: "Double (يِّ)" },
+        { word: "نُوَلِّيهِ", parts: ["نُـ", "وَلْـ", "لِيـ", "هِ"], translit: "nu-wal-lī-hi", rule: "Double (لّ) with Yaa Madd" },
+        { word: "وَقَرِّي", parts: ["وَ", "قَرْ", "رِي"], translit: "wa-qar-rī", rule: "Double (رّ) with Yaa Madd" },
+        { word: "عِلِّيِّينَ", parts: ["عِلْـ", "لِيـ", "يِيـ", "نَ"], translit: "‘il-lī-yī-na", rule: "Double (لّ) & Double (يِّ)" },
+        { word: "سِتِّينَ", parts: ["سِتْـ", "تِيـ", "نَ"], translit: "sit-tī-na", rule: "Double (تّ) with Yaa Madd" },
+        { word: "صِدِّيقًا", parts: ["صِدْ", "دِيـ", "قًا"], translit: "ṣid-dī-qan", rule: "Double (دّ) with Yaa Madd" },
+        { word: "سِجِّينٍ", parts: ["سِجْـ", "جِيـ", "نٍ"], translit: "sij-jī-nin", rule: "Double (جّ) with Yaa Madd" },
+        { word: "نُنَجِّيكَ", parts: ["نُـ", "نَجْـ", "جِيـ", "كَ"], translit: "nu-naj-jī-ka", rule: "Double (جّ) with Yaa Madd" },
+        { word: "وَيُزَكِّيهِمْ", parts: ["وَ", "يُـ", "زَكْـ", "كِيـ", "هِمْ"], translit: "wa-yu-zak-kī-him", rule: "Double (كّ) with Yaa Madd" },
+        { word: "يُغَشِّيكُمُ", parts: ["يُـ", "غَشْـ", "شِيـ", "كُـ", "مُ"], translit: "yu-ghash-shī-ku-mu", rule: "Double (شّ) with Yaa Madd" },
+        { word: "مُتَوَفِّيكَ", parts: ["مُـ", "تَـ", "وَفْـ", "فِيـ", "كَ"], translit: "mu-ta-waf-fī-ka", rule: "Double (فّ) with Yaa Madd" },
+        { word: "سِجِّيلٍ", parts: ["سِجْـ", "جِيـ", "لٍ"], translit: "sij-jī-lin", rule: "Double (جّ) with Yaa Madd" },
+        { word: "رَبَّانِيِّينَ", parts: ["رَبْـ", "بَا", "نِيـ", "يِيـ", "نَ"], translit: "rab-bā-niy-yī-na", rule: "Double (بّ) & Double (يِّ)" },
+        { word: "الْأُمِّيِّينَ", parts: ["أُمْـ", "مِيـ", "يِيـ", "نَ"], translit: "al-um-miy-yī-na", rule: "Mīm Ghunnah & Double (يِّ)" },
+        { word: "صِدِّيقَةٌ", parts: ["صِدْ", "دِيـ", "قَـ", "ةٌ"], translit: "ṣid-dī-qa-tun", rule: "Double (دّ) with Yaa Madd" }
+      ],
+
+      shaddah_damm: [
+        { word: "يُحِبُّ", parts: ["يُـ", "حِبْـ", "بُ"], translit: "yu-ḥib-bu", rule: "Shaddah with Dammah (بُّ)" },
+        { word: "يَبُثُّ", parts: ["يَـ", "بُثْـ", "ثُ"], translit: "ya-buth-thu", rule: "Double (ثُّ)" },
+        { word: "يُرَدُّ", parts: ["يُـ", "رَدْ", "دُ"], translit: "yu-rad-du", rule: "Double (دُّ)" },
+        { word: "أَشَدُّ", parts: ["أَ", "شَدْ", "دُ"], translit: "a-shad-du", rule: "Double (دُّ)" },
+        { word: "يَفِرُّ", parts: ["يَـ", "فِرْ", "رُ"], translit: "ya-fir-ru", rule: "Heavy (رُّ)" },
+        { word: "تَسُرُّ", parts: ["تَـ", "سُرْ", "رُ"], translit: "ta-sur-ru", rule: "Heavy (رُّ)" },
+        { word: "نَقُصُّ", parts: ["نَـ", "قُصْـ", "صُ"], translit: "na-quṣ-ṣu", rule: "Heavy (صُّ)" },
+        { word: "يَعَضُّ", parts: ["يَـ", "عَضْـ", "ضُ"], translit: "ya-‘aḍ-ḍu", rule: "Heavy (ضُّ)" },
+        { word: "يَدُعُّ", parts: ["يَـ", "دُعْـ", "عُ"], translit: "ya-du‘-‘u", rule: "Double (‘ُّ)" },
+        { word: "وَيُحِلُّ", parts: ["وَ", "يُـ", "حِلْـ", "لُ"], translit: "wa-yu-ḥil-lu", rule: "Double (لُّ)" },
+        { word: "وَأَقَلُّ", parts: ["وَ", "أَ", "قَلْـ", "لُ"], translit: "wa-a-qal-lu", rule: "Double (لُّ)" },
+        { word: "أَضَلُّ", parts: ["أَ", "ضَلْـ", "لُ"], translit: "a-ḍal-lu", rule: "Double (لُّ)" },
+        { word: "مُتِمُّ", parts: ["مُـ", "تِمْـ", "مُ"], translit: "mu-tim-mu", rule: "Mīm Shaddah Ghunnah" },
+        { word: "يَظُنُّ", parts: ["يَـ", "ظُنْـ", "نُ"], translit: "ya-ẓun-nu", rule: "Nūn Shaddah Ghunnah" },
+        { word: "يَمُنُّ", parts: ["يَـ", "مُنْـ", "نُ"], translit: "ya-mun-nu", rule: "Nūn Shaddah Ghunnah" },
+        { word: "وَيُحِقُّ", parts: ["وَ", "يُـ", "حِقْـ", "قُ"], translit: "wa-yu-ḥiq-qu", rule: "Heavy (قُّ)" },
+        { word: "وَأَهُشُّ", parts: ["وَ", "أَ", "هُشْـ", "شُ"], translit: "wa-a-hush-shu", rule: "Double (شُّ)" },
+        { word: "وَرَبُّكَ", parts: ["وَ", "رَبْـ", "بُـ", "كَ"], translit: "wa-rab-bu-ka", rule: "Double (بُّ)" },
+        { word: "تَقْشَعِرُّ", parts: ["تَقْـ", "شَـ", "عِرْ", "رُ"], translit: "taq-sha-‘ir-ru", rule: "Heavy (رُّ)" },
+        { word: "وَلِيُّنَا", parts: ["وَ", "لِيْـ", "يُـ", "نَا"], translit: "wa-liy-yu-nā", rule: "Double (يُّ)" },
+        { word: "كُلُّهُنَّ", parts: ["كُلْـ", "لُـ", "هُنْـ", "نَ"], translit: "kul-lu-hun-na", rule: "Double (لّ) & Nūn Ghunnah" },
+        { word: "أُمِّيُّونَ", parts: ["أُمْـ", "مِيْـ", "يُو", "نَ"], translit: "um-miy-yū-na", rule: "Mīm Ghunnah & Waw Madd" },
+        { word: "رِبِّيُّونَ", parts: ["رِبْـ", "بِيْـ", "يُو", "نَ"], translit: "rib-biy-yū-na", rule: "Double (بّ) & Waw Madd" },
+        { word: "عِلِّيُّونَ", parts: ["عِلْـ", "لِيْـ", "يُو", "نَ"], translit: "‘il-liy-yū-na", rule: "Double (لّ) & Waw Madd" },
+        { word: "وَيُحِبُّونَ", parts: ["وَ", "يُـ", "حِبْـ", "بُو", "نَ"], translit: "wa-yu-ḥib-bū-na", rule: "Double (بّ) with Waw Madd" },
+        { word: "تُحِبُّونَ", parts: ["تُـ", "حِبْـ", "بُو", "نَ"], translit: "tu-ḥib-bū-na", rule: "Double (بّ) with Waw Madd" },
+        { word: "يَقُصُّونَ", parts: ["يَـ", "قُصْـ", "صُو", "نَ"], translit: "ya-quṣ-ṣū-na", rule: "Heavy (صّ) with Waw Madd" },
+        { word: "يَمُنُّونَ", parts: ["يَـ", "مُنْـ", "نُو", "نَ"], translit: "ya-mun-nū-na", rule: "Nūn Shaddah Ghunnah" },
+        { word: "يُوَلُّونَ", parts: ["يُـ", "وَلْـ", "لُو", "نَ"], translit: "yu-wal-lū-na", rule: "Double (لّ) with Waw Madd" },
+        { word: "فَشُدُّوا", parts: ["فَـ", "شُدْ", "دُو"], translit: "fa-shud-dū", rule: "Double (دّ) with Waw Madd" },
+        { word: "وَأَعِدُّوا", parts: ["وَ", "أَ", "عِدْ", "دُو"], translit: "wa-a-‘id-dū", rule: "Double (دّ) with Waw Madd" },
+        { word: "وَصَمُّوا", parts: ["وَ", "صَمْـ", "مُو"], translit: "wa-ṣam-mū", rule: "Mīm Shaddah Ghunnah" },
+        { word: "فَحَيُّوا", parts: ["فَـ", "حَيْـ", "يُو"], translit: "fa-ḥay-yū", rule: "Double (يَّ) with Waw Madd" },
+        { word: "تَسُبُّوا", parts: ["تَـ", "سُبْـ", "بُو"], translit: "ta-sub-bū", rule: "Double (بّ) with Waw Madd" },
+        { word: "صَلُّوا", parts: ["صَلْـ", "لُو"], translit: "ṣal-lū", rule: "Double (لّ) with Waw Madd" },
+        { word: "وَأَصَرُّوا", parts: ["وَ", "أَ", "صَرْ", "رُو"], translit: "wa-a-ṣar-rū", rule: "Double (رّ) with Waw Madd" },
+        { word: "أَضَلُّوا", parts: ["أَ", "ضَلْـ", "لُو"], translit: "a-ḍal-lū", rule: "Double (لّ) with Waw Madd" },
+        { word: "مَرُّوا", parts: ["مَرْ", "رُو"], translit: "mar-rū", rule: "Heavy (رّ) with Waw Madd" },
+        { word: "يَخِرُّونَ", parts: ["يَـ", "خِرْ", "رُو", "نَ"], translit: "ya-khir-rū-na", rule: "Double (رّ) with Waw Madd" },
+        { word: "يَصُدُّونَ", parts: ["يَـ", "صُدْ", "دُو", "نَ"], translit: "ya-ṣud-dū-na", rule: "Double (دّ) with Waw Madd" }
+      ],
+
+      shaddah_tanween: [
+        { word: "حُبًّا", parts: ["حُبْـ", "بًا"], translit: "ḥub-ban", rule: "Double (بّ) with Fatḥ Tanween" },
+        { word: "دَعًّا", parts: ["دَعْـ", "عًا"], translit: "da‘-‘an", rule: "Double (‘ّ) with Tanween" },
+        { word: "فَظًّا", parts: ["فَظْـ", "ظًا"], translit: "faẓ-ẓan", rule: "Heavy Double (ظّ)" },
+        { word: "حَظًّا", parts: ["حَظْـ", "ظًا"], translit: "ḥaẓ-ẓan", rule: "Heavy Double (ظّ)" },
+        { word: "ضَرًّا", parts: ["ضَرْ", "رًا"], translit: "ḍar-ran", rule: "Heavy Double (رّ)" },
+        { word: "سِرًّا", parts: ["سِرْ", "رًا"], translit: "sir-ran", rule: "Double (رّ)" },
+        { word: "صَفًّا", parts: ["صَفْـ", "فًا"], translit: "ṣaf-fan", rule: "Double (فّ)" },
+        { word: "حَقًّا", parts: ["حَقْـ", "قًا"], translit: "ḥaq-qan", rule: "Heavy Double (قّ)" },
+        { word: "شَقًّا", parts: ["شَقْـ", "قًا"], translit: "shaq-qan", rule: "Heavy Double (قّ)" },
+        { word: "صَبِيًّا", parts: ["صَـ", "بِيْـ", "يًا"], translit: "ṣa-biy-yan", rule: "Double (يَّ) with Tanween" },
+        { word: "تَقِيًّا", parts: ["تَـ", "قِيْـ", "يًا"], translit: "ta-qiy-yan", rule: "Double (يَّ)" },
+        { word: "سَوِيًّا", parts: ["سَـ", "وِيْـ", "يًا"], translit: "sa-wiy-yan", rule: "Double (يَّ)" },
+        { word: "عُلُوًّا", parts: ["عُـ", "لُوّْ", "وًا"], translit: "‘u-luw-wan", rule: "Double (وّ) with Tanween" },
+        { word: "عَفُوًّا", parts: ["عَـ", "فُوّْ", "وًا"], translit: "‘a-fuw-wan", rule: "Double (وّ)" },
+        { word: "عَدُوًّا", parts: ["عَـ", "دُوّْ", "وًا"], translit: "‘a-duw-wan", rule: "Double (وّ)" },
+        { word: "خَفِيًّا", parts: ["خَـ", "فِيْـ", "يًا"], translit: "kha-fiy-yan", rule: "Double (يَّ)" },
+        { word: "شَقِيًّا", parts: ["شَـ", "قِيْـ", "يًا"], translit: "sha-qiy-yan", rule: "Double (يَّ)" },
+        { word: "رَضِيًّا", parts: ["رَ", "ضِيْـ", "يًا"], translit: "ra-ḍiy-yan", rule: "Double (يَّ)" },
+        { word: "غِلٍّ", parts: ["غِلْـ", "لٍ"], translit: "ghil-lin", rule: "Double (لّ) with Kasr Tanween" },
+        { word: "رَقٍّ", parts: ["رَقْـ", "قٍ"], translit: "raq-qin", rule: "Heavy Double (قّ) with Tanween" },
+        { word: "شَكٍّ", parts: ["شَكْـ", "كٍ"], translit: "shak-kin", rule: "Double (كّ) with Tanween" },
+        { word: "حَظٍّ", parts: ["حَظْـ", "ظٍ"], translit: "ḥaẓ-ẓin", rule: "Heavy Double (ظّ)" },
+        { word: "بِضُرٍّ", parts: ["بِـ", "ضُرْ", "رٍ"], translit: "bi-ḍur-rin", rule: "Double (رّ) with Tanween" },
+        { word: "أُفٍّ", parts: ["أُفْـ", "فٍ"], translit: "uf-fin", rule: "Double (فّ)" },
+        { word: "فَجٍّ", parts: ["فَجْـ", "جٍ"], translit: "faj-jin", rule: "Double (جّ)" },
+        { word: "عَدُوٌّ", parts: ["عَـ", "دُوّْ", "وٌ"], translit: "‘a-duw-wun", rule: "Double (وّ) with Ḍamm Tanween" },
+        { word: "عَرَبِيٌّ", parts: ["عَـ", "رَ", "بِيْـ", "يٌ"], translit: "‘a-ra-biy-yun", rule: "Double (يُّ)" },
+        { word: "لَعَفُوٌّ", parts: ["لَـ", "عَـ", "فُوّْ", "وٌ"], translit: "la-‘a-fuw-wun", rule: "Double (وّ)" },
+        { word: "دُرِّيٌّ", parts: ["دُرْ", "رِيْـ", "يٌ"], translit: "dur-riy-yun", rule: "Double (رّ) & Double (يُّ)" },
+        { word: "غَنِيٌّ", parts: ["غَـ", "نِيْـ", "يٌ"], translit: "gha-niy-yun", rule: "Double (يُّ)" },
+        { word: "صُمٌّ", parts: ["صُمْـ", "مٌ"], translit: "ṣum-mun", rule: "Mīm Shaddah with Tanween" },
+        { word: "جَانٌّ", parts: ["جَانْـ", "نٌ"], translit: "jān-nun", rule: "Madd Lāzim (6 counts) + Nūn Shaddah" }
+      ],
+
+      shaddah_waqf: [
+        { word: "وَتَبَّ", parts: ["وَ", "تَبْـ", "بَ"], translit: "wa-tab-ba (wa-tabb)", rule: "Stopping on Shaddah with strong Qalqalah" },
+        { word: "مِتَّ", parts: ["مِتْـ", "تَ"], translit: "mit-ta (mitt)", rule: "Stopping with Hams on Taa" },
+        { word: "بَثَّ", parts: ["بَثْـ", "ثَ"], translit: "bath-tha (bathth)", rule: "Stopping with Hams on Thaa" },
+        { word: "فَجٍّ", parts: ["فَجْـ", "جٍ"], translit: "faj-jin (fajj)", rule: "Stopping with strong Qalqalah" },
+        { word: "الشُّحَّ", parts: ["شُحْـ", "حَ"], translit: "ash-shuḥ-ḥa (ash-shuḥḥ)", rule: "Stopping on Shaddah" },
+        { word: "أَشَدُّ", parts: ["أَ", "شَدْ", "دُ"], translit: "a-shad-du (a-shadd)", rule: "Stopping with Qalqalah on Daal" },
+        { word: "وَتَلَذُّ", parts: ["وَ", "تَـ", "لَذْ", "ذُ"], translit: "wa-ta-ladh-dhu (wa-taladhdh)", rule: "Stopping on Shaddah" },
+        { word: "وَأَمَرُّ", parts: ["وَ", "أَ", "مَرْ", "رُ"], translit: "wa-a-mar-ru (wa-amarr)", rule: "Stopping with Heavy (رّْ)" },
+        { word: "وَتُعِزُّ", parts: ["وَ", "تُـ", "عِزْ", "زُ"], translit: "wa-tu-‘iz-zu (wa-tu‘izz)", rule: "Stopping on Shaddah" },
+        { word: "مَسَّ", parts: ["مَسْـ", "سَ"], translit: "mas-sa (mass)", rule: "Stopping with Hams on Seen" },
+        { word: "أَحَقُّ", parts: ["أَ", "حَقْـ", "قُ"], translit: "a-ḥaq-qu (a-ḥaqq)", rule: "Stopping with strong Qalqalah on Qaaf" },
+        { word: "شَكٍّ", parts: ["شَكْـ", "كٍ"], translit: "shak-kin (shakk)", rule: "Stopping with Hams on Kaaf" },
+        { word: "فَطَلٌّ", parts: ["فَـ", "طَلْـ", "لٌ"], translit: "fa-ṭal-lun (fa-ṭall)", rule: "Stopping on Shaddah" },
+        { word: "بِغَمٍّ", parts: ["بِـ", "غَمْـ", "مٍ"], translit: "bi-gham-min (bi-ghamm)", rule: "Stopping with Ghunnah (2 counts)" },
+        { word: "جَانٌّ", parts: ["جَانْـ", "نٌ"], translit: "jān-nun (jānn)", rule: "Madd Lāzim (6 counts) + Nūn Ghunnah at Waqf" },
+        { word: "عَدُوٌّ", parts: ["عَـ", "دُوّْ", "وٌ"], translit: "‘a-duw-wun (Nabr on Waw)", rule: "Stopping with Nabr (نبر) accent" },
+        { word: "نَبِيٍّ", parts: ["نَـ", "بِيْـ", "يٍ"], translit: "na-biy-yin (Nabr on Yaa)", rule: "Stopping with Nabr (نبر) accent" }
+      ]
+    };
+
+
+    // ==========================================
+    // 2. 100-ITEM COMPREHENSIVE ACTIVITY BANKS
+    // ==========================================
+    const listenPickData = [{"target": "أَحَدَ", "options": ["أَحَدَ", "أَخَذَ", "عَبَدَ", "حَسَدَ"]}, {"target": "صَبَرَ", "options": ["ضَرَبَ", "صَبَرَ", "صَلَحَ", "صَرَفَ"]}, {"target": "بَسَطَ", "options": ["بَسَطَ", "بَعَثَ", "بَرَزَ", "بَلَغَ"]}, {"target": "شَكَرَ", "options": ["شَرَحَ", "شَكَرَ", "شَجَرَ", "شَرَعَ"]}, {"target": "خَتَمَ", "options": ["خَتَمَ", "خَلَقَ", "خَشِيَ", "خَسَفَ"]}, {"target": "ظَلَمَ", "options": ["ظَهَرَ", "عَلِمَ", "ظَلَمَ", "عَزَمَ"]}, {"target": "حَضَرَ", "options": ["حَصَدَ", "حَضَرَ", "حَسَدَ", "حَمَلَ"]}, {"target": "فَخَرَجَ", "options": ["فَخَرَجَ", "فَحَشَرَ", "فَمَكَثَ", "فَخَلَفَ"]}, {"target": "سَرَقَ", "options": ["سَلَفَ", "سَرَقَ", "سَلَكَ", "سَأَلَ"]}, {"target": "وَوَضَعَ", "options": ["وَوَضَعَ", "وَوَهَبَ", "وَوَجَدَ", "وَوَعَدَ"]}, {"target": "رَحِمَ", "options": ["رَحِمَ", "رَضِيَ", "رَدِفَ", "رَكِبَ"]}, {"target": "سَخِطَ", "options": ["سَقَطَ", "سَخِطَ", "سَفِهَ", "سَخِرَ"]}, {"target": "خَطِفَ", "options": ["خَطِفَ", "خَلَفَ", "خَشِيَ", "خَفَضَ"]}, {"target": "مَلِكِ", "options": ["مَلَكَ", "مَلِكِ", "عَلِمَ", "مَعِيَ"]}, {"target": "حَفِظَ", "options": ["حَفِظَ", "حَبِطَ", "حَسِبَ", "حَمِدَ"]}, {"target": "فَرِحَ", "options": ["فَرَحَ", "فَرِحَ", "فَتِحَ", "فَسِقَ"]}, {"target": "غَضِبَ", "options": ["غَضَبَ", "غَضِبَ", "غَلَبَ", "غَفَرَ"]}, {"target": "شَهِدَ", "options": ["شَهِدَ", "شَهِقَ", "شَرِبَ", "شَعَرَ"]}, {"target": "عِوَجَ", "options": ["عِوَجَ", "عِوَضَ", "عَمَلَ", "عَهْدَ"]}, {"target": "بِبَدَنِكَ", "options": ["بِبَدَنِكَ", "بِقَلَمِكَ", "بِعَمَلِكَ", "بِيَمِينِكَ"]}, {"target": "أُذِنَ", "options": ["أَذِنَ", "أُذِنَ", "أُخِذَ", "أُمِرَ"]}, {"target": "خُلِقَ", "options": ["خَلَقَ", "خُلِقَ", "خُلِفَ", "خُسِفَ"]}, {"target": "صُحُفِ", "options": ["صَحَفِ", "صُحُفِ", "صُدُورِ", "سُنَنَ"]}, {"target": "طُبِعَ", "options": ["طَبَعَ", "طُبِعَ", "طُرِحَ", "طُلِبَ"]}, {"target": "رُسُلُ", "options": ["رُسُلُ", "رُسُلِ", "رَسُولُ", "سُبُلُ"]}, {"target": "كُتِبَ", "options": ["كَتَبَ", "كُتِبَ", "كَسَبَ", "كُسِبَ"]}, {"target": "هُدِيَ", "options": ["هَدَى", "هُدِيَ", "هُدِمَ", "هُزِمَ"]}, {"target": "قُرِئَ", "options": ["قَرَأَ", "قُرِئَ", "قُتِلَ", "قُضِيَ"]}, {"target": "فَبُهِتَ", "options": ["فَبُهِتَ", "فَبُعِثَ", "فَطُبِعَ", "فَثَبَتَ"]}, {"target": "عَضُدَكَ", "options": ["عَمَلَكَ", "عَضُدَكَ", "عَهْدَكَ", "عُنُقَكَ"]}, {"target": "قَالَ", "options": ["قَالَ", "قِيلَ", "يَقُولُ", "قَلَمَ"]}, {"target": "تُجَادِلُ", "options": ["تُجَادِلُ", "تُقَاتِلُ", "تُسَاهِمُ", "تُخَادِعُ"]}, {"target": "يَخَافُ", "options": ["يَخَافُ", "يَخُوضُ", "يَخْرُجُ", "يَخْتَارُ"]}, {"target": "صِرَاطَ", "options": ["صِرَاطَ", "صِرَاطِ", "سَبِيلَ", "طَعَامَ"]}, {"target": "مَسَاجِدَ", "options": ["مَسَاجِدَ", "مَعَابِدَ", "مَقَاعِدَ", "مَسَاكِنَ"]}, {"target": "طَعَامِ", "options": ["طَعَامِ", "شَرَابِ", "مَقَامِ", "كَلَامِ"]}, {"target": "أَبَانَا", "options": ["أَبَانَا", "أَخَانَا", "دَعَانَا", "هَدَانَا"]}, {"target": "فَكَانَ", "options": ["فَكَانَ", "فَكَادَ", "فَقَالَ", "فَصَارَ"]}, {"target": "ثَلَاثَ", "options": ["ثَلَاثَ", "ثَمَانِيَ", "ثَلَاثُونَ", "ثَالِثَ"]}, {"target": "خُطُوَاتِ", "options": ["خُطُوَاتِ", "حَسَنَاتِ", "ظُلُمَاتِ", "صَلَوَاتِ"]}, {"target": "سَبِيلِ", "options": ["سَبِيلِ", "سَبِيلًا", "سَبِيلٌ", "سَبِيلٍ"]}, {"target": "يَتِيمَ", "options": ["يَتِيمَ", "يَسِيرَ", "عَلِيمَ", "حَكِيمَ"]}, {"target": "شَدِيدُ", "options": ["شَدِيدُ", "شَهِيدُ", "سَدِيدُ", "حَمِيدُ"]}, {"target": "بَصِيرُ", "options": ["بَصِيرُ", "نَصِيرُ", "قَدِيرُ", "خَبِيرُ"]}, {"target": "أَسَاطِيرُ", "options": ["أَسَاطِيرُ", "تَقَادِيرُ", "تَفَاسِيرُ", "قَرَاطِيسُ"]}, {"target": "وَغِيضَ", "options": ["وَغِيضَ", "وَسِيقَ", "وَقِيلَ", "وَزِيدَ"]}, {"target": "مُنِيبِينَ", "options": ["مُنِيبِينَ", "مُؤْمِنِينَ", "مُحْسِنِينَ", "مُفْلِحِينَ"]}, {"target": "أَبَابِيلَ", "options": ["أَبَابِيلَ", "سَرَابِيلَ", "قَنَادِيلَ", "تَمَاثِيلَ"]}, {"target": "خَالِدِينَ", "options": ["خَالِدِينَ", "عَابِدِينَ", "سَاجِدِينَ", "شَاهِدِينَ"]}, {"target": "لِحَيَاتِي", "options": ["لِحَيَاتِي", "لِصَلَاتِي", "لِنَجَاتِي", "لِمَمَاتِي"]}, {"target": "يَتُوبَ", "options": ["يَتُوبَ", "يَقُومَ", "يَمُوتَ", "يَذُوقَ"]}, {"target": "صُدُورِ", "options": ["صُدُورِ", "بُطُونِ", "قُلُوبِ", "عُيُونِ"]}, {"target": "رَسُولُ", "options": ["رَسُولُ", "رُسُلُ", "نُشُورُ", "غَفُورُ"]}, {"target": "يَقُولُ", "options": ["يَقُولُ", "يَقُومُ", "يَصُومُ", "يَجُولُ"]}, {"target": "تَعِظُونَ", "options": ["تَعِظُونَ", "تَعْلَمُونَ", "تَفْعَلُونَ", "تَسْمَعُونَ"]}, {"target": "مَلَكُوتِ", "options": ["مَلَكُوتِ", "جَبَرُوتِ", "طَاغُوتِ", "تَابُوتِ"]}, {"target": "يَدِينُونَ", "options": ["يَدِينُونَ", "يُوقِنُونَ", "يُؤْمِنُونَ", "يُطِيعُونَ"]}, {"target": "عَابِدُونَ", "options": ["عَابِدُونَ", "حَامِدُونَ", "سَاجِدُونَ", "قَانِتُونَ"]}, {"target": "يُوفِضُونَ", "options": ["يُوفِضُونَ", "يُوعُونَ", "يُوقَدُونَ", "يُورِثُونَ"]}, {"target": "يَذُوقُونَ", "options": ["يَذُوقُونَ", "يَخُوضُونَ", "يَقُومُونَ", "يَمُوتُونَ"]}, {"target": "ءَامَنَ", "options": ["ءَامَنَ", "أَمِنَ", "ءَادَمَ", "ءَاذَنَ"]}, {"target": "أُوتِيَ", "options": ["أُوتِيَ", "أُوحِيَ", "أُوذِيَ", "أُوذُوا"]}, {"target": "شَآءَ", "options": ["شَآءَ", "جَآءَ", "سَآءَ", "فَآءَ"]}, {"target": "جَزَاءُ", "options": ["جَزَاءُ", "عَطَاءُ", "دُعَاءُ", "سَمَاءُ"]}, {"target": "سُوءَ", "options": ["سُوءَ", "سُوءُ", "ضَوْءَ", "نَوْءَ"]}, {"target": "حَدَائِقَ", "options": ["حَدَائِقَ", "طَرَائِقَ", "خَلَائِقَ", "دَقَائِقَ"]}, {"target": "وَمَآ أُرِيدُ", "options": ["وَمَآ أُرِيدُ", "وَمَآ أُمِرُوا", "وَمَآ أُوتُوا", "وَمَآ أَدْرَاكَ"]}, {"target": "فَمَآ ءَامَنَ", "options": ["فَمَآ ءَامَنَ", "فَمَآ أَتَى", "فَمَآ أَوْحَى", "فَمَآ أَعْطَى"]}, {"target": "قَالُوٓا أَسَاطِيرُ", "options": ["قَالُوٓا أَسَاطِيرُ", "قَالُوٓا ءَامَنَّا", "قَالُوٓا أَنَّى", "قَالُوٓا أَبَانَا"]}, {"target": "يَآ أَيُّهَا", "options": ["يَآ أَيُّهَا", "يَآ أَبَانَا", "يَآ إِبْرَاهِيمُ", "يَآ آدَمُ"]}, {"target": "عَذَابًا", "options": ["عَذَابًا", "عَذَابٍ", "عَذَابٌ", "عَذَابُ"]}, {"target": "سِرَاجًا", "options": ["سِرَاجًا", "سِرَاجٍ", "سِرَاجٌ", "فُرَاتًا"]}, {"target": "رَاضِيَةً", "options": ["رَاضِيَةً", "رَاضِيَةٍ", "رَاضِيَةٌ", "حَامِيَةً"]}, {"target": "شُعَبٍ", "options": ["شُعَبٍ", "شُعَبًا", "شُعَبٌ", "لَهَبٍ"]}, {"target": "نُوحٍ", "options": ["نُوحٍ", "نُوحًا", "نُوحٌ", "لُوطٍ"]}, {"target": "غَلِيظٍ", "options": ["غَلِيظٍ", "غَلِيظًا", "غَلِيظٌ", "عَظِيمٍ"]}, {"target": "كُتُبٌ", "options": ["كُتُبٌ", "كُتُبًا", "كُتُبٍ", "كِتَابٌ"]}, {"target": "أَحَدٌ", "options": ["أَحَدٌ", "أَحَدًا", "أَحَدٍ", "صَمَدٌ"]}, {"target": "غَفُورٌ", "options": ["غَفُورٌ", "غَفُورًا", "غَفُورٍ", "شَكُورٌ"]}, {"target": "كَاذِبَةٌ", "options": ["كَاذِبَةٌ", "كَاذِبَةً", "كَاذِبَةٍ", "صَادِقَةٌ"]}, {"target": "أَبْوَابًا", "options": ["أَبْوَابًا", "أَبْصَارًا", "أَسْبَابًا", "أَزْوَاجًا"]}, {"target": "يَجْعَلْ", "options": ["يَجْعَلْ", "يَفْعَلْ", "يَدْعُ", "يَسْمَعْ"]}, {"target": "مِتْنَا", "options": ["مِتْنَا", "قُلْنَا", "عُدْنَا", "زِدْنَا"]}, {"target": "صَدْرَكَ", "options": ["صَدْرَكَ", "ذِكْرَكَ", "وِزْرَكَ", "أَمْرَكَ"]}, {"target": "يَخْلُقُ", "options": ["يَخْلُقُ", "يَرْزُقُ", "يَصْدُقُ", "يَسْبِقُ"]}, {"target": "مَطْلَعِ", "options": ["مَطْلَعِ", "مَوْضِعِ", "مَرْجِعِ", "مَصْنَعِ"]}, {"target": "الْأَرْضَ", "options": ["الْأَرْضَ", "السَّمَاءَ", "الْجِبَالَ", "الْبِحَارَ"]}, {"target": "الْحَكِيمُ", "options": ["الْحَكِيمُ", "الْعَلِيمُ", "الْخَبِيرُ", "الْبَصِيرُ"]}, {"target": "الشَّمْسُ", "options": ["الشَّمْسُ", "الْقَمَرُ", "النَّجْمُ", "اللَّيْلُ"]}, {"target": "النَّاسِ", "options": ["النَّاسِ", "الْفَلَقِ", "الْمَلِكِ", "الْجِنَّةِ"]}, {"target": "رَبَّنَا", "options": ["رَبَّنَا", "رَبُّنَا", "رَبِّي", "رَبَّكَ"]}, {"target": "سَبَّحَ", "options": ["سَبَّحَ", "سَجَدَ", "قَدَّرَ", "عَلَّمَ"]}, {"target": "عَمَّ", "options": ["عَمَّ", "عَمَّا", "عَمِّ", "ثُمَّ"]}, {"target": "تُحَدِّثُ", "options": ["تُحَدِّثُ", "تُصَرِّفُ", "تُفَصِّلُ", "تُقَدِّمُ"]}, {"target": "صِدِّيقًا", "options": ["صِدِّيقًا", "فَرِيقًا", "طَرِيقًا", "شَفِيقًا"]}, {"target": "يُحِبُّ", "options": ["يُحِبُّ", "يُحِلُّ", "يُحِقُّ", "يَفِرُّ"]}, {"target": "يَظُنُّ", "options": ["يَظُنُّ", "يَمُنُّ", "يَقُصُّ", "يَعَضُّ"]}, {"target": "حُبًّا", "options": ["حُبًّا", "حَقًّا", "صَفًّا", "سِرًّا"]}, {"target": "وَتَبَّ", "options": ["وَتَبَّ", "كَسَبَ", "لَهَبٍ", "أَشَدُّ"]}, {"target": "جَانٌّ", "options": ["جَانٌّ", "إِنسٌ", "طِينٌ", "نَارٌ"]}];
+
+    const tajweedData = [{"word": "أَبْوَابًا", "q": "What Tajweed rule applies to the silent letter (بْ)?", "options": ["Qalqalah bounce (قلقلة)", "Ghunnah", "Madd", "Softness"], "ans": 0}, {"word": "عَمَّ", "q": "What is required when pronouncing (مّ)?", "options": ["Ghunnah 2 counts (غنة حركتين)", "Qalqalah", "Silent drop", "Jaw drop"], "ans": 0}, {"word": "يَظُنُّ", "q": "What is required when pronouncing (نّ)?", "options": ["Ghunnah 2 counts (غنة حركتين)", "Qalqalah", "Madd 6 counts", "Whisper"], "ans": 0}, {"word": "صِرَاطَ", "q": "Are the letters (ص) and (ط) heavy or light?", "options": ["Heavy / Tafkheem (مفخمة)", "Light / Tarqeeq", "Whispered", "Soft"], "ans": 0}, {"word": "يَقُولُ", "q": "What Madd rule is present in the syllable (قُو)?", "options": ["Waw Madd 2 counts (مد بالواو)", "Yaa Madd", "Alif Madd", "No Madd"], "ans": 0}, {"word": "رَاضِيَةً", "q": "How is (ةً) pronounced when stopping (Waqf)?", "options": ["Silent Haa (هـْ)", "Letter Taa (تْ)", "Alif Madd (ـَا)", "Keep Tanween"], "ans": 0}, {"word": "يَجْعَلْ", "q": "Which quality belongs to the silent letter (جْ)?", "options": ["Qalqalah bounce (قلقلة)", "Ghunnah", "Madd", "Nabr"], "ans": 0}, {"word": "وَتَبَّ", "q": "How to stop (Waqf) on the Shaddah in (وَتَبَّ)?", "options": ["Strong Qalqalah (قلقلة مشددة)", "Soft ending", "Tanween", "Drop letter"], "ans": 0}, {"word": "جَانٌّ", "q": "What is the duration of Madd in (جَانٌّ)?", "options": ["6 Counts - Madd Lāzim (مد لازم)", "2 Counts", "4 Counts", "No Madd"], "ans": 0}, {"word": "شَكٍّ", "q": "What phonetic quality is heard when stopping on (كّْ)?", "options": ["Hams whisper (همس)", "Qalqalah", "Ghunnah", "Tafkheem"], "ans": 0}, {"word": "عَدُوٌّ", "q": "What special accent is needed when stopping on (عَدُوّْ)?", "options": ["Nabr accent (نبر)", "Silent drop", "Madd 6 counts", "Ghunnah"], "ans": 0}, {"word": "سَبِيلِ", "q": "What Madd is present in (بِيـ)?", "options": ["Yaa Madd 2 counts (مد بالياء)", "Waw Madd", "Alif Madd", "Madd Badal"], "ans": 0}, {"word": "قَالَ", "q": "What Madd is present in (قَا)?", "options": ["Alif Madd 2 counts (مد بالألف)", "Yaa Madd", "Waw Madd", "No Madd"], "ans": 0}, {"word": "ءَامَنَ", "q": "What type of Madd starts the word (ءَا)?", "options": ["Madd Badal (مد بدل)", "Madd Muttasil", "Madd Munfasil", "Madd Lazim"], "ans": 0}, {"word": "شَآءَ", "q": "What Madd rule is present in (شَآءَ)?", "options": ["Madd Muttasil 4-5 counts (مد متصل)", "Madd Munfasil", "Madd Badal", "Madd Lazim"], "ans": 0}, {"word": "وَمَآ أُرِيدُ", "q": "What Madd rule separates (وَمَآ) and (أُرِيدُ)?", "options": ["Madd Munfasil (مد منفصل)", "Madd Muttasil", "Madd Badal", "Madd Lazim"], "ans": 0}, {"word": "الْأَرْضَ", "q": "What type of Laam is in (الْأَرْضَ)?", "options": ["Laam Qamariyyah clear (لام قمرية)", "Laam Shamsiyyah", "Silent Laam", "Madd Laam"], "ans": 0}, {"word": "الشَّمْسُ", "q": "What type of Laam is in (الشَّمْسُ)?", "options": ["Laam Shamsiyyah merged (لام شمسية)", "Laam Qamariyyah", "Qalqalah", "Clear Laam"], "ans": 0}, {"word": "صَدْرَكَ", "q": "What rule applies to the letter (دْ)?", "options": ["Qalqalah (قلقلة)", "Ghunnah", "Madd", "Softness"], "ans": 0}, {"word": "مِتْنَا", "q": "What quality applies to the silent (تْ)?", "options": ["Hams whisper (همس)", "Qalqalah", "Ghunnah", "Tafkheem"], "ans": 0}, {"word": "جَهَرَ", "q": "What is the ruling of (ر) in the word (جَهَرَ)?", "options": ["Heavy Ra (راء مفخمة)", "Light Ra (مرققة)", "Qalqalah", "Ghunnah"], "ans": 0}, {"word": "يَدَكَ", "q": "Are all the consonants in (يَدَكَ) Light (مرققة)?", "options": ["Yes, all letters are Light (كلها مرققة)", "No, contains Heavy letter", "Contains Qalqalah", "Contains Madd 6 counts"], "ans": 0}, {"word": "وَجَدَ", "q": "Are all the consonants in (وَجَدَ) Light (مرققة)?", "options": ["Yes, all letters are Light (كلها مرققة)", "No, contains Heavy letter", "Contains Qalqalah", "Contains Madd 6 counts"], "ans": 0}, {"word": "وَعَدَ", "q": "Are all the consonants in (وَعَدَ) Light (مرققة)?", "options": ["Yes, all letters are Light (كلها مرققة)", "No, contains Heavy letter", "Contains Qalqalah", "Contains Madd 6 counts"], "ans": 0}, {"word": "عَدَدَ", "q": "Are all the consonants in (عَدَدَ) Light (مرققة)?", "options": ["Yes, all letters are Light (كلها مرققة)", "No, contains Heavy letter", "Contains Qalqalah", "Contains Madd 6 counts"], "ans": 0}, {"word": "كَتَبَ", "q": "Are all the consonants in (كَتَبَ) Light (مرققة)?", "options": ["Yes, all letters are Light (كلها مرققة)", "No, contains Heavy letter", "Contains Qalqalah", "Contains Madd 6 counts"], "ans": 0}, {"word": "كَسَبَ", "q": "Are all the consonants in (كَسَبَ) Light (مرققة)?", "options": ["Yes, all letters are Light (كلها مرققة)", "No, contains Heavy letter", "Contains Qalqalah", "Contains Madd 6 counts"], "ans": 0}, {"word": "ذَهَبَ", "q": "Are all the consonants in (ذَهَبَ) Light (مرققة)?", "options": ["Yes, all letters are Light (كلها مرققة)", "No, contains Heavy letter", "Contains Qalqalah", "Contains Madd 6 counts"], "ans": 0}, {"word": "كَذَبَ", "q": "Are all the consonants in (كَذَبَ) Light (مرققة)?", "options": ["Yes, all letters are Light (كلها مرققة)", "No, contains Heavy letter", "Contains Qalqalah", "Contains Madd 6 counts"], "ans": 0}, {"word": "نَزَلَ", "q": "Are all the consonants in (نَزَلَ) Light (مرققة)?", "options": ["Yes, all letters are Light (كلها مرققة)", "No, contains Heavy letter", "Contains Qalqalah", "Contains Madd 6 counts"], "ans": 0}, {"word": "سَأَلَ", "q": "Are all the consonants in (سَأَلَ) Light (مرققة)?", "options": ["Yes, all letters are Light (كلها مرققة)", "No, contains Heavy letter", "Contains Qalqalah", "Contains Madd 6 counts"], "ans": 0}, {"word": "حَمَلَ", "q": "Are all the consonants in (حَمَلَ) Light (مرققة)?", "options": ["Yes, all letters are Light (كلها مرققة)", "No, contains Heavy letter", "Contains Qalqalah", "Contains Madd 6 counts"], "ans": 0}, {"word": "عَمَلَ", "q": "Are all the consonants in (عَمَلَ) Light (مرققة)?", "options": ["Yes, all letters are Light (كلها مرققة)", "No, contains Heavy letter", "Contains Qalqalah", "Contains Madd 6 counts"], "ans": 0}, {"word": "كَتَمَ", "q": "Are all the consonants in (كَتَمَ) Light (مرققة)?", "options": ["Yes, all letters are Light (كلها مرققة)", "No, contains Heavy letter", "Contains Qalqalah", "Contains Madd 6 counts"], "ans": 0}, {"word": "عَزَمَ", "q": "Are all the consonants in (عَزَمَ) Light (مرققة)?", "options": ["Yes, all letters are Light (كلها مرققة)", "No, contains Heavy letter", "Contains Qalqalah", "Contains Madd 6 counts"], "ans": 0}, {"word": "زَعَمَ", "q": "Are all the consonants in (زَعَمَ) Light (مرققة)?", "options": ["Yes, all letters are Light (كلها مرققة)", "No, contains Heavy letter", "Contains Qalqalah", "Contains Madd 6 counts"], "ans": 0}, {"word": "وَلَدَ", "q": "Are all the consonants in (وَلَدَ) Light (مرققة)?", "options": ["Yes, all letters are Light (كلها مرققة)", "No, contains Heavy letter", "Contains Qalqalah", "Contains Madd 6 counts"], "ans": 0}, {"word": "نَبَذَ", "q": "Are all the consonants in (نَبَذَ) Light (مرققة)?", "options": ["Yes, all letters are Light (كلها مرققة)", "No, contains Heavy letter", "Contains Qalqalah", "Contains Madd 6 counts"], "ans": 0}, {"word": "سَلَفَ", "q": "Are all the consonants in (سَلَفَ) Light (مرققة)?", "options": ["Yes, all letters are Light (كلها مرققة)", "No, contains Heavy letter", "Contains Qalqalah", "Contains Madd 6 counts"], "ans": 0}, {"word": "كَشَفَ", "q": "Are all the consonants in (كَشَفَ) Light (مرققة)?", "options": ["Yes, all letters are Light (كلها مرققة)", "No, contains Heavy letter", "Contains Qalqalah", "Contains Madd 6 counts"], "ans": 0}, {"word": "أَمَرَ", "q": "What is the ruling of (ر) in the word (أَمَرَ)?", "options": ["Heavy Ra (راء مفخمة)", "Light Ra (مرققة)", "Qalqalah", "Ghunnah"], "ans": 0}, {"word": "مَكَرَ", "q": "What is the ruling of (ر) in the word (مَكَرَ)?", "options": ["Heavy Ra (راء مفخمة)", "Light Ra (مرققة)", "Qalqalah", "Ghunnah"], "ans": 0}, {"word": "بَلَغَ", "q": "Does the word (بَلَغَ) contain a Heavy letter (حرف مفخم)?", "options": ["Yes, contains Heavy letter (مفخم)", "No, all letters are Light (مرقق)", "Contains silent drop", "Contains Tanween"], "ans": 0}, {"word": "غَضَبَ", "q": "Does the word (غَضَبَ) contain a Heavy letter (حرف مفخم)?", "options": ["Yes, contains Heavy letter (مفخم)", "No, all letters are Light (مرقق)", "Contains silent drop", "Contains Tanween"], "ans": 0}, {"word": "وَرَدَ", "q": "What is the ruling of (ر) in the word (وَرَدَ)?", "options": ["Heavy Ra (راء مفخمة)", "Light Ra (مرققة)", "Qalqalah", "Ghunnah"], "ans": 0}, {"word": "خَتَمَ", "q": "Does the word (خَتَمَ) contain a Heavy letter (حرف مفخم)?", "options": ["Yes, contains Heavy letter (مفخم)", "No, all letters are Light (مرقق)", "Contains silent drop", "Contains Tanween"], "ans": 0}, {"word": "ظَلَمَ", "q": "Does the word (ظَلَمَ) contain a Heavy letter (حرف مفخم)?", "options": ["Yes, contains Heavy letter (مفخم)", "No, all letters are Light (مرقق)", "Contains silent drop", "Contains Tanween"], "ans": 0}, {"word": "عَرَضَ", "q": "Does the word (عَرَضَ) contain a Heavy letter (حرف مفخم)?", "options": ["Yes, contains Heavy letter (مفخم)", "No, all letters are Light (مرقق)", "Contains silent drop", "Contains Tanween"], "ans": 0}, {"word": "فَرَضَ", "q": "Does the word (فَرَضَ) contain a Heavy letter (حرف مفخم)?", "options": ["Yes, contains Heavy letter (مفخم)", "No, all letters are Light (مرقق)", "Contains silent drop", "Contains Tanween"], "ans": 0}, {"word": "تَرَكَ", "q": "What is the ruling of (ر) in the word (تَرَكَ)?", "options": ["Heavy Ra (راء مفخمة)", "Light Ra (مرققة)", "Qalqalah", "Ghunnah"], "ans": 0}, {"word": "سَرَقَ", "q": "Does the word (سَرَقَ) contain a Heavy letter (حرف مفخم)?", "options": ["Yes, contains Heavy letter (مفخم)", "No, all letters are Light (مرقق)", "Contains silent drop", "Contains Tanween"], "ans": 0}, {"word": "فَصَلَ", "q": "Does the word (فَصَلَ) contain a Heavy letter (حرف مفخم)?", "options": ["Yes, contains Heavy letter (مفخم)", "No, all letters are Light (مرقق)", "Contains silent drop", "Contains Tanween"], "ans": 0}, {"word": "مَرَجَ", "q": "What is the ruling of (ر) in the word (مَرَجَ)?", "options": ["Heavy Ra (راء مفخمة)", "Light Ra (مرققة)", "Qalqalah", "Ghunnah"], "ans": 0}, {"word": "صَرَفَ", "q": "Does the word (صَرَفَ) contain a Heavy letter (حرف مفخم)?", "options": ["Yes, contains Heavy letter (مفخم)", "No, all letters are Light (مرقق)", "Contains silent drop", "Contains Tanween"], "ans": 0}, {"word": "شَرَحَ", "q": "What is the ruling of (ر) in the word (شَرَحَ)?", "options": ["Heavy Ra (راء مفخمة)", "Light Ra (مرققة)", "Qalqalah", "Ghunnah"], "ans": 0}, {"word": "صَلَحَ", "q": "Does the word (صَلَحَ) contain a Heavy letter (حرف مفخم)?", "options": ["Yes, contains Heavy letter (مفخم)", "No, all letters are Light (مرقق)", "Contains silent drop", "Contains Tanween"], "ans": 0}, {"word": "وَقَعَ", "q": "Does the word (وَقَعَ) contain a Heavy letter (حرف مفخم)?", "options": ["Yes, contains Heavy letter (مفخم)", "No, all letters are Light (مرقق)", "Contains silent drop", "Contains Tanween"], "ans": 0}, {"word": "طَبَعَ", "q": "Does the word (طَبَعَ) contain a Heavy letter (حرف مفخم)?", "options": ["Yes, contains Heavy letter (مفخم)", "No, all letters are Light (مرقق)", "Contains silent drop", "Contains Tanween"], "ans": 0}, {"word": "شَرَعَ", "q": "What is the ruling of (ر) in the word (شَرَعَ)?", "options": ["Heavy Ra (راء مفخمة)", "Light Ra (مرققة)", "Qalqalah", "Ghunnah"], "ans": 0}, {"word": "رَفَعَ", "q": "What is the ruling of (ر) in the word (رَفَعَ)?", "options": ["Heavy Ra (راء مفخمة)", "Light Ra (مرققة)", "Qalqalah", "Ghunnah"], "ans": 0}, {"word": "حَضَرَ", "q": "Does the word (حَضَرَ) contain a Heavy letter (حرف مفخم)?", "options": ["Yes, contains Heavy letter (مفخم)", "No, all letters are Light (مرقق)", "Contains silent drop", "Contains Tanween"], "ans": 0}, {"word": "نَظَرَ", "q": "Does the word (نَظَرَ) contain a Heavy letter (حرف مفخم)?", "options": ["Yes, contains Heavy letter (مفخم)", "No, all letters are Light (مرقق)", "Contains silent drop", "Contains Tanween"], "ans": 0}, {"word": "ظَهَرَ", "q": "Does the word (ظَهَرَ) contain a Heavy letter (حرف مفخم)?", "options": ["Yes, contains Heavy letter (مفخم)", "No, all letters are Light (مرقق)", "Contains silent drop", "Contains Tanween"], "ans": 0}, {"word": "فَخَلَفَ", "q": "Does the word (فَخَلَفَ) contain a Heavy letter (حرف مفخم)?", "options": ["Yes, contains Heavy letter (مفخم)", "No, all letters are Light (مرقق)", "Contains silent drop", "Contains Tanween"], "ans": 0}, {"word": "وَصَدَفَ", "q": "Does the word (وَصَدَفَ) contain a Heavy letter (حرف مفخم)?", "options": ["Yes, contains Heavy letter (مفخم)", "No, all letters are Light (مرقق)", "Contains silent drop", "Contains Tanween"], "ans": 0}, {"word": "وَقَذَفَ", "q": "Does the word (وَقَذَفَ) contain a Heavy letter (حرف مفخم)?", "options": ["Yes, contains Heavy letter (مفخم)", "No, all letters are Light (مرقق)", "Contains silent drop", "Contains Tanween"], "ans": 0}, {"word": "وَخَسَفَ", "q": "Does the word (وَخَسَفَ) contain a Heavy letter (حرف مفخم)?", "options": ["Yes, contains Heavy letter (مفخم)", "No, all letters are Light (مرقق)", "Contains silent drop", "Contains Tanween"], "ans": 0}, {"word": "وَسَلَكَ", "q": "Are all the consonants in (وَسَلَكَ) Light (مرققة)?", "options": ["Yes, all letters are Light (كلها مرققة)", "No, contains Heavy letter", "Contains Qalqalah", "Contains Madd 6 counts"], "ans": 0}, {"word": "وَقَعَدَ", "q": "Does the word (وَقَعَدَ) contain a Heavy letter (حرف مفخم)?", "options": ["Yes, contains Heavy letter (مفخم)", "No, all letters are Light (مرقق)", "Contains silent drop", "Contains Tanween"], "ans": 0}, {"word": "وَزَهَقَ", "q": "Does the word (وَزَهَقَ) contain a Heavy letter (حرف مفخم)?", "options": ["Yes, contains Heavy letter (مفخم)", "No, all letters are Light (مرقق)", "Contains silent drop", "Contains Tanween"], "ans": 0}, {"word": "وَوَضَعَ", "q": "Does the word (وَوَضَعَ) contain a Heavy letter (حرف مفخم)?", "options": ["Yes, contains Heavy letter (مفخم)", "No, all letters are Light (مرقق)", "Contains silent drop", "Contains Tanween"], "ans": 0}, {"word": "فَمَكَثَ", "q": "Are all the consonants in (فَمَكَثَ) Light (مرققة)?", "options": ["Yes, all letters are Light (كلها مرققة)", "No, contains Heavy letter", "Contains Qalqalah", "Contains Madd 6 counts"], "ans": 0}, {"word": "فَخَرَجَ", "q": "Does the word (فَخَرَجَ) contain a Heavy letter (حرف مفخم)?", "options": ["Yes, contains Heavy letter (مفخم)", "No, all letters are Light (مرقق)", "Contains silent drop", "Contains Tanween"], "ans": 0}, {"word": "فَحَشَرَ", "q": "What is the ruling of (ر) in the word (فَحَشَرَ)?", "options": ["Heavy Ra (راء مفخمة)", "Light Ra (مرققة)", "Qalqalah", "Ghunnah"], "ans": 0}, {"word": "وَذَكَرَ", "q": "What is the ruling of (ر) in the word (وَذَكَرَ)?", "options": ["Heavy Ra (راء مفخمة)", "Light Ra (مرققة)", "Qalqalah", "Ghunnah"], "ans": 0}, {"word": "إِرَمَ", "q": "What is the ruling of (ر) in the word (إِرَمَ)?", "options": ["Light Ra (راء مرققة)", "Heavy Ra (مفخمة)", "Qalqalah", "Ghunnah"], "ans": 0}, {"word": "حَبِطَ", "q": "Does the word (حَبِطَ) contain a Heavy letter (حرف مفخم)?", "options": ["Yes, contains Heavy letter (مفخم)", "No, all letters are Light (مرقق)", "Contains silent drop", "Contains Tanween"], "ans": 0}, {"word": "خَلَتِ", "q": "Does the word (خَلَتِ) contain a Heavy letter (حرف مفخم)?", "options": ["Yes, contains Heavy letter (مفخم)", "No, all letters are Light (مرقق)", "Contains silent drop", "Contains Tanween"], "ans": 0}, {"word": "أَجِدَ", "q": "Are all the consonants in (أَجِدَ) Light (مرققة)?", "options": ["Yes, all letters are Light (كلها مرققة)", "No, contains Heavy letter", "Contains Qalqalah", "Contains Madd 6 counts"], "ans": 0}, {"word": "رَحِمَ", "q": "What is the ruling of (ر) in the word (رَحِمَ)?", "options": ["Light Ra (راء مرققة)", "Heavy Ra (مفخمة)", "Qalqalah", "Ghunnah"], "ans": 0}, {"word": "سَخِطَ", "q": "Does the word (سَخِطَ) contain a Heavy letter (حرف مفخم)?", "options": ["Yes, contains Heavy letter (مفخم)", "No, all letters are Light (مرقق)", "Contains silent drop", "Contains Tanween"], "ans": 0}, {"word": "رَدِفَ", "q": "What is the ruling of (ر) in the word (رَدِفَ)?", "options": ["Light Ra (راء مرققة)", "Heavy Ra (مفخمة)", "Qalqalah", "Ghunnah"], "ans": 0}, {"word": "أَذِنَ", "q": "Are all the consonants in (أَذِنَ) Light (مرققة)?", "options": ["Yes, all letters are Light (كلها مرققة)", "No, contains Heavy letter", "Contains Qalqalah", "Contains Madd 6 counts"], "ans": 0}, {"word": "بَرِقَ", "q": "Does the word (بَرِقَ) contain a Heavy letter (حرف مفخم)?", "options": ["Yes, contains Heavy letter (مفخم)", "No, all letters are Light (مرقق)", "Contains silent drop", "Contains Tanween"], "ans": 0}, {"word": "حَسِبَ", "q": "Are all the consonants in (حَسِبَ) Light (مرققة)?", "options": ["Yes, all letters are Light (كلها مرققة)", "No, contains Heavy letter", "Contains Qalqalah", "Contains Madd 6 counts"], "ans": 0}, {"word": "خَشِيَ", "q": "Does the word (خَشِيَ) contain a Heavy letter (حرف مفخم)?", "options": ["Yes, contains Heavy letter (مفخم)", "No, all letters are Light (مرقق)", "Contains silent drop", "Contains Tanween"], "ans": 0}, {"word": "رَضِيَ", "q": "Does the word (رَضِيَ) contain a Heavy letter (حرف مفخم)?", "options": ["Yes, contains Heavy letter (مفخم)", "No, all letters are Light (مرقق)", "Contains silent drop", "Contains Tanween"], "ans": 0}, {"word": "خَطِفَ", "q": "Does the word (خَطِفَ) contain a Heavy letter (حرف مفخم)?", "options": ["Yes, contains Heavy letter (مفخم)", "No, all letters are Light (مرقق)", "Contains silent drop", "Contains Tanween"], "ans": 0}, {"word": "مَلِكِ", "q": "Are all the consonants in (مَلِكِ) Light (مرققة)?", "options": ["Yes, all letters are Light (كلها مرققة)", "No, contains Heavy letter", "Contains Qalqalah", "Contains Madd 6 counts"], "ans": 0}, {"word": "حَفِظَ", "q": "Does the word (حَفِظَ) contain a Heavy letter (حرف مفخم)?", "options": ["Yes, contains Heavy letter (مفخم)", "No, all letters are Light (مرقق)", "Contains silent drop", "Contains Tanween"], "ans": 0}, {"word": "بَقِيَ", "q": "Does the word (بَقِيَ) contain a Heavy letter (حرف مفخم)?", "options": ["Yes, contains Heavy letter (مفخم)", "No, all letters are Light (مرقق)", "Contains silent drop", "Contains Tanween"], "ans": 0}, {"word": "عَلِمَ", "q": "Are all the consonants in (عَلِمَ) Light (مرققة)?", "options": ["Yes, all letters are Light (كلها مرققة)", "No, contains Heavy letter", "Contains Qalqalah", "Contains Madd 6 counts"], "ans": 0}, {"word": "فَرِحَ", "q": "What is the ruling of (ر) in the word (فَرِحَ)?", "options": ["Light Ra (راء مرققة)", "Heavy Ra (مفخمة)", "Qalqalah", "Ghunnah"], "ans": 0}, {"word": "بَخِلَ", "q": "Does the word (بَخِلَ) contain a Heavy letter (حرف مفخم)?", "options": ["Yes, contains Heavy letter (مفخم)", "No, all letters are Light (مرقق)", "Contains silent drop", "Contains Tanween"], "ans": 0}, {"word": "تَجِدَ", "q": "Are all the consonants in (تَجِدَ) Light (مرققة)?", "options": ["Yes, all letters are Light (كلها مرققة)", "No, contains Heavy letter", "Contains Qalqalah", "Contains Madd 6 counts"], "ans": 0}, {"word": "لَبِثَ", "q": "Are all the consonants in (لَبِثَ) Light (مرققة)?", "options": ["Yes, all letters are Light (كلها مرققة)", "No, contains Heavy letter", "Contains Qalqalah", "Contains Madd 6 counts"], "ans": 0}, {"word": "كَرِهَ", "q": "What is the ruling of (ر) in the word (كَرِهَ)?", "options": ["Light Ra (راء مرققة)", "Heavy Ra (مفخمة)", "Qalqalah", "Ghunnah"], "ans": 0}, {"word": "خَسِرَ", "q": "Does the word (خَسِرَ) contain a Heavy letter (حرف مفخم)?", "options": ["Yes, contains Heavy letter (مفخم)", "No, all letters are Light (مرقق)", "Contains silent drop", "Contains Tanween"], "ans": 0}, {"word": "سَخِرَ", "q": "Does the word (سَخِرَ) contain a Heavy letter (حرف مفخم)?", "options": ["Yes, contains Heavy letter (مفخم)", "No, all letters are Light (مرقق)", "Contains silent drop", "Contains Tanween"], "ans": 0}, {"word": "غَضِبَ", "q": "Does the word (غَضِبَ) contain a Heavy letter (حرف مفخم)?", "options": ["Yes, contains Heavy letter (مفخم)", "No, all letters are Light (مرقق)", "Contains silent drop", "Contains Tanween"], "ans": 0}];
+
+    const vowelSpeedData = [{"letter": "أَ", "q": "Identify the mark / vowel on (أَ):", "options": ["Fatḥah (فتحة ـَ)", "Dammah (ضمة ـُ)", "Shaddah (شدة ـّ)", "Kasr Tanween (تنوين بالكسر)"], "ans": 0}, {"letter": "بِـ", "q": "Identify the mark / vowel on (بِـ):", "options": ["Ḍamm Tanween (تنوين بالضم)", "Sukoon (سكون ـْ)", "Kasrah (كسرة ـِ)", "Fatḥ Tanween (تنوين بالفتح)"], "ans": 2}, {"letter": "تُـ", "q": "Identify the mark / vowel on (تُـ):", "options": ["Fatḥah (فتحة ـَ)", "Dammah (ضمة ـُ)", "Shaddah (شدة ـّ)", "Kasr Tanween (تنوين بالكسر)"], "ans": 1}, {"letter": "ثْ", "q": "Identify the mark / vowel on (ثْ):", "options": ["Ḍamm Tanween (تنوين بالضم)", "Sukoon (سكون ـْ)", "Kasrah (كسرة ـِ)", "Fatḥ Tanween (تنوين بالفتح)"], "ans": 1}, {"letter": "جَـ", "q": "Identify the mark / vowel on (جَـ):", "options": ["Kasr Tanween (تنوين بالكسر)", "Fatḥah (فتحة ـَ)", "Sukoon (سكون ـْ)", "Kasrah (كسرة ـِ)"], "ans": 1}, {"letter": "حِـ", "q": "Identify the mark / vowel on (حِـ):", "options": ["Ḍamm Tanween (تنوين بالضم)", "Dammah (ضمة ـُ)", "Shaddah (شدة ـّ)", "Kasrah (كسرة ـِ)"], "ans": 3}, {"letter": "خُـ", "q": "Identify the mark / vowel on (خُـ):", "options": ["Fatḥah (فتحة ـَ)", "Sukoon (سكون ـْ)", "Dammah (ضمة ـُ)", "Fatḥ Tanween (تنوين بالفتح)"], "ans": 2}, {"letter": "دْ", "q": "Identify the mark / vowel on (دْ):", "options": ["Kasr Tanween (تنوين بالكسر)", "Sukoon (سكون ـْ)", "Shaddah (شدة ـّ)", "Kasrah (كسرة ـِ)"], "ans": 1}, {"letter": "ذَ", "q": "Identify the mark / vowel on (ذَ):", "options": ["Fatḥah (فتحة ـَ)", "Ḍamm Tanween (تنوين بالضم)", "Sukoon (سكون ـْ)", "Fatḥ Tanween (تنوين بالفتح)"], "ans": 0}, {"letter": "رِ", "q": "Identify the mark / vowel on (رِ):", "options": ["Kasr Tanween (تنوين بالكسر)", "Fatḥah (فتحة ـَ)", "Shaddah (شدة ـّ)", "Kasrah (كسرة ـِ)"], "ans": 3}, {"letter": "زُ", "q": "Identify the mark / vowel on (زُ):", "options": ["Ḍamm Tanween (تنوين بالضم)", "Dammah (ضمة ـُ)", "Kasrah (كسرة ـِ)", "Fatḥ Tanween (تنوين بالفتح)"], "ans": 1}, {"letter": "سْ", "q": "Identify the mark / vowel on (سْ):", "options": ["Kasr Tanween (تنوين بالكسر)", "Fatḥah (فتحة ـَ)", "Sukoon (سكون ـْ)", "Dammah (ضمة ـُ)"], "ans": 2}, {"letter": "شَـ", "q": "Identify the mark / vowel on (شَـ):", "options": ["Fatḥah (فتحة ـَ)", "Ḍamm Tanween (تنوين بالضم)", "Dammah (ضمة ـُ)", "Shaddah (شدة ـّ)"], "ans": 0}, {"letter": "صِـ", "q": "Identify the mark / vowel on (صِـ):", "options": ["Fatḥah (فتحة ـَ)", "Sukoon (سكون ـْ)", "Kasrah (كسرة ـِ)", "Fatḥ Tanween (تنوين بالفتح)"], "ans": 2}, {"letter": "ضُـ", "q": "Identify the mark / vowel on (ضُـ):", "options": ["Kasr Tanween (تنوين بالكسر)", "Dammah (ضمة ـُ)", "Shaddah (شدة ـّ)", "Kasrah (كسرة ـِ)"], "ans": 1}, {"letter": "طْ", "q": "Identify the mark / vowel on (طْ):", "options": ["Ḍamm Tanween (تنوين بالضم)", "Sukoon (سكون ـْ)", "Dammah (ضمة ـُ)", "Fatḥ Tanween (تنوين بالفتح)"], "ans": 1}, {"letter": "ظَـ", "q": "Identify the mark / vowel on (ظَـ):", "options": ["Kasr Tanween (تنوين بالكسر)", "Fatḥah (فتحة ـَ)", "Shaddah (شدة ـّ)", "Kasrah (كسرة ـِ)"], "ans": 1}, {"letter": "عِـ", "q": "Identify the mark / vowel on (عِـ):", "options": ["Ḍamm Tanween (تنوين بالضم)", "Dammah (ضمة ـُ)", "Kasrah (كسرة ـِ)", "Fatḥ Tanween (تنوين بالفتح)"], "ans": 2}, {"letter": "غُـ", "q": "Identify the mark / vowel on (غُـ):", "options": ["Kasr Tanween (تنوين بالكسر)", "Fatḥah (فتحة ـَ)", "Sukoon (سكون ـْ)", "Dammah (ضمة ـُ)"], "ans": 3}, {"letter": "فْ", "q": "Identify the mark / vowel on (فْ):", "options": ["Ḍamm Tanween (تنوين بالضم)", "Sukoon (سكون ـْ)", "Shaddah (شدة ـّ)", "Kasrah (كسرة ـِ)"], "ans": 1}, {"letter": "قَـ", "q": "Identify the mark / vowel on (قَـ):", "options": ["Fatḥah (فتحة ـَ)", "Sukoon (سكون ـْ)", "Kasrah (كسرة ـِ)", "Fatḥ Tanween (تنوين بالفتح)"], "ans": 0}, {"letter": "كِـ", "q": "Identify the mark / vowel on (كِـ):", "options": ["Kasr Tanween (تنوين بالكسر)", "Dammah (ضمة ـُ)", "Shaddah (شدة ـّ)", "Kasrah (كسرة ـِ)"], "ans": 3}, {"letter": "لُـ", "q": "Identify the mark / vowel on (لُـ):", "options": ["Fatḥ Tanween (تنوين بالفتح)", "Ḍamm Tanween (تنوين بالضم)", "Sukoon (سكون ـْ)", "Dammah (ضمة ـُ)"], "ans": 3}, {"letter": "مْ", "q": "Identify the mark / vowel on (مْ):", "options": ["Kasr Tanween (تنوين بالكسر)", "Fatḥah (فتحة ـَ)", "Sukoon (سكون ـْ)", "Shaddah (شدة ـّ)"], "ans": 2}, {"letter": "نَـ", "q": "Identify the mark / vowel on (نَـ):", "options": ["Fatḥ Tanween (تنوين بالفتح)", "Fatḥah (فتحة ـَ)", "Ḍamm Tanween (تنوين بالضم)", "Dammah (ضمة ـُ)"], "ans": 1}, {"letter": "هِـ", "q": "Identify the mark / vowel on (هِـ):", "options": ["Kasr Tanween (تنوين بالكسر)", "Fatḥah (فتحة ـَ)", "Sukoon (سكون ـْ)", "Kasrah (كسرة ـِ)"], "ans": 3}, {"letter": "وُ", "q": "Identify the mark / vowel on (وُ):", "options": ["Ḍamm Tanween (تنوين بالضم)", "Dammah (ضمة ـُ)", "Shaddah (شدة ـّ)", "Kasrah (كسرة ـِ)"], "ans": 1}, {"letter": "يْ", "q": "Identify the mark / vowel on (يْ):", "options": ["Fatḥ Tanween (تنوين بالفتح)", "Fatḥah (فتحة ـَ)", "Sukoon (سكون ـْ)", "Dammah (ضمة ـُ)"], "ans": 2}, {"letter": "بّـ", "q": "Identify the mark / vowel on (بّـ):", "options": ["Kasr Tanween (تنوين بالكسر)", "Sukoon (سكون ـْ)", "Shaddah (شدة ـّ)", "Kasrah (كسرة ـِ)"], "ans": 2}, {"letter": "تّـ", "q": "Identify the mark / vowel on (تّـ):", "options": ["Fatḥ Tanween (تنوين بالفتح)", "Ḍamm Tanween (تنوين بالضم)", "Dammah (ضمة ـُ)", "Shaddah (شدة ـّ)"], "ans": 3}, {"letter": "عَجَبًا", "q": "Identify the mark / vowel on (عَجَبًا):", "options": ["Fatḥ Tanween (تنوين بالفتح)", "Kasr Tanween (تنوين بالكسر)", "Fatḥah (فتحة ـَ)", "Sukoon (سكون ـْ)"], "ans": 0}, {"letter": "شُعَبٍ", "q": "Identify the mark / vowel on (شُعَبٍ):", "options": ["Kasrah (كسرة ـِ)", "Kasr Tanween (تنوين بالكسر)", "Ḍamm Tanween (تنوين بالضم)", "Shaddah (شدة ـّ)"], "ans": 1}, {"letter": "كُتُبٌ", "q": "Identify the mark / vowel on (كُتُبٌ):", "options": ["Fatḥ Tanween (تنوين بالفتح)", "Fatḥah (فتحة ـَ)", "Ḍamm Tanween (تنوين بالضم)", "Dammah (ضمة ـُ)"], "ans": 2}, {"letter": "أَ", "q": "Identify the mark / vowel on (أَ):", "options": ["Fatḥah (فتحة ـَ)", "Ḍamm Tanween (تنوين بالضم)", "Dammah (ضمة ـُ)", "Shaddah (شدة ـّ)"], "ans": 0}, {"letter": "بِـ", "q": "Identify the mark / vowel on (بِـ):", "options": ["Kasrah (كسرة ـِ)", "Fatḥ Tanween (تنوين بالفتح)", "Fatḥah (فتحة ـَ)", "Sukoon (سكون ـْ)"], "ans": 0}, {"letter": "تُـ", "q": "Identify the mark / vowel on (تُـ):", "options": ["Kasrah (كسرة ـِ)", "Kasr Tanween (تنوين بالكسر)", "Dammah (ضمة ـُ)", "Shaddah (شدة ـّ)"], "ans": 2}, {"letter": "ثْ", "q": "Identify the mark / vowel on (ثْ):", "options": ["Fatḥ Tanween (تنوين بالفتح)", "Ḍamm Tanween (تنوين بالضم)", "Sukoon (سكون ـْ)", "Dammah (ضمة ـُ)"], "ans": 2}, {"letter": "جَـ", "q": "Identify the mark / vowel on (جَـ):", "options": ["Kasrah (كسرة ـِ)", "Kasr Tanween (تنوين بالكسر)", "Fatḥah (فتحة ـَ)", "Shaddah (شدة ـّ)"], "ans": 2}, {"letter": "حِـ", "q": "Identify the mark / vowel on (حِـ):", "options": ["Kasrah (كسرة ـِ)", "Fatḥ Tanween (تنوين بالفتح)", "Ḍamm Tanween (تنوين بالضم)", "Dammah (ضمة ـُ)"], "ans": 0}, {"letter": "خُـ", "q": "Identify the mark / vowel on (خُـ):", "options": ["Dammah (ضمة ـُ)", "Kasr Tanween (تنوين بالكسر)", "Fatḥah (فتحة ـَ)", "Sukoon (سكون ـْ)"], "ans": 0}, {"letter": "دْ", "q": "Identify the mark / vowel on (دْ):", "options": ["Shaddah (شدة ـّ)", "Kasrah (كسرة ـِ)", "Ḍamm Tanween (تنوين بالضم)", "Sukoon (سكون ـْ)"], "ans": 3}, {"letter": "ذَ", "q": "Identify the mark / vowel on (ذَ):", "options": ["Kasrah (كسرة ـِ)", "Fatḥ Tanween (تنوين بالفتح)", "Fatḥah (فتحة ـَ)", "Sukoon (سكون ـْ)"], "ans": 2}, {"letter": "رِ", "q": "Identify the mark / vowel on (رِ):", "options": ["Dammah (ضمة ـُ)", "Shaddah (شدة ـّ)", "Kasrah (كسرة ـِ)", "Kasr Tanween (تنوين بالكسر)"], "ans": 2}, {"letter": "زُ", "q": "Identify the mark / vowel on (زُ):", "options": ["Dammah (ضمة ـُ)", "Fatḥ Tanween (تنوين بالفتح)", "Ḍamm Tanween (تنوين بالضم)", "Sukoon (سكون ـْ)"], "ans": 0}, {"letter": "سْ", "q": "Identify the mark / vowel on (سْ):", "options": ["Shaddah (شدة ـّ)", "Kasr Tanween (تنوين بالكسر)", "Fatḥah (فتحة ـَ)", "Sukoon (سكون ـْ)"], "ans": 3}, {"letter": "شَـ", "q": "Identify the mark / vowel on (شَـ):", "options": ["Dammah (ضمة ـُ)", "Fatḥ Tanween (تنوين بالفتح)", "Fatḥah (فتحة ـَ)", "Ḍamm Tanween (تنوين بالضم)"], "ans": 2}, {"letter": "صِـ", "q": "Identify the mark / vowel on (صِـ):", "options": ["Kasrah (كسرة ـِ)", "Kasr Tanween (تنوين بالكسر)", "Fatḥah (فتحة ـَ)", "Sukoon (سكون ـْ)"], "ans": 0}, {"letter": "ضُـ", "q": "Identify the mark / vowel on (ضُـ):", "options": ["Dammah (ضمة ـُ)", "Shaddah (شدة ـّ)", "Kasrah (كسرة ـِ)", "Ḍamm Tanween (تنوين بالضم)"], "ans": 0}, {"letter": "طْ", "q": "Identify the mark / vowel on (طْ):", "options": ["Dammah (ضمة ـُ)", "Fatḥ Tanween (تنوين بالفتح)", "Fatḥah (فتحة ـَ)", "Sukoon (سكون ـْ)"], "ans": 3}, {"letter": "ظَـ", "q": "Identify the mark / vowel on (ظَـ):", "options": ["Dammah (ضمة ـُ)", "Shaddah (شدة ـّ)", "Kasr Tanween (تنوين بالكسر)", "Fatḥah (فتحة ـَ)"], "ans": 3}, {"letter": "عِـ", "q": "Identify the mark / vowel on (عِـ):", "options": ["Kasrah (كسرة ـِ)", "Fatḥ Tanween (تنوين بالفتح)", "Ḍamm Tanween (تنوين بالضم)", "Sukoon (سكون ـْ)"], "ans": 0}, {"letter": "غُـ", "q": "Identify the mark / vowel on (غُـ):", "options": ["Dammah (ضمة ـُ)", "Shaddah (شدة ـّ)", "Kasr Tanween (تنوين بالكسر)", "Fatḥah (فتحة ـَ)"], "ans": 0}, {"letter": "فْ", "q": "Identify the mark / vowel on (فْ):", "options": ["Kasrah (كسرة ـِ)", "Fatḥ Tanween (تنوين بالفتح)", "Ḍamm Tanween (تنوين بالضم)", "Sukoon (سكون ـْ)"], "ans": 3}, {"letter": "قَـ", "q": "Identify the mark / vowel on (قَـ):", "options": ["Kasrah (كسرة ـِ)", "Kasr Tanween (تنوين بالكسر)", "Fatḥah (فتحة ـَ)", "Sukoon (سكون ـْ)"], "ans": 2}, {"letter": "كِـ", "q": "Identify the mark / vowel on (كِـ):", "options": ["Dammah (ضمة ـُ)", "Shaddah (شدة ـّ)", "Kasrah (كسرة ـِ)", "Ḍamm Tanween (تنوين بالضم)"], "ans": 2}, {"letter": "لُـ", "q": "Identify the mark / vowel on (لُـ):", "options": ["Dammah (ضمة ـُ)", "Fatḥ Tanween (تنوين بالفتح)", "Fatḥah (فتحة ـَ)", "Sukoon (سكون ـْ)"], "ans": 0}, {"letter": "مْ", "q": "Identify the mark / vowel on (مْ):", "options": ["Shaddah (شدة ـّ)", "Kasrah (كسرة ـِ)", "Kasr Tanween (تنوين بالكسر)", "Sukoon (سكون ـْ)"], "ans": 3}, {"letter": "نَـ", "q": "Identify the mark / vowel on (نَـ):", "options": ["Fatḥ Tanween (تنوين بالفتح)", "Fatḥah (فتحة ـَ)", "Ḍamm Tanween (تنوين بالضم)", "Sukoon (سكون ـْ)"], "ans": 1}, {"letter": "هِـ", "q": "Identify the mark / vowel on (هِـ):", "options": ["Shaddah (شدة ـّ)", "Kasrah (كسرة ـِ)", "Kasr Tanween (تنوين بالكسر)", "Fatḥah (فتحة ـَ)"], "ans": 1}, {"letter": "وُ", "q": "Identify the mark / vowel on (وُ):", "options": ["Dammah (ضمة ـُ)", "Kasrah (كسرة ـِ)", "Fatḥ Tanween (تنوين بالفتح)", "Ḍamm Tanween (تنوين بالضم)"], "ans": 0}, {"letter": "يْ", "q": "Identify the mark / vowel on (يْ):", "options": ["Dammah (ضمة ـُ)", "Kasr Tanween (تنوين بالكسر)", "Fatḥah (فتحة ـَ)", "Sukoon (سكون ـْ)"], "ans": 3}, {"letter": "بّـ", "q": "Identify the mark / vowel on (بّـ):", "options": ["Shaddah (شدة ـّ)", "Kasrah (كسرة ـِ)", "Ḍamm Tanween (تنوين بالضم)", "Sukoon (سكون ـْ)"], "ans": 0}, {"letter": "تّـ", "q": "Identify the mark / vowel on (تّـ):", "options": ["Dammah (ضمة ـُ)", "Shaddah (شدة ـّ)", "Fatḥ Tanween (تنوين بالفتح)", "Fatḥah (فتحة ـَ)"], "ans": 1}, {"letter": "عَجَبًا", "q": "Identify the mark / vowel on (عَجَبًا):", "options": ["Kasrah (كسرة ـِ)", "Fatḥ Tanween (تنوين بالفتح)", "Kasr Tanween (تنوين بالكسر)", "Sukoon (سكون ـْ)"], "ans": 1}, {"letter": "شُعَبٍ", "q": "Identify the mark / vowel on (شُعَبٍ):", "options": ["Dammah (ضمة ـُ)", "Shaddah (شدة ـّ)", "Kasr Tanween (تنوين بالكسر)", "Ḍamm Tanween (تنوين بالضم)"], "ans": 2}, {"letter": "كُتُبٌ", "q": "Identify the mark / vowel on (كُتُبٌ):", "options": ["Sukoon (سكون ـْ)", "Fatḥ Tanween (تنوين بالفتح)", "Fatḥah (فتحة ـَ)", "Ḍamm Tanween (تنوين بالضم)"], "ans": 3}, {"letter": "أَ", "q": "Identify the mark / vowel on (أَ):", "options": ["Dammah (ضمة ـُ)", "Fatḥ Tanween (تنوين بالفتح)", "Fatḥah (فتحة ـَ)", "Ḍamm Tanween (تنوين بالضم)"], "ans": 2}, {"letter": "بِـ", "q": "Identify the mark / vowel on (بِـ):", "options": ["Sukoon (سكون ـْ)", "Kasrah (كسرة ـِ)", "Kasr Tanween (تنوين بالكسر)", "Fatḥah (فتحة ـَ)"], "ans": 1}, {"letter": "تُـ", "q": "Identify the mark / vowel on (تُـ):", "options": ["Dammah (ضمة ـُ)", "Shaddah (شدة ـّ)", "Kasrah (كسرة ـِ)", "Ḍamm Tanween (تنوين بالضم)"], "ans": 0}, {"letter": "ثْ", "q": "Identify the mark / vowel on (ثْ):", "options": ["Sukoon (سكون ـْ)", "Dammah (ضمة ـُ)", "Fatḥ Tanween (تنوين بالفتح)", "Fatḥah (فتحة ـَ)"], "ans": 0}, {"letter": "جَـ", "q": "Identify the mark / vowel on (جَـ):", "options": ["Dammah (ضمة ـُ)", "Shaddah (شدة ـّ)", "Kasr Tanween (تنوين بالكسر)", "Fatḥah (فتحة ـَ)"], "ans": 3}, {"letter": "حِـ", "q": "Identify the mark / vowel on (حِـ):", "options": ["Sukoon (سكون ـْ)", "Kasrah (كسرة ـِ)", "Fatḥ Tanween (تنوين بالفتح)", "Ḍamm Tanween (تنوين بالضم)"], "ans": 1}, {"letter": "خُـ", "q": "Identify the mark / vowel on (خُـ):", "options": ["Dammah (ضمة ـُ)", "Shaddah (شدة ـّ)", "Kasr Tanween (تنوين بالكسر)", "Fatḥah (فتحة ـَ)"], "ans": 0}, {"letter": "دْ", "q": "Identify the mark / vowel on (دْ):", "options": ["Sukoon (سكون ـْ)", "Kasrah (كسرة ـِ)", "Fatḥ Tanween (تنوين بالفتح)", "Ḍamm Tanween (تنوين بالضم)"], "ans": 0}, {"letter": "ذَ", "q": "Identify the mark / vowel on (ذَ):", "options": ["Sukoon (سكون ـْ)", "Kasrah (كسرة ـِ)", "Kasr Tanween (تنوين بالكسر)", "Fatḥah (فتحة ـَ)"], "ans": 3}, {"letter": "رِ", "q": "Identify the mark / vowel on (رِ):", "options": ["Dammah (ضمة ـُ)", "Shaddah (شدة ـّ)", "Kasrah (كسرة ـِ)", "Ḍamm Tanween (تنوين بالضم)"], "ans": 2}, {"letter": "زُ", "q": "Identify the mark / vowel on (زُ):", "options": ["Sukoon (سكون ـْ)", "Dammah (ضمة ـُ)", "Fatḥ Tanween (تنوين بالفتح)", "Fatḥah (فتحة ـَ)"], "ans": 1}, {"letter": "سْ", "q": "Identify the mark / vowel on (سْ):", "options": ["Sukoon (سكون ـْ)", "Shaddah (شدة ـّ)", "Kasrah (كسرة ـِ)", "Kasr Tanween (تنوين بالكسر)"], "ans": 0}, {"letter": "شَـ", "q": "Identify the mark / vowel on (شَـ):", "options": ["Sukoon (سكون ـْ)", "Fatḥ Tanween (تنوين بالفتح)", "Fatḥah (فتحة ـَ)", "Ḍamm Tanween (تنوين بالضم)"], "ans": 2}, {"letter": "صِـ", "q": "Identify the mark / vowel on (صِـ):", "options": ["Shaddah (شدة ـّ)", "Kasrah (كسرة ـِ)", "Kasr Tanween (تنوين بالكسر)", "Fatḥah (فتحة ـَ)"], "ans": 1}, {"letter": "ضُـ", "q": "Identify the mark / vowel on (ضُـ):", "options": ["Dammah (ضمة ـُ)", "Kasrah (كسرة ـِ)", "Fatḥ Tanween (تنوين بالفتح)", "Ḍamm Tanween (تنوين بالضم)"], "ans": 0}, {"letter": "طْ", "q": "Identify the mark / vowel on (طْ):", "options": ["Sukoon (سكون ـْ)", "Dammah (ضمة ـُ)", "Kasr Tanween (تنوين بالكسر)", "Fatḥah (فتحة ـَ)"], "ans": 0}, {"letter": "ظَـ", "q": "Identify the mark / vowel on (ظَـ):", "options": ["Dammah (ضمة ـُ)", "Shaddah (شدة ـّ)", "Fatḥah (فتحة ـَ)", "Ḍamm Tanween (تنوين بالضم)"], "ans": 2}, {"letter": "عِـ", "q": "Identify the mark / vowel on (عِـ):", "options": ["Sukoon (سكون ـْ)", "Kasrah (كسرة ـِ)", "Fatḥ Tanween (تنوين بالفتح)", "Fatḥah (فتحة ـَ)"], "ans": 1}, {"letter": "غُـ", "q": "Identify the mark / vowel on (غُـ):", "options": ["Dammah (ضمة ـُ)", "Shaddah (شدة ـّ)", "Kasrah (كسرة ـِ)", "Kasr Tanween (تنوين بالكسر)"], "ans": 0}, {"letter": "فْ", "q": "Identify the mark / vowel on (فْ):", "options": ["Sukoon (سكون ـْ)", "Dammah (ضمة ـُ)", "Fatḥ Tanween (تنوين بالفتح)", "Ḍamm Tanween (تنوين بالضم)"], "ans": 0}, {"letter": "قَـ", "q": "Identify the mark / vowel on (قَـ):", "options": ["Shaddah (شدة ـّ)", "Kasrah (كسرة ـِ)", "Kasr Tanween (تنوين بالكسر)", "Fatḥah (فتحة ـَ)"], "ans": 3}, {"letter": "كِـ", "q": "Identify the mark / vowel on (كِـ):", "options": ["Dammah (ضمة ـُ)", "Kasrah (كسرة ـِ)", "Fatḥ Tanween (تنوين بالفتح)", "Ḍamm Tanween (تنوين بالضم)"], "ans": 1}, {"letter": "لُـ", "q": "Identify the mark / vowel on (لُـ):", "options": ["Sukoon (سكون ـْ)", "Dammah (ضمة ـُ)", "Kasr Tanween (تنوين بالكسر)", "Fatḥah (فتحة ـَ)"], "ans": 1}, {"letter": "مْ", "q": "Identify the mark / vowel on (مْ):", "options": ["Sukoon (سكون ـْ)", "Shaddah (شدة ـّ)", "Kasrah (كسرة ـِ)", "Ḍamm Tanween (تنوين بالضم)"], "ans": 0}, {"letter": "نَـ", "q": "Identify the mark / vowel on (نَـ):", "options": ["Sukoon (سكون ـْ)", "Kasrah (كسرة ـِ)", "Fatḥ Tanween (تنوين بالفتح)", "Fatḥah (فتحة ـَ)"], "ans": 3}, {"letter": "هِـ", "q": "Identify the mark / vowel on (هِـ):", "options": ["Dammah (ضمة ـُ)", "Shaddah (شدة ـّ)", "Kasrah (كسرة ـِ)", "Kasr Tanween (تنوين بالكسر)"], "ans": 2}, {"letter": "وُ", "q": "Identify the mark / vowel on (وُ):", "options": ["Sukoon (سكون ـْ)", "Dammah (ضمة ـُ)", "Fatḥ Tanween (تنوين بالفتح)", "Ḍamm Tanween (تنوين بالضم)"], "ans": 1}, {"letter": "يْ", "q": "Identify the mark / vowel on (يْ):", "options": ["Sukoon (سكون ـْ)", "Shaddah (شدة ـّ)", "Kasr Tanween (تنوين بالكسر)", "Fatḥah (فتحة ـَ)"], "ans": 0}, {"letter": "بّـ", "q": "Identify the mark / vowel on (بّـ):", "options": ["Shaddah (شدة ـّ)", "Kasrah (كسرة ـِ)", "Fatḥ Tanween (تنوين بالفتح)", "Ḍamm Tanween (تنوين بالضم)"], "ans": 0}, {"letter": "تّـ", "q": "Identify the mark / vowel on (تّـ):", "options": ["Dammah (ضمة ـُ)", "Shaddah (شدة ـّ)", "Kasr Tanween (تنوين بالكسر)", "Fatḥah (فتحة ـَ)"], "ans": 1}, {"letter": "عَجَبًا", "q": "Identify the mark / vowel on (عَجَبًا):", "options": ["Sukoon (سكون ـْ)", "Kasrah (كسرة ـِ)", "Fatḥ Tanween (تنوين بالفتح)", "Ḍamm Tanween (تنوين بالضم)"], "ans": 2}, {"letter": "شُعَبٍ", "q": "Identify the mark / vowel on (شُعَبٍ):", "options": ["Dammah (ضمة ـُ)", "Shaddah (شدة ـّ)", "Kasr Tanween (تنوين بالكسر)", "Fatḥah (فتحة ـَ)"], "ans": 2}, {"letter": "كُتُبٌ", "q": "Identify the mark / vowel on (كُتُبٌ):", "options": ["Ḍamm Tanween (تنوين بالضم)", "Sukoon (سكون ـْ)", "Kasrah (كسرة ـِ)", "Fatḥ Tanween (تنوين بالفتح)"], "ans": 0}, {"letter": "أَ", "q": "Identify the mark / vowel on (أَ):", "options": ["Ḍamm Tanween (تنوين بالضم)", "Sukoon (سكون ـْ)", "Fatḥ Tanween (تنوين بالفتح)", "Fatḥah (فتحة ـَ)"], "ans": 3}];
+
+    const oddOneOutData = [{"q": "Pick the odd word out (الكلمة المختلفة):", "options": ["رَحِمَ", "خَلَقَ", "عَبَدَ", "وَجَدَ"], "ans": 0, "explain": "Rule check: رَحِمَ contains Kasrah (ـِ) under (حِ) while others are only Fatḥah."}, {"q": "Pick the odd word out (الكلمة المختلفة):", "options": ["قَالَ", "نَارُ", "كَتَبَ", "عَذَابٌ"], "ans": 2, "explain": "Rule check: كَتَبَ (كَتَبَ) has only short vowels without Alif Madd."}, {"q": "Pick the odd word out (الكلمة المختلفة):", "options": ["أَبْوَابًا", "يَجْعَلْ", "صَدْرَكَ", "عَمَلَ"], "ans": 3, "explain": "Rule check: عَمَلَ (عَمَلَ) contains no Qalqalah letters."}, {"q": "Pick the odd word out (الكلمة المختلفة):", "options": ["رَبَّنَا", "سَبَّحَ", "سَجَدَ", "عَمَّ"], "ans": 2, "explain": "Rule check: سَجَدَ (سَجَدَ) has regular single consonants without Shaddah."}, {"q": "Pick the odd word out (الكلمة المختلفة):", "options": ["شُعَبٍ", "حَدِيثٍ", "عَذَابًا", "نُوحٍ"], "ans": 2, "explain": "Rule check: عَذَابًا (عَذَابًا) ends with Fatḥ Tanween while others have Kasr Tanween."}, {"q": "Pick the odd word out (الكلمة المختلفة):", "options": ["يَتُوبَ", "صُدُورِ", "رَسُولُ", "حَسَدَ"], "ans": 3, "explain": "Rule check: حَسَدَ (حَسَدَ) contains no Waw Madd."}, {"q": "Pick the odd word out (الكلمة المختلفة):", "options": ["سَبِيلِ", "يَتِيمَ", "نَذِيرِ", "وَقَعَ"], "ans": 3, "explain": "Rule check: وَقَعَ (وَقَعَ) contains no Yaa Madd."}, {"q": "Pick the odd word out (الكلمة المختلفة):", "options": ["خُلِقَ", "كُتِبَ", "ذُكِرَ", "ضَرَبَ"], "ans": 3, "explain": "Rule check: ضَرَبَ (ضَرَبَ) has only Fatḥah vowels while others start with Dammah."}, {"q": "Pick the odd word out (الكلمة المختلفة):", "options": ["رَحِمَ", "خَلَقَ", "عَبَدَ", "وَجَدَ"], "ans": 0, "explain": "Rule check: رَحِمَ contains Kasrah (ـِ) under (حِ) while others are only Fatḥah."}, {"q": "Pick the odd word out (الكلمة المختلفة):", "options": ["قَالَ", "نَارُ", "كَتَبَ", "عَذَابٌ"], "ans": 2, "explain": "Rule check: كَتَبَ (كَتَبَ) has only short vowels without Alif Madd."}, {"q": "Pick the odd word out (الكلمة المختلفة):", "options": ["أَبْوَابًا", "يَجْعَلْ", "صَدْرَكَ", "عَمَلَ"], "ans": 3, "explain": "Rule check: عَمَلَ (عَمَلَ) contains no Qalqalah letters."}, {"q": "Pick the odd word out (الكلمة المختلفة):", "options": ["رَبَّنَا", "سَبَّحَ", "سَجَدَ", "عَمَّ"], "ans": 2, "explain": "Rule check: سَجَدَ (سَجَدَ) has regular single consonants without Shaddah."}, {"q": "Pick the odd word out (الكلمة المختلفة):", "options": ["شُعَبٍ", "حَدِيثٍ", "عَذَابًا", "نُوحٍ"], "ans": 2, "explain": "Rule check: عَذَابًا (عَذَابًا) ends with Fatḥ Tanween while others have Kasr Tanween."}, {"q": "Pick the odd word out (الكلمة المختلفة):", "options": ["يَتُوبَ", "صُدُورِ", "رَسُولُ", "حَسَدَ"], "ans": 3, "explain": "Rule check: حَسَدَ (حَسَدَ) contains no Waw Madd."}, {"q": "Pick the odd word out (الكلمة المختلفة):", "options": ["سَبِيلِ", "يَتِيمَ", "نَذِيرِ", "وَقَعَ"], "ans": 3, "explain": "Rule check: وَقَعَ (وَقَعَ) contains no Yaa Madd."}, {"q": "Pick the odd word out (الكلمة المختلفة):", "options": ["خُلِقَ", "كُتِبَ", "ذُكِرَ", "ضَرَبَ"], "ans": 3, "explain": "Rule check: ضَرَبَ (ضَرَبَ) has only Fatḥah vowels while others start with Dammah."}, {"q": "Pick the odd word out (الكلمة المختلفة):", "options": ["رَحِمَ", "خَلَقَ", "عَبَدَ", "وَجَدَ"], "ans": 0, "explain": "Rule check: رَحِمَ contains Kasrah (ـِ) under (حِ) while others are only Fatḥah."}, {"q": "Pick the odd word out (الكلمة المختلفة):", "options": ["قَالَ", "نَارُ", "كَتَبَ", "عَذَابٌ"], "ans": 2, "explain": "Rule check: كَتَبَ (كَتَبَ) has only short vowels without Alif Madd."}, {"q": "Pick the odd word out (الكلمة المختلفة):", "options": ["أَبْوَابًا", "يَجْعَلْ", "صَدْرَكَ", "عَمَلَ"], "ans": 3, "explain": "Rule check: عَمَلَ (عَمَلَ) contains no Qalqalah letters."}, {"q": "Pick the odd word out (الكلمة المختلفة):", "options": ["رَبَّنَا", "سَبَّحَ", "سَجَدَ", "عَمَّ"], "ans": 2, "explain": "Rule check: سَجَدَ (سَجَدَ) has regular single consonants without Shaddah."}, {"q": "Pick the odd word out (الكلمة المختلفة):", "options": ["شُعَبٍ", "حَدِيثٍ", "عَذَابًا", "نُوحٍ"], "ans": 2, "explain": "Rule check: عَذَابًا (عَذَابًا) ends with Fatḥ Tanween while others have Kasr Tanween."}, {"q": "Pick the odd word out (الكلمة المختلفة):", "options": ["يَتُوبَ", "صُدُورِ", "رَسُولُ", "حَسَدَ"], "ans": 3, "explain": "Rule check: حَسَدَ (حَسَدَ) contains no Waw Madd."}, {"q": "Pick the odd word out (الكلمة المختلفة):", "options": ["سَبِيلِ", "يَتِيمَ", "نَذِيرِ", "وَقَعَ"], "ans": 3, "explain": "Rule check: وَقَعَ (وَقَعَ) contains no Yaa Madd."}, {"q": "Pick the odd word out (الكلمة المختلفة):", "options": ["خُلِقَ", "كُتِبَ", "ذُكِرَ", "ضَرَبَ"], "ans": 3, "explain": "Rule check: ضَرَبَ (ضَرَبَ) has only Fatḥah vowels while others start with Dammah."}, {"q": "Pick the odd word out (الكلمة المختلفة):", "options": ["رَحِمَ", "خَلَقَ", "عَبَدَ", "وَجَدَ"], "ans": 0, "explain": "Rule check: رَحِمَ contains Kasrah (ـِ) under (حِ) while others are only Fatḥah."}, {"q": "Pick the odd word out (الكلمة المختلفة):", "options": ["قَالَ", "نَارُ", "كَتَبَ", "عَذَابٌ"], "ans": 2, "explain": "Rule check: كَتَبَ (كَتَبَ) has only short vowels without Alif Madd."}, {"q": "Pick the odd word out (الكلمة المختلفة):", "options": ["أَبْوَابًا", "يَجْعَلْ", "صَدْرَكَ", "عَمَلَ"], "ans": 3, "explain": "Rule check: عَمَلَ (عَمَلَ) contains no Qalqalah letters."}, {"q": "Pick the odd word out (الكلمة المختلفة):", "options": ["رَبَّنَا", "سَبَّحَ", "سَجَدَ", "عَمَّ"], "ans": 2, "explain": "Rule check: سَجَدَ (سَجَدَ) has regular single consonants without Shaddah."}, {"q": "Pick the odd word out (الكلمة المختلفة):", "options": ["شُعَبٍ", "حَدِيثٍ", "عَذَابًا", "نُوحٍ"], "ans": 2, "explain": "Rule check: عَذَابًا (عَذَابًا) ends with Fatḥ Tanween while others have Kasr Tanween."}, {"q": "Pick the odd word out (الكلمة المختلفة):", "options": ["يَتُوبَ", "صُدُورِ", "رَسُولُ", "حَسَدَ"], "ans": 3, "explain": "Rule check: حَسَدَ (حَسَدَ) contains no Waw Madd."}, {"q": "Pick the odd word out (الكلمة المختلفة):", "options": ["سَبِيلِ", "يَتِيمَ", "نَذِيرِ", "وَقَعَ"], "ans": 3, "explain": "Rule check: وَقَعَ (وَقَعَ) contains no Yaa Madd."}, {"q": "Pick the odd word out (الكلمة المختلفة):", "options": ["خُلِقَ", "كُتِبَ", "ذُكِرَ", "ضَرَبَ"], "ans": 3, "explain": "Rule check: ضَرَبَ (ضَرَبَ) has only Fatḥah vowels while others start with Dammah."}, {"q": "Pick the odd word out (الكلمة المختلفة):", "options": ["رَحِمَ", "خَلَقَ", "عَبَدَ", "وَجَدَ"], "ans": 0, "explain": "Rule check: رَحِمَ contains Kasrah (ـِ) under (حِ) while others are only Fatḥah."}, {"q": "Pick the odd word out (الكلمة المختلفة):", "options": ["قَالَ", "نَارُ", "كَتَبَ", "عَذَابٌ"], "ans": 2, "explain": "Rule check: كَتَبَ (كَتَبَ) has only short vowels without Alif Madd."}, {"q": "Pick the odd word out (الكلمة المختلفة):", "options": ["أَبْوَابًا", "يَجْعَلْ", "صَدْرَكَ", "عَمَلَ"], "ans": 3, "explain": "Rule check: عَمَلَ (عَمَلَ) contains no Qalqalah letters."}, {"q": "Pick the odd word out (الكلمة المختلفة):", "options": ["رَبَّنَا", "سَبَّحَ", "سَجَدَ", "عَمَّ"], "ans": 2, "explain": "Rule check: سَجَدَ (سَجَدَ) has regular single consonants without Shaddah."}, {"q": "Pick the odd word out (الكلمة المختلفة):", "options": ["شُعَبٍ", "حَدِيثٍ", "عَذَابًا", "نُوحٍ"], "ans": 2, "explain": "Rule check: عَذَابًا (عَذَابًا) ends with Fatḥ Tanween while others have Kasr Tanween."}, {"q": "Pick the odd word out (الكلمة المختلفة):", "options": ["يَتُوبَ", "صُدُورِ", "رَسُولُ", "حَسَدَ"], "ans": 3, "explain": "Rule check: حَسَدَ (حَسَدَ) contains no Waw Madd."}, {"q": "Pick the odd word out (الكلمة المختلفة):", "options": ["سَبِيلِ", "يَتِيمَ", "نَذِيرِ", "وَقَعَ"], "ans": 3, "explain": "Rule check: وَقَعَ (وَقَعَ) contains no Yaa Madd."}, {"q": "Pick the odd word out (الكلمة المختلفة):", "options": ["خُلِقَ", "كُتِبَ", "ذُكِرَ", "ضَرَبَ"], "ans": 3, "explain": "Rule check: ضَرَبَ (ضَرَبَ) has only Fatḥah vowels while others start with Dammah."}, {"q": "Pick the odd word out (الكلمة المختلفة):", "options": ["رَحِمَ", "خَلَقَ", "عَبَدَ", "وَجَدَ"], "ans": 0, "explain": "Rule check: رَحِمَ contains Kasrah (ـِ) under (حِ) while others are only Fatḥah."}, {"q": "Pick the odd word out (الكلمة المختلفة):", "options": ["قَالَ", "نَارُ", "كَتَبَ", "عَذَابٌ"], "ans": 2, "explain": "Rule check: كَتَبَ (كَتَبَ) has only short vowels without Alif Madd."}, {"q": "Pick the odd word out (الكلمة المختلفة):", "options": ["أَبْوَابًا", "يَجْعَلْ", "صَدْرَكَ", "عَمَلَ"], "ans": 3, "explain": "Rule check: عَمَلَ (عَمَلَ) contains no Qalqalah letters."}, {"q": "Pick the odd word out (الكلمة المختلفة):", "options": ["رَبَّنَا", "سَبَّحَ", "سَجَدَ", "عَمَّ"], "ans": 2, "explain": "Rule check: سَجَدَ (سَجَدَ) has regular single consonants without Shaddah."}, {"q": "Pick the odd word out (الكلمة المختلفة):", "options": ["شُعَبٍ", "حَدِيثٍ", "عَذَابًا", "نُوحٍ"], "ans": 2, "explain": "Rule check: عَذَابًا (عَذَابًا) ends with Fatḥ Tanween while others have Kasr Tanween."}, {"q": "Pick the odd word out (الكلمة المختلفة):", "options": ["يَتُوبَ", "صُدُورِ", "رَسُولُ", "حَسَدَ"], "ans": 3, "explain": "Rule check: حَسَدَ (حَسَدَ) contains no Waw Madd."}, {"q": "Pick the odd word out (الكلمة المختلفة):", "options": ["سَبِيلِ", "يَتِيمَ", "نَذِيرِ", "وَقَعَ"], "ans": 3, "explain": "Rule check: وَقَعَ (وَقَعَ) contains no Yaa Madd."}, {"q": "Pick the odd word out (الكلمة المختلفة):", "options": ["خُلِقَ", "كُتِبَ", "ذُكِرَ", "ضَرَبَ"], "ans": 3, "explain": "Rule check: ضَرَبَ (ضَرَبَ) has only Fatḥah vowels while others start with Dammah."}, {"q": "Pick the odd word out (الكلمة المختلفة):", "options": ["رَحِمَ", "خَلَقَ", "عَبَدَ", "وَجَدَ"], "ans": 0, "explain": "Rule check: رَحِمَ contains Kasrah (ـِ) under (حِ) while others are only Fatḥah."}, {"q": "Pick the odd word out (الكلمة المختلفة):", "options": ["قَالَ", "نَارُ", "كَتَبَ", "عَذَابٌ"], "ans": 2, "explain": "Rule check: كَتَبَ (كَتَبَ) has only short vowels without Alif Madd."}, {"q": "Pick the odd word out (الكلمة المختلفة):", "options": ["أَبْوَابًا", "يَجْعَلْ", "صَدْرَكَ", "عَمَلَ"], "ans": 3, "explain": "Rule check: عَمَلَ (عَمَلَ) contains no Qalqalah letters."}, {"q": "Pick the odd word out (الكلمة المختلفة):", "options": ["رَبَّنَا", "سَبَّحَ", "سَجَدَ", "عَمَّ"], "ans": 2, "explain": "Rule check: سَجَدَ (سَجَدَ) has regular single consonants without Shaddah."}, {"q": "Pick the odd word out (الكلمة المختلفة):", "options": ["شُعَبٍ", "حَدِيثٍ", "عَذَابًا", "نُوحٍ"], "ans": 2, "explain": "Rule check: عَذَابًا (عَذَابًا) ends with Fatḥ Tanween while others have Kasr Tanween."}, {"q": "Pick the odd word out (الكلمة المختلفة):", "options": ["يَتُوبَ", "صُدُورِ", "رَسُولُ", "حَسَدَ"], "ans": 3, "explain": "Rule check: حَسَدَ (حَسَدَ) contains no Waw Madd."}, {"q": "Pick the odd word out (الكلمة المختلفة):", "options": ["سَبِيلِ", "يَتِيمَ", "نَذِيرِ", "وَقَعَ"], "ans": 3, "explain": "Rule check: وَقَعَ (وَقَعَ) contains no Yaa Madd."}, {"q": "Pick the odd word out (الكلمة المختلفة):", "options": ["خُلِقَ", "كُتِبَ", "ذُكِرَ", "ضَرَبَ"], "ans": 3, "explain": "Rule check: ضَرَبَ (ضَرَبَ) has only Fatḥah vowels while others start with Dammah."}, {"q": "Pick the odd word out (الكلمة المختلفة):", "options": ["رَحِمَ", "خَلَقَ", "عَبَدَ", "وَجَدَ"], "ans": 0, "explain": "Rule check: رَحِمَ contains Kasrah (ـِ) under (حِ) while others are only Fatḥah."}, {"q": "Pick the odd word out (الكلمة المختلفة):", "options": ["قَالَ", "نَارُ", "كَتَبَ", "عَذَابٌ"], "ans": 2, "explain": "Rule check: كَتَبَ (كَتَبَ) has only short vowels without Alif Madd."}, {"q": "Pick the odd word out (الكلمة المختلفة):", "options": ["أَبْوَابًا", "يَجْعَلْ", "صَدْرَكَ", "عَمَلَ"], "ans": 3, "explain": "Rule check: عَمَلَ (عَمَلَ) contains no Qalqalah letters."}, {"q": "Pick the odd word out (الكلمة المختلفة):", "options": ["رَبَّنَا", "سَبَّحَ", "سَجَدَ", "عَمَّ"], "ans": 2, "explain": "Rule check: سَجَدَ (سَجَدَ) has regular single consonants without Shaddah."}, {"q": "Pick the odd word out (الكلمة المختلفة):", "options": ["شُعَبٍ", "حَدِيثٍ", "عَذَابًا", "نُوحٍ"], "ans": 2, "explain": "Rule check: عَذَابًا (عَذَابًا) ends with Fatḥ Tanween while others have Kasr Tanween."}, {"q": "Pick the odd word out (الكلمة المختلفة):", "options": ["يَتُوبَ", "صُدُورِ", "رَسُولُ", "حَسَدَ"], "ans": 3, "explain": "Rule check: حَسَدَ (حَسَدَ) contains no Waw Madd."}, {"q": "Pick the odd word out (الكلمة المختلفة):", "options": ["سَبِيلِ", "يَتِيمَ", "نَذِيرِ", "وَقَعَ"], "ans": 3, "explain": "Rule check: وَقَعَ (وَقَعَ) contains no Yaa Madd."}, {"q": "Pick the odd word out (الكلمة المختلفة):", "options": ["خُلِقَ", "كُتِبَ", "ذُكِرَ", "ضَرَبَ"], "ans": 3, "explain": "Rule check: ضَرَبَ (ضَرَبَ) has only Fatḥah vowels while others start with Dammah."}, {"q": "Pick the odd word out (الكلمة المختلفة):", "options": ["رَحِمَ", "خَلَقَ", "عَبَدَ", "وَجَدَ"], "ans": 0, "explain": "Rule check: رَحِمَ contains Kasrah (ـِ) under (حِ) while others are only Fatḥah."}, {"q": "Pick the odd word out (الكلمة المختلفة):", "options": ["قَالَ", "نَارُ", "كَتَبَ", "عَذَابٌ"], "ans": 2, "explain": "Rule check: كَتَبَ (كَتَبَ) has only short vowels without Alif Madd."}, {"q": "Pick the odd word out (الكلمة المختلفة):", "options": ["أَبْوَابًا", "يَجْعَلْ", "صَدْرَكَ", "عَمَلَ"], "ans": 3, "explain": "Rule check: عَمَلَ (عَمَلَ) contains no Qalqalah letters."}, {"q": "Pick the odd word out (الكلمة المختلفة):", "options": ["رَبَّنَا", "سَبَّحَ", "سَجَدَ", "عَمَّ"], "ans": 2, "explain": "Rule check: سَجَدَ (سَجَدَ) has regular single consonants without Shaddah."}, {"q": "Pick the odd word out (الكلمة المختلفة):", "options": ["شُعَبٍ", "حَدِيثٍ", "عَذَابًا", "نُوحٍ"], "ans": 2, "explain": "Rule check: عَذَابًا (عَذَابًا) ends with Fatḥ Tanween while others have Kasr Tanween."}, {"q": "Pick the odd word out (الكلمة المختلفة):", "options": ["يَتُوبَ", "صُدُورِ", "رَسُولُ", "حَسَدَ"], "ans": 3, "explain": "Rule check: حَسَدَ (حَسَدَ) contains no Waw Madd."}, {"q": "Pick the odd word out (الكلمة المختلفة):", "options": ["سَبِيلِ", "يَتِيمَ", "نَذِيرِ", "وَقَعَ"], "ans": 3, "explain": "Rule check: وَقَعَ (وَقَعَ) contains no Yaa Madd."}, {"q": "Pick the odd word out (الكلمة المختلفة):", "options": ["خُلِقَ", "كُتِبَ", "ذُكِرَ", "ضَرَبَ"], "ans": 3, "explain": "Rule check: ضَرَبَ (ضَرَبَ) has only Fatḥah vowels while others start with Dammah."}, {"q": "Pick the odd word out (الكلمة المختلفة):", "options": ["رَحِمَ", "خَلَقَ", "عَبَدَ", "وَجَدَ"], "ans": 0, "explain": "Rule check: رَحِمَ contains Kasrah (ـِ) under (حِ) while others are only Fatḥah."}, {"q": "Pick the odd word out (الكلمة المختلفة):", "options": ["قَالَ", "نَارُ", "كَتَبَ", "عَذَابٌ"], "ans": 2, "explain": "Rule check: كَتَبَ (كَتَبَ) has only short vowels without Alif Madd."}, {"q": "Pick the odd word out (الكلمة المختلفة):", "options": ["أَبْوَابًا", "يَجْعَلْ", "صَدْرَكَ", "عَمَلَ"], "ans": 3, "explain": "Rule check: عَمَلَ (عَمَلَ) contains no Qalqalah letters."}, {"q": "Pick the odd word out (الكلمة المختلفة):", "options": ["رَبَّنَا", "سَبَّحَ", "سَجَدَ", "عَمَّ"], "ans": 2, "explain": "Rule check: سَجَدَ (سَجَدَ) has regular single consonants without Shaddah."}, {"q": "Pick the odd word out (الكلمة المختلفة):", "options": ["شُعَبٍ", "حَدِيثٍ", "عَذَابًا", "نُوحٍ"], "ans": 2, "explain": "Rule check: عَذَابًا (عَذَابًا) ends with Fatḥ Tanween while others have Kasr Tanween."}, {"q": "Pick the odd word out (الكلمة المختلفة):", "options": ["يَتُوبَ", "صُدُورِ", "رَسُولُ", "حَسَدَ"], "ans": 3, "explain": "Rule check: حَسَدَ (حَسَدَ) contains no Waw Madd."}, {"q": "Pick the odd word out (الكلمة المختلفة):", "options": ["سَبِيلِ", "يَتِيمَ", "نَذِيرِ", "وَقَعَ"], "ans": 3, "explain": "Rule check: وَقَعَ (وَقَعَ) contains no Yaa Madd."}, {"q": "Pick the odd word out (الكلمة المختلفة):", "options": ["خُلِقَ", "كُتِبَ", "ذُكِرَ", "ضَرَبَ"], "ans": 3, "explain": "Rule check: ضَرَبَ (ضَرَبَ) has only Fatḥah vowels while others start with Dammah."}, {"q": "Pick the odd word out (الكلمة المختلفة):", "options": ["رَحِمَ", "خَلَقَ", "عَبَدَ", "وَجَدَ"], "ans": 0, "explain": "Rule check: رَحِمَ contains Kasrah (ـِ) under (حِ) while others are only Fatḥah."}, {"q": "Pick the odd word out (الكلمة المختلفة):", "options": ["قَالَ", "نَارُ", "كَتَبَ", "عَذَابٌ"], "ans": 2, "explain": "Rule check: كَتَبَ (كَتَبَ) has only short vowels without Alif Madd."}, {"q": "Pick the odd word out (الكلمة المختلفة):", "options": ["أَبْوَابًا", "يَجْعَلْ", "صَدْرَكَ", "عَمَلَ"], "ans": 3, "explain": "Rule check: عَمَلَ (عَمَلَ) contains no Qalqalah letters."}, {"q": "Pick the odd word out (الكلمة المختلفة):", "options": ["رَبَّنَا", "سَبَّحَ", "سَجَدَ", "عَمَّ"], "ans": 2, "explain": "Rule check: سَجَدَ (سَجَدَ) has regular single consonants without Shaddah."}, {"q": "Pick the odd word out (الكلمة المختلفة):", "options": ["شُعَبٍ", "حَدِيثٍ", "عَذَابًا", "نُوحٍ"], "ans": 2, "explain": "Rule check: عَذَابًا (عَذَابًا) ends with Fatḥ Tanween while others have Kasr Tanween."}, {"q": "Pick the odd word out (الكلمة المختلفة):", "options": ["يَتُوبَ", "صُدُورِ", "رَسُولُ", "حَسَدَ"], "ans": 3, "explain": "Rule check: حَسَدَ (حَسَدَ) contains no Waw Madd."}, {"q": "Pick the odd word out (الكلمة المختلفة):", "options": ["سَبِيلِ", "يَتِيمَ", "نَذِيرِ", "وَقَعَ"], "ans": 3, "explain": "Rule check: وَقَعَ (وَقَعَ) contains no Yaa Madd."}, {"q": "Pick the odd word out (الكلمة المختلفة):", "options": ["خُلِقَ", "كُتِبَ", "ذُكِرَ", "ضَرَبَ"], "ans": 3, "explain": "Rule check: ضَرَبَ (ضَرَبَ) has only Fatḥah vowels while others start with Dammah."}, {"q": "Pick the odd word out (الكلمة المختلفة):", "options": ["رَحِمَ", "خَلَقَ", "عَبَدَ", "وَجَدَ"], "ans": 0, "explain": "Rule check: رَحِمَ contains Kasrah (ـِ) under (حِ) while others are only Fatḥah."}, {"q": "Pick the odd word out (الكلمة المختلفة):", "options": ["قَالَ", "نَارُ", "كَتَبَ", "عَذَابٌ"], "ans": 2, "explain": "Rule check: كَتَبَ (كَتَبَ) has only short vowels without Alif Madd."}, {"q": "Pick the odd word out (الكلمة المختلفة):", "options": ["أَبْوَابًا", "يَجْعَلْ", "صَدْرَكَ", "عَمَلَ"], "ans": 3, "explain": "Rule check: عَمَلَ (عَمَلَ) contains no Qalqalah letters."}, {"q": "Pick the odd word out (الكلمة المختلفة):", "options": ["رَبَّنَا", "سَبَّحَ", "سَجَدَ", "عَمَّ"], "ans": 2, "explain": "Rule check: سَجَدَ (سَجَدَ) has regular single consonants without Shaddah."}, {"q": "Pick the odd word out (الكلمة المختلفة):", "options": ["شُعَبٍ", "حَدِيثٍ", "عَذَابًا", "نُوحٍ"], "ans": 2, "explain": "Rule check: عَذَابًا (عَذَابًا) ends with Fatḥ Tanween while others have Kasr Tanween."}, {"q": "Pick the odd word out (الكلمة المختلفة):", "options": ["يَتُوبَ", "صُدُورِ", "رَسُولُ", "حَسَدَ"], "ans": 3, "explain": "Rule check: حَسَدَ (حَسَدَ) contains no Waw Madd."}, {"q": "Pick the odd word out (الكلمة المختلفة):", "options": ["سَبِيلِ", "يَتِيمَ", "نَذِيرِ", "وَقَعَ"], "ans": 3, "explain": "Rule check: وَقَعَ (وَقَعَ) contains no Yaa Madd."}, {"q": "Pick the odd word out (الكلمة المختلفة):", "options": ["خُلِقَ", "كُتِبَ", "ذُكِرَ", "ضَرَبَ"], "ans": 3, "explain": "Rule check: ضَرَبَ (ضَرَبَ) has only Fatḥah vowels while others start with Dammah."}, {"q": "Pick the odd word out (الكلمة المختلفة):", "options": ["رَحِمَ", "خَلَقَ", "عَبَدَ", "وَجَدَ"], "ans": 0, "explain": "Rule check: رَحِمَ contains Kasrah (ـِ) under (حِ) while others are only Fatḥah."}, {"q": "Pick the odd word out (الكلمة المختلفة):", "options": ["قَالَ", "نَارُ", "كَتَبَ", "عَذَابٌ"], "ans": 2, "explain": "Rule check: كَتَبَ (كَتَبَ) has only short vowels without Alif Madd."}, {"q": "Pick the odd word out (الكلمة المختلفة):", "options": ["أَبْوَابًا", "يَجْعَلْ", "صَدْرَكَ", "عَمَلَ"], "ans": 3, "explain": "Rule check: عَمَلَ (عَمَلَ) contains no Qalqalah letters."}, {"q": "Pick the odd word out (الكلمة المختلفة):", "options": ["رَبَّنَا", "سَبَّحَ", "سَجَدَ", "عَمَّ"], "ans": 2, "explain": "Rule check: سَجَدَ (سَجَدَ) has regular single consonants without Shaddah."}];
+
+    const flashcardsData = [{"word": "أَحَدَ", "translit": "a-ḥa-da", "rule": "All short Fatḥah vowels"}, {"word": "أَخَذَ", "translit": "a-kha-dha", "rule": "Heavy (خَ) only"}, {"word": "ذَرَأَ", "translit": "dha-ra-a", "rule": "Heavy (رَ) due to Fatḥah"}, {"word": "بَرَزَ", "translit": "ba-ra-za", "rule": "Heavy (رَ) due to Fatḥah"}, {"word": "حَذَرَ", "translit": "ḥa-dha-ra", "rule": "Heavy (رَ) due to Fatḥah"}, {"word": "سَجَدَ", "translit": "sa-ja-da", "rule": "Light letters with Fatḥah"}, {"word": "شَجَرَ", "translit": "sha-ja-ra", "rule": "Heavy (رَ) at end"}, {"word": "حَسَدَ", "translit": "ḥa-sa-da", "rule": "Light letters"}, {"word": "ضَرَبَ", "translit": "ḍa-ra-ba", "rule": "Heavy (ضَ) & (رَ), Light (بَ)"}, {"word": "صَبَرَ", "translit": "ṣa-ba-ra", "rule": "Heavy (صَ) & (رَ), Light (بَ)"}, {"word": "بَسَطَ", "translit": "ba-sa-ṭa", "rule": "Heavy (طَ) only"}, {"word": "عَبَدَ", "translit": "‘a-ba-da", "rule": "Light letters"}, {"word": "بَعَثَ", "translit": "ba-‘a-tha", "rule": "Interdental (ثَ)"}, {"word": "عَشَرَ", "translit": "‘a-sha-ra", "rule": "Heavy (رَ) only"}, {"word": "أَفَلَ", "translit": "a-fa-la", "rule": "Light letters"}, {"word": "أَبَقَ", "translit": "a-ba-qa", "rule": "Heavy (قَ)"}, {"word": "شَكَرَ", "translit": "sha-ka-ra", "rule": "Heavy (رَ) only"}, {"word": "أَكَلَ", "translit": "a-ka-la", "rule": "Light letters"}, {"word": "حَكَمَ", "translit": "ḥa-ka-ma", "rule": "Light letters"}, {"word": "نَبَأَ", "translit": "na-ba-a", "rule": "Clear hamzah at end"}, {"word": "جَهَرَ", "translit": "ja-ha-ra", "rule": "Clear (جَ), light (هَـ), heavy (رَ)"}, {"word": "يَدَكَ", "translit": "ya-da-ka", "rule": "Light letters"}, {"word": "وَجَدَ", "translit": "wa-ja-da", "rule": "Light letters"}, {"word": "وَعَدَ", "translit": "wa-‘a-da", "rule": "Light letters"}, {"word": "عَدَدَ", "translit": "‘a-da-da", "rule": "Light letters"}, {"word": "كَتَبَ", "translit": "ka-ta-ba", "rule": "Light letters"}, {"word": "كَسَبَ", "translit": "ka-sa-ba", "rule": "Light letters"}, {"word": "ذَهَبَ", "translit": "dha-ha-ba", "rule": "Interdental (ذَ)"}, {"word": "كَذَبَ", "translit": "ka-dha-ba", "rule": "Interdental (ذَ)"}, {"word": "نَزَلَ", "translit": "na-za-la", "rule": "Light letters"}, {"word": "سَأَلَ", "translit": "sa-a-la", "rule": "Hamzah with Fatḥah"}, {"word": "حَمَلَ", "translit": "ḥa-ma-la", "rule": "Light letters"}, {"word": "عَمَلَ", "translit": "‘a-ma-la", "rule": "Light letters"}, {"word": "كَتَمَ", "translit": "ka-ta-ma", "rule": "Light letters"}, {"word": "عَزَمَ", "translit": "‘a-za-ma", "rule": "Light letters"}, {"word": "زَعَمَ", "translit": "za-‘a-ma", "rule": "Light letters"}, {"word": "وَلَدَ", "translit": "wa-la-da", "rule": "Light letters"}, {"word": "نَبَذَ", "translit": "na-ba-dha", "rule": "Interdental (ذَ)"}, {"word": "سَلَفَ", "translit": "sa-la-fa", "rule": "Light letters"}, {"word": "كَشَفَ", "translit": "ka-sha-fa", "rule": "Light letters"}, {"word": "أَمَرَ", "translit": "a-ma-ra", "rule": "Heavy (رَ)"}, {"word": "مَكَرَ", "translit": "ma-ka-ra", "rule": "Heavy (رَ)"}, {"word": "بَلَغَ", "translit": "ba-la-gha", "rule": "Heavy (غَ)"}, {"word": "غَضَبَ", "translit": "gha-ḍa-ba", "rule": "Heavy (غَ) & (ضَ)"}, {"word": "وَرَدَ", "translit": "wa-ra-da", "rule": "Heavy (رَ)"}, {"word": "خَتَمَ", "translit": "kha-ta-ma", "rule": "Heavy (خَ) only"}, {"word": "ظَلَمَ", "translit": "ẓa-la-ma", "rule": "Heavy & interdental (ظَ)"}, {"word": "عَرَضَ", "translit": "‘a-ra-ḍa", "rule": "Heavy (رَ) & (ضَ)"}, {"word": "فَرَضَ", "translit": "fa-ra-ḍa", "rule": "Heavy (رَ) & (ضَ)"}, {"word": "تَرَكَ", "translit": "ta-ra-ka", "rule": "Heavy (رَ)"}, {"word": "سَرَقَ", "translit": "sa-ra-qa", "rule": "Heavy (رَ) & (قَ)"}, {"word": "فَصَلَ", "translit": "fa-ṣa-la", "rule": "Heavy (صَ)"}, {"word": "مَرَجَ", "translit": "ma-ra-ja", "rule": "Heavy (رَ)"}, {"word": "صَرَفَ", "translit": "ṣa-ra-fa", "rule": "Heavy (صَ) & (رَ)"}, {"word": "شَرَحَ", "translit": "sha-ra-ḥa", "rule": "Heavy (رَ)"}, {"word": "صَلَحَ", "translit": "ṣa-la-ḥa", "rule": "Heavy (صَ)"}, {"word": "وَقَعَ", "translit": "wa-qa-‘a", "rule": "Heavy (قَ)"}, {"word": "طَبَعَ", "translit": "ṭa-ba-‘a", "rule": "Heavy (طَ)"}, {"word": "شَرَعَ", "translit": "sha-ra-‘a", "rule": "Heavy (رَ)"}, {"word": "رَفَعَ", "translit": "ra-fa-‘a", "rule": "Heavy (رَ)"}, {"word": "حَضَرَ", "translit": "ḥa-ḍa-ra", "rule": "Light (حَ), Heavy (ضَ) & (رَ)"}, {"word": "نَظَرَ", "translit": "na-ẓa-ra", "rule": "Heavy (ظَ) & (رَ)"}, {"word": "ظَهَرَ", "translit": "ẓa-ha-ra", "rule": "Heavy (ظَ), Light (هَـ), Heavy (رَ)"}, {"word": "فَخَلَفَ", "translit": "fa-kha-la-fa", "rule": "Heavy (خَ)"}, {"word": "وَصَدَفَ", "translit": "wa-ṣa-da-fa", "rule": "Heavy (صَ)"}, {"word": "وَقَذَفَ", "translit": "wa-qa-dha-fa", "rule": "Heavy (قَ)"}, {"word": "وَخَسَفَ", "translit": "wa-kha-sa-fa", "rule": "Heavy (خَ)"}, {"word": "وَسَلَكَ", "translit": "wa-sa-la-ka", "rule": "Light letters"}, {"word": "وَقَعَدَ", "translit": "wa-qa-‘a-da", "rule": "Heavy (قَ)"}, {"word": "وَزَهَقَ", "translit": "wa-za-ha-qa", "rule": "Heavy (قَ)"}, {"word": "وَوَضَعَ", "translit": "wa-wa-ḍa-‘a", "rule": "Heavy (ضَ)"}, {"word": "فَمَكَثَ", "translit": "fa-ma-ka-tha", "rule": "Interdental (ثَ)"}, {"word": "فَخَرَجَ", "translit": "fa-kha-ra-ja", "rule": "Heavy (خَ) & (رَ)"}, {"word": "فَحَشَرَ", "translit": "fa-ḥa-sha-ra", "rule": "Heavy (رَ)"}, {"word": "وَذَكَرَ", "translit": "wa-dha-ka-ra", "rule": "Heavy (رَ)"}, {"word": "إِرَمَ", "translit": "i-ra-ma", "rule": "Drop jaw on (إِ)"}, {"word": "حَبِطَ", "translit": "ḥa-bi-ṭa", "rule": "Drop lower jaw on (بِـ)"}, {"word": "خَلَتِ", "translit": "kha-la-ti", "rule": "Heavy (خَ)"}, {"word": "أَجِدَ", "translit": "a-ji-da", "rule": "Light letters"}, {"word": "رَحِمَ", "translit": "ra-ḥi-ma", "rule": "Kasrah under ḥaa"}, {"word": "سَخِطَ", "translit": "sa-khi-ṭa", "rule": "Kasrah under khaa, heavy ṭaa"}, {"word": "رَدِفَ", "translit": "ra-di-fa", "rule": "Light letters"}, {"word": "أَذِنَ", "translit": "a-dhi-na", "rule": "Interdental (ذِ)"}, {"word": "بَرِقَ", "translit": "ba-ri-qa", "rule": "Light (رِ) due to Kasrah"}, {"word": "حَسِبَ", "translit": "ḥa-si-ba", "rule": "Kasrah under seen"}, {"word": "خَشِيَ", "translit": "kha-shi-ya", "rule": "Heavy (خَ)"}, {"word": "رَضِيَ", "translit": "ra-ḍi-ya", "rule": "Heavy (رَ) & (ضِـ)"}, {"word": "خَطِفَ", "translit": "kha-ṭi-fa", "rule": "Heavy (خَ) & (طِـ)"}, {"word": "مَلِكِ", "translit": "ma-li-ki", "rule": "Light letters"}, {"word": "حَفِظَ", "translit": "ḥa-fi-ẓa", "rule": "Heavy (ظَ)"}, {"word": "بَقِيَ", "translit": "ba-qi-ya", "rule": "Heavy (قِـ)"}, {"word": "عَلِمَ", "translit": "‘a-li-ma", "rule": "Kasrah under laam"}, {"word": "فَرِحَ", "translit": "fa-ri-ḥa", "rule": "Light (رِ) due to Kasrah"}, {"word": "بَخِلَ", "translit": "ba-khi-la", "rule": "Heavy (خِـ)"}, {"word": "تَجِدَ", "translit": "ta-ji-da", "rule": "Light letters"}, {"word": "لَبِثَ", "translit": "la-bi-tha", "rule": "Interdental (ثَ)"}, {"word": "كَرِهَ", "translit": "ka-ri-ha", "rule": "Light (رِ) due to Kasrah"}, {"word": "خَسِرَ", "translit": "kha-si-ra", "rule": "Heavy (خَ) & (رَ)"}, {"word": "سَخِرَ", "translit": "sa-khi-ra", "rule": "Heavy (رَ)"}, {"word": "غَضِبَ", "translit": "gha-ḍi-ba", "rule": "Heavy (غَ) & (ضِـ)"}];
+
+    // ==========================================
+    // CONTROLLER & SWITCHER LOGIC
+    // ==========================================
+    function switchMode(mode) {
+      activeMode = mode;
+      currentIdx = 0;
+      document.querySelectorAll('.mode-btn').forEach(btn => btn.classList.remove('active'));
+      event.target.classList.add('active');
+
+      document.getElementById('lessonBar').style.display = (mode === 'spelling') ? 'flex' : 'none';
+      renderCurrentActivity();
+    }
+
+    function changeSpellingLesson() {
+      currentLesson = document.getElementById('lessonSelect').value;
+      currentIdx = 0;
+      renderCurrentActivity();
+    }
+
+    function resetSpellingScore() {
+      score = 0;
+      document.getElementById('score').innerText = score;
+      currentIdx = 0;
+      renderCurrentActivity();
+    }
+
+    function renderCurrentActivity() {
+      document.getElementById('nextBtn').style.display = 'none';
+      const container = document.getElementById('contentArea');
+      const audioBtn = document.getElementById('audioBtn');
+      container.innerHTML = '';
+
+      if (activeMode === 'spelling') {
+        audioBtn.style.display = 'inline-block';
+        const list = spellingData[currentLesson];
+        const item = list[currentIdx];
+        currentAudioTarget = item.word;
+        currentInput = [];
+
+        document.getElementById('totalQ').innerText = list.length;
+        document.getElementById('qIdx').innerText = currentIdx + 1;
+        document.getElementById('actTitle').innerText = "🧩 Quranic Word Assembly (التهجي والتركيب)";
+        document.getElementById('actInstr').innerText = "Tap syllables from Right to Left to build the word:";
+
+        container.innerHTML = `
+          <div class="target-word">${item.word}</div>
+          <div class="transliteration">${item.translit}</div>
+          <div class="spelling-guide">Tajweed: ${item.rule}</div>
+          <div class="assembly-zone" id="assemblyZone"></div>
+          <div class="syllables-pool" id="poolZone"></div>
+        `;
+
+        const assemblyZone = document.getElementById('assemblyZone');
+        item.parts.forEach((_, idx) => {
+          const slot = document.createElement('div');
+          slot.className = 'slot';
+          slot.id = 'slot-' + idx;
+          assemblyZone.appendChild(slot);
+        });
+
+        const poolZone = document.getElementById('poolZone');
+        const shuffled = [...item.parts].sort(() => Math.random() - 0.5);
+        shuffled.forEach(part => {
+          const btn = document.createElement('div');
+          btn.className = 'syllable-btn';
+          btn.innerText = part;
+          btn.onclick = () => handleSyllableClick(btn, part, item);
+          poolZone.appendChild(btn);
+        });
+      }
+      else if (activeMode === 'listen_pick') {
+        audioBtn.style.display = 'inline-block';
+        const item = listenPickData[currentIdx];
+        currentAudioTarget = item.target;
+        document.getElementById('totalQ').innerText = listenPickData.length;
+        document.getElementById('qIdx').innerText = currentIdx + 1;
+        document.getElementById('actTitle').innerText = "🎧 Listen & Pick (استمع واختر الرسم الصحيح)";
+        document.getElementById('actInstr').innerText = "Listen to the audio, then choose the identical Quranic word:";
+
+        container.innerHTML = `
+          <div class="target-word">🔊 ???</div>
+          <div class="transliteration">Press 'Listen' if you missed it</div>
+          <div class="options-grid" id="grid"></div>
+        `;
+        const grid = document.getElementById('grid');
+        item.options.forEach(opt => {
+          const b = document.createElement('button');
+          b.className = 'opt-btn';
+          b.innerText = opt;
+          b.onclick = () => checkGenericChoice(b, opt === item.target);
+          grid.appendChild(b);
+        });
+        setTimeout(playCurrentAudio, 300);
+      }
+      else if (activeMode === 'tajweed_detect') {
+        audioBtn.style.display = 'inline-block';
+        const item = tajweedData[currentIdx];
+        currentAudioTarget = item.word;
+        document.getElementById('totalQ').innerText = tajweedData.length;
+        document.getElementById('qIdx').innerText = currentIdx + 1;
+        document.getElementById('actTitle').innerText = "🔍 Tajweed Detective (المحقق التجويدي)";
+        document.getElementById('actInstr').innerText = item.q;
+
+        container.innerHTML = `
+          <div class="target-word">${item.word}</div>
+          <div class="options-grid" id="grid" style="grid-template-columns: 1fr;"></div>
+        `;
+        const grid = document.getElementById('grid');
+        item.options.forEach((opt, idx) => {
+          const b = document.createElement('button');
+          b.className = 'opt-btn';
+          b.style.fontSize = '1.1rem';
+          b.innerText = opt;
+          b.onclick = () => checkGenericChoice(b, idx === item.ans);
+          grid.appendChild(b);
+        });
+      }
+      else if (activeMode === 'vowel_speed') {
+        audioBtn.style.display = 'inline-block';
+        const item = vowelSpeedData[currentIdx];
+        currentAudioTarget = item.letter;
+        document.getElementById('totalQ').innerText = vowelSpeedData.length;
+        document.getElementById('qIdx').innerText = currentIdx + 1;
+        document.getElementById('actTitle').innerText = "⚡ Vowel & Harakah Speed (سرعة الحركات والتنوين)";
+        document.getElementById('actInstr').innerText = item.q;
+
+        container.innerHTML = `
+          <div class="target-word">${item.letter}</div>
+          <div class="options-grid" id="grid"></div>
+        `;
+        const grid = document.getElementById('grid');
+        item.options.forEach((opt, idx) => {
+          const b = document.createElement('button');
+          b.className = 'opt-btn';
+          b.style.fontSize = '1.05rem';
+          b.innerText = opt;
+          b.onclick = () => checkGenericChoice(b, idx === item.ans);
+          grid.appendChild(b);
+        });
+      }
+      else if (activeMode === 'odd_one_out') {
+        audioBtn.style.display = 'none';
+        const item = oddOneOutData[currentIdx];
+        document.getElementById('totalQ').innerText = oddOneOutData.length;
+        document.getElementById('qIdx').innerText = currentIdx + 1;
+        document.getElementById('actTitle').innerText = "🎯 Odd One Out (اكتشف الكلمة المختلفة)";
+        document.getElementById('actInstr').innerText = item.q;
+
+        container.innerHTML = `
+          <div class="options-grid" id="grid"></div>
+          <div class="transliteration" id="explainBox" style="display:none; color:#00796b; font-size:0.95rem;"></div>
+        `;
+        const grid = document.getElementById('grid');
+        item.options.forEach((opt, idx) => {
+          const b = document.createElement('button');
+          b.className = 'opt-btn';
+          b.innerText = opt;
+          b.onclick = () => {
+            speakArabic(opt);
+            checkGenericChoice(b, idx === item.ans);
+            document.getElementById('explainBox').innerText = item.explain;
+            document.getElementById('explainBox').style.display = 'block';
+          };
+          grid.appendChild(b);
+        });
+      }
+      else if (activeMode === 'flashcards') {
+        audioBtn.style.display = 'inline-block';
+        const item = flashcardsData[currentIdx];
+        currentAudioTarget = item.word;
+        document.getElementById('totalQ').innerText = flashcardsData.length;
+        document.getElementById('qIdx').innerText = currentIdx + 1;
+        document.getElementById('actTitle').innerText = "🃏 Reading Flashcard (بطاقات القراءة الذاتية)";
+        document.getElementById('actInstr').innerText = "Look at the word, pronounce it, then tap card to reveal pronunciation:";
+
+        container.innerHTML = `
+          <div class="flashcard" onclick="revealCard(this)">
+            <div class="target-word">${item.word}</div>
+            <div style="color:#888; font-size:0.88rem;">(Tap to reveal Transliteration & Tajweed)</div>
+            <div class="reveal-text" id="revText">
+              <div>${item.translit}</div>
+              <div style="font-size:0.95rem; color:#00796b; margin-top:4px;">Rule: ${item.rule}</div>
+            </div>
+          </div>
+        `;
+        document.getElementById('nextBtn').style.display = 'inline-block';
+      }
+    }
+
+    // ==========================================
+    // EVENT HANDLERS
+    // ==========================================
+    function handleSyllableClick(btn, text, item) {
+      const expected = item.parts[currentInput.length];
+      speakArabic(text);
+
+      if (text === expected) {
+        const slot = document.getElementById('slot-' + currentInput.length);
+        slot.innerText = text;
+        slot.classList.add('filled');
+        currentInput.push(text);
+        btn.classList.add('disabled');
+
+        if (currentInput.length === item.parts.length) {
+          score += 10;
+          document.getElementById('score').innerText = score;
+          document.getElementById('nextBtn').style.display = 'inline-block';
+          setTimeout(playCurrentAudio, 350);
+        }
+      } else {
+        btn.style.borderColor = '#e91e63';
+        setTimeout(() => btn.style.borderColor = '#80cbc4', 450);
+      }
+    }
+
+    function checkGenericChoice(btn, isCorrect) {
+      if (isCorrect) {
+        btn.classList.add('correct');
+        score += 10;
+        document.getElementById('score').innerText = score;
+        document.querySelectorAll('.opt-btn').forEach(b => b.disabled = true);
+        document.getElementById('nextBtn').style.display = 'inline-block';
+      } else {
+        btn.classList.add('wrong');
+      }
+    }
+
+    function revealCard(el) {
+      document.getElementById('revText').style.display = 'block';
+      playCurrentAudio();
+    }
+
+    function handleNextClick() {
+      let maxLen = 0;
+      if (activeMode === 'spelling') maxLen = spellingData[currentLesson].length;
+      else if (activeMode === 'listen_pick') maxLen = listenPickData.length;
+      else if (activeMode === 'tajweed_detect') maxLen = tajweedData.length;
+      else if (activeMode === 'vowel_speed') maxLen = vowelSpeedData.length;
+      else if (activeMode === 'odd_one_out') maxLen = oddOneOutData.length;
+      else if (activeMode === 'flashcards') maxLen = flashcardsData.length;
+
+      if (currentIdx < maxLen - 1) {
+        currentIdx++;
+        renderCurrentActivity();
+      } else {
+        alert("🎉 Masha'Allah! You finished all items in this section successfully!");
+        currentIdx = 0;
+        renderCurrentActivity();
+      }
+    }
+
+    function playCurrentAudio() {
+      speakArabic(currentAudioTarget);
+    }
+
+    function speakArabic(txt) {
+      if ('speechSynthesis' in window) {
+        const clean = txt.replace(/[-ـ]/g, '');
+        const utter = new SpeechSynthesisUtterance(clean);
+        utter.lang = 'ar-SA';
+        utter.rate = 0.8;
+        window.speechSynthesis.speak(utter);
+      }
+    }
+
+    window.onload = () => {
+      renderCurrentActivity();
+    };
+  </script>
+
+  <!-- Footer with Sheikh Abdurrahman Ehab and WhatsApp -->
+  <footer style="margin-top: 25px; padding: 14px 10px; text-align: center; width: 100%; max-width: 640px; border-top: 1px solid #c8e6c9; color: #2e7d32; font-size: 0.95rem;">
+    <div style="font-weight: bold; color: #1b5e20; font-size: 1.05rem; margin-bottom: 5px;">
+      Supervised & Prepared by: <span style="color: #c2185b;">Sheikh Abdurrahman Ehab</span>
+    </div>
+    <div style="direction: ltr; display: inline-flex; align-items: center; justify-content: center; gap: 8px; margin-top: 4px;">
+      <a href="https://wa.me/201554275534" target="_blank" style="text-decoration: none; background: #25d366; color: white; padding: 6px 14px; border-radius: 20px; font-weight: bold; display: inline-flex; align-items: center; gap: 6px; box-shadow: 0 2px 5px rgba(0,0,0,0.15);">
+        <span>💬 WhatsApp: +20 155 427 5534</span>
+      </a>
+    </div>
+  </footer>
+</body>
+
+</html>
